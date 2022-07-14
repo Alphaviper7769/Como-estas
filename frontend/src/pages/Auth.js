@@ -28,7 +28,8 @@ export const Auth = props => {
                 <h1 className='auth-card-h1'>LOGIN</h1>
                 <form onSubmit={onSubmitHandler}>
                     <div className='auth-form-div'>
-                        
+                        <input id='auth-form-email' type='email' placeholder='' onChange={onChangeHandler} value={email} />
+                        <label htmlFor='auth-form-email' className='auth-label'>Email</label>
                     </div>
                 </form>
             </Card>
