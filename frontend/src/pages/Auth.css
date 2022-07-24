@@ -1,8 +1,16 @@
+.auth-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-body-form {
+    width: inherit;
+}
+
 .auth-form-div {
     position: relative;
     height: 3rem;
     width: 17rem;
-    
 }
 
 .auth-form-input {
@@ -39,6 +47,41 @@
     font-size: 0.8rem;
 }
 
+.auth-body-hr {
+    margin: 1rem;
+    margin-top: 2rem;
+}
+
+.auth-body-p {
+    position: absolute;
+    top: 15rem;
+    left: 13.8rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    background-color: white;
+}
+
 .auth-google {
-    
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#signup-button {
+    border: none;
+    background: white;
+    font-size: 1rem;
+    color: rgb(77, 36, 124);
+}
+
+#signup-button:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.auth-modal-div {
+    display: flex;
+    justify-content: space-around;
 }

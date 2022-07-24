@@ -78,3 +78,14 @@
 .round {
   border-radius: 14px;
 }
+
+.no-transform {
+  background: white !important;
+  color: black !important;  
+}
+
+.no-transform:hover {
+  background: black !important;
+  color: white !important;
+  transform: none !important;
+}

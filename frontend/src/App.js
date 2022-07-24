@@ -9,18 +9,22 @@ import {
 import { AuthContext } from './components/context/auth-context';
 import { useAuth } from './components/hooks/auth-hook';
 import { Auth } from './pages/Auth';
+import ParticleBackground from './components/particle/ParticleBackground';
 
 function App() {
-  const { id, admin, token, login, logout } = useAuth();
-  const auth = useContext(AuthContext);
+  // const { id, admin, token, login, logout } = useAuth();
+  // const auth = useContext(AuthContext);
+
   return (
-    <AuthContext.Provider value={{
-      admin: admin,
-      userId: id,
-      token: token,
-      login: login,
-      logout: logout
-    }}>
+    // <AuthContext.Provider value={{
+    //   admin: admin,
+    //   userId: id,
+    //   token: token,
+    //   login: login,
+    //   logout: logout
+    // }}>
+    <>
+      <ParticleBackground />
       <div className="App">
         <Router>
           <Routes>
@@ -28,7 +32,8 @@ function App() {
           </Routes>
         </Router>
       </div>
-    </AuthContext.Provider>
+    {/*</AuthContext.Provider>*/}
+    </>
   );
 }
 
