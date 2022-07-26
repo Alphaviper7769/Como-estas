@@ -1,0 +1,43 @@
+.nav-container {
+    position: sticky;
+    height: 3rem;
+    top: 0rem;
+    background-color: #260b82;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    opacity: 0.8;
+    padding: 0.5rem;
+}
+
+.nav-body {
+    width: 40%;
+    color: white !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-top: 0.3rem;
+    margin-left: 36rem;
+}
+
+.nav-section {
+    font-size: 20px;
+    display: block;
+    font-weight: 500;
+    padding: 0.3rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+
+.nav-section:hover {
+    border: white solid 1px;
+    font-size: 21px;
+}
+
+.nav-section-logo {
+    font-size: 2rem;
+    display: flex;
+    flex-direction: row;
+    font-weight: 500;
+    margin-left: 1rem;
+}

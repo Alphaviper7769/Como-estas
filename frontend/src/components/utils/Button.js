@@ -17,6 +17,7 @@ const Button = props => {
     );
   }
   if (props.to) {
+    // to property is to redirect the user when button is clicked
     return (
       <Link
         to={props.to}
