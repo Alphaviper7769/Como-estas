@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import './Auth.css';
+import { useNavigate } from 'react-router-dom';
 
 import Card from '../components/utils/Card';
 import Button from '../components/utils/Button';
 import Modal from '../components/utils/Modal';
 
 export const Auth = props => {
+    const navigate = useNavigate();
+
     const [show, setShow] = useState(false);
     const [data, setData] = useState({
         email: '',
@@ -13,16 +16,32 @@ export const Auth = props => {
     });
     const { email, password } = data;
 
+    const employer = (
+        <div className='emp-div'>
+            <h2 className='emp-h2'>Are You an Employer?</h2>
+            <p className='emp-p'><b>Click here</b> to signup and find the dream team for your company. Simply post job requirements and check those who apply.</p>
+        </div>
+    );
+    const employee = (
+        <div className='emp-div'>
+            <h2 className='emp-h2'>Are You Looking for Jobs?</h2>
+            <p className='emp-p'>Having trouble finding jobs? <b>Click here</b> to Signup and explore the world of new opportunites. Upload your resume and see various possibilites.</p>
+        </div>
+    );
+
     const onChangeHandler = e => {
         setData({ ...data, [e.target.name]: e.target.value });
     };
     
     const onSubmitHandler = e => {
         e.preventDefault();
+        console.log(data);
         setData({
             email: '',
             password: ''
         });
+        setShow(false);
+        navigate('/signup');
     };
 
     const googleHandler = () => {};
@@ -39,14 +58,18 @@ export const Auth = props => {
 
     return (
         <>
-            <Modal show={show} onCancel={onCancelHandler} footer={<Button onClick={onCancelHandler}>CLOSE</Button>} >
+            <Modal show={show} onCancel={onCancelHandler} >
                 <div className='auth-modal-div'>
-                    <Button transform='no-transform' onClick={onCancelHandler}>Are You an Employer?</Button>
-                    <Button transform='no-transform' onClick={onCancelHandler}>Are you looking for Jobs?</Button>
+                    <Button to='/signup' transform='no-transform' onClick={onCancelHandler}>{employer}</Button>
+                    <Button to='/signup' transform='no-transform' onClick={onCancelHandler}>{employee}</Button>
                 </div>
             </Modal>
             <div className='auth-container'>
-                <Card elevation="complete" size="medium" bgcolor='white'>
+                <div className='auth-body-left'>
+                    <h1 className='auth-body-left-h1'>Como Estas</h1>
+                    <p className='auth-body-left-p'>Perfection lies in Opportunities</p>
+                </div>
+                <Card elevation="complete" size="medium" bgcolor='white' position='right'>
                     <h1 className='auth-card-h1'>LOGIN</h1>
                     <div className='card-body'>
                         <div className='card-body-form center'>

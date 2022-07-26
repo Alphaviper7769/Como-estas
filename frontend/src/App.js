@@ -8,8 +8,11 @@ import {
 
 import { AuthContext } from './components/context/auth-context';
 import { useAuth } from './components/hooks/auth-hook';
-import { Auth } from './pages/Auth';
 import ParticleBackground from './components/particle/ParticleBackground';
+
+import { Auth } from './pages/Auth';
+import { SignupEmp } from './pages/employer/SignupEmp';
+import { SignupSeeker } from './pages/employee/SignupSeeker';
 
 function App() {
   // const { id, admin, token, login, logout } = useAuth();
@@ -29,6 +32,8 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" exact element={<Auth />} />
+            {/* <Route path="signup" exact element={admin ? <SignupEmp /> : <SignupSeeker />} /> */}
+            <Route path='/signup' exact element={<SignupEmp />} />
           </Routes>
         </Router>
       </div>

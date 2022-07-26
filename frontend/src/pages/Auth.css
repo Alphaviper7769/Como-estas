@@ -85,3 +85,35 @@
     display: flex;
     justify-content: space-around;
 }
+
+.auth-body-left {
+    position: absolute;
+    left: 4rem;
+    top: 15rem;
+}
+
+.auth-body-left-h1 {
+    font-size: 6rem;
+    color: #260b85;
+}
+
+.auth-body-left-p {
+    margin-top: -2rem;
+    margin-left: 1rem;
+    font-size: 2rem;
+}
+
+@media(max-width: 789px) {
+    .auth-body-left {
+        top: 0rem;
+        left: 10rem;
+    }
+
+    .auth-body-left-h1 {
+        font-size: 5rem;
+    }
+
+    .auth-body-left-p {
+        font-size: 1.5rem;
+    }
+}

@@ -53,3 +53,11 @@
     display: flex;
     flex-direction: column;
 }
+
+@media(max-width: 789px) {
+    .right, .left {
+        top: 10rem;
+        right: 9rem;
+        left: 9rem;
+    }
+}

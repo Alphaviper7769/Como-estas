@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
+import image from '../images/close.png';
+import Button from './Button';
 
 import Backdrop from './Backdrop';
 import './Modal.css';
@@ -10,6 +12,7 @@ const ModalOverlay = props => {
     <div className={`modal ${props.className}`} style={props.style}>
       <header className={`modal__header ${props.headerClass}`}>
         <h2>{props.header}</h2>
+        <Button onClick={props.onCancel} className='cross'><img src={image} alt="close" className='close-image' /></Button>
       </header>
       <form
         onSubmit={

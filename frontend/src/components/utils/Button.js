@@ -23,7 +23,7 @@ const Button = props => {
         exact={props.exact}
         target={props.target}
         className={`button button--${props.size || 'default'} ${props.inverse &&
-          'button--inverse'} ${props.danger && 'button--danger'}`}
+          'button--inverse'} ${props.transform} ${props.danger && 'button--danger'}`}
       >
         {props.children}
       </Link>
@@ -31,7 +31,7 @@ const Button = props => {
   }
   return (
     <button
-      className={`button button--${props.size || 'default'} ${props.inverse &&
+      className={`button ${props.className} button--${props.size || 'default'} ${props.inverse &&
         'button--inverse'} ${props.btn_center} ${props.danger && 'button--danger'} ${props.radius} ${props.transform}`}
       type={props.type}
       onClick={props.onClick}

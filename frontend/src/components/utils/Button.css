@@ -6,7 +6,7 @@
   background: #260b85;
   color: white;
   cursor: pointer;
-  margin-right: 0rem;
+  /* margin-right: 0rem; */
   text-decoration: none;
   display: inline-block;
 }
@@ -82,10 +82,28 @@
 .no-transform {
   background: white !important;
   color: black !important;  
+  padding: 0.3rem !important;
+  margin: 0.4rem !important;
 }
 
 .no-transform:hover {
   background: black !important;
   color: white !important;
   transform: none !important;
+}
+
+.cross {
+  background: none !important;
+  border: none !important;
+  padding: 0.3rem !important;
+  margin-right: 0.5rem !important;
+}
+
+@media(max-width: 789px) {
+  .no-transform {
+    padding: 1px;
+    display: flex;
+    justify-content: center;
+    width: 50%;
+  }
 }
