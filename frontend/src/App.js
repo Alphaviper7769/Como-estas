@@ -31,6 +31,7 @@ function App() {
     <>
       <div className="App">
         {/* {!!token && <Navbar links={['Dashboard', 'Contact Us', 'Profile', 'LOGOUT']} />} */}
+        <Navbar links={['Dashboard', 'Contact Us', 'Profile', 'LOGOUT']} />
         <Router>
           <Routes>
             <Route path="/" exact element={<Auth />} />

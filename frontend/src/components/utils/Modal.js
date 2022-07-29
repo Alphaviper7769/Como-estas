@@ -11,7 +11,7 @@ const ModalOverlay = props => {
   const content = (
     <div className={`modal ${props.className}`} style={props.style}>
       <header className={`modal__header ${props.headerClass}`}>
-        <h2>{props.header}</h2>
+        <h2 className="modal--header--h2">{props.header}</h2>
         <Button onClick={props.onCancel} className='cross'><img src={image} alt="close" className='close-image' /></Button>
       </header>
       <form

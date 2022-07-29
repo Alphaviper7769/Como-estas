@@ -6,8 +6,9 @@
     color: white;
     display: flex;
     flex-direction: row;
-    opacity: 0.8;
+    opacity: 0.7;
     padding: 0.5rem;
+    z-index: 5;
 }
 
 .nav-body {

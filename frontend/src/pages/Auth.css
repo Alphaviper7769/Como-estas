@@ -11,6 +11,7 @@
     position: relative;
     height: 3rem;
     width: 17rem;
+    margin: auto;
 }
 
 .auth-form-input {

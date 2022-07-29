@@ -1,0 +1,97 @@
+.emp-dashboard-container {
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+}
+
+.emp-dashboard-right {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+    margin-top: 0rem !important;
+}
+
+.emp-dashboard-card {
+    margin-top: 3rem !important;
+    color: #260b85;
+    margin-bottom: 0rem !important;
+}   
+
+.emp-dashboard-right-details {
+    width: max-content;
+    align-self: center;
+    margin: 0 auto;
+}
+
+.emp-dashboard-right-details .emp-dashboard-right-p {
+    width: initial;
+    justify-content: space-around;
+    margin: 0rem auto;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    text-align: left;
+    align-self: center;
+    font-size: 1rem;
+}
+
+.emp-dashboard-right-section {
+    display: inline;
+    margin: 2rem;
+}
+
+.emp-dashboard-right-a {
+    color: black;
+}
+
+.team-div {
+    width: 25rem;
+    text-align: left;
+    background-color: rgb(194, 190, 190);
+    border-radius: 1rem;
+    padding-left: 1.7rem;
+    display: flex;
+    flex-direction: row;
+    margin: 0.3rem;
+}
+
+.team-name {
+    color: black;
+    font-weight: 600;
+    margin: 0rem;
+    padding: 0rem;
+    font-size: 1.3rem;
+    padding-top: 0.5rem;
+}
+
+.team-detail {
+    font-size: 0.9rem;
+    margin: 0rem;
+    padding: 0rem;
+    padding-bottom: 0.5rem;
+}
+
+.team-button {
+    width: 6rem;
+    margin: 1rem auto;
+    display: flex;
+    align-self: flex-end;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-right: 1rem;
+}
+
+.post-header-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.emp-dashboard-post-h1 {
+
+}
+
+.emp-dashboard-post-button {
+    height: 3.5rem;
+    padding: 0.5rem;
+    margin: 1rem;
+}
