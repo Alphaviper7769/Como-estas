@@ -87,11 +87,66 @@
 }
 
 .emp-dashboard-post-h1 {
-
+    font-size: 3rem;
 }
 
 .emp-dashboard-post-button {
     height: 3.5rem;
     padding: 0.5rem;
+    margin: 2.5rem;
+}
+
+.emp-job-post {
+    color: black;
+    text-align: left;
+}
+
+.emp-job-post h3 {
+    position: relative;
+    width: 100%;
+    text-decoration: underline;
+    font-size: 2rem;
+    padding: 0rem;
     margin: 1rem;
+}
+
+.emp-job-post section {
+    display: inline;
+    margin: 1rem;
+}
+
+.emp-job-post p {
+    margin: 0rem;
+    margin-left: 1rem;
+}
+
+.emp-job-div {
+    display: flex;
+    flex-direction: row;
+    border: black solid 1.8px;
+    margin: 1.5rem;
+    border-radius: 2rem;
+    justify-content: space-between;
+}
+
+.emp-job-post-button {
+    padding-top: 3rem;
+    margin: 1.5rem;
+    width: 40%;
+    margin-right: 5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.emp-dashboard-right-team-head {
+    display: flex;
+    flex-direction: row;
+    margin-left: 2rem;
+    margin-right: 1rem;
+    justify-content: space-between;
+    height: fit-content;
+}
+
+.emp-dashboard-right-team-head span {
+    margin-top: 1.5rem;
 }

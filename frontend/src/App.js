@@ -14,6 +14,7 @@ import { Auth } from './pages/Auth';
 import { SignupEmp } from './pages/employer/SignupEmp';
 import { SignupSeeker } from './pages/employee/SignupSeeker';
 import { Dashboard } from './pages/employer/Dashboard';
+import { SeekerDashboard } from './pages/employee/Dashboard';
 
 function App() {
   // Context API

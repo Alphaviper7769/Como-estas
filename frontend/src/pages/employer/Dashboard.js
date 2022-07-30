@@ -37,26 +37,56 @@ const team = [
     }
 ];
 
+const jobs = [
+    {
+        post: 'Web Developer',
+        vacancies: 10,
+        applicants: 9,
+        date: '26 June 2022'
+    },
+    {
+        post: 'App Developer',
+        vacancies: 10,
+        applicants: 9,
+        date: '29 September 2021'
+    },
+    {
+        post: 'Blockchain Developer',
+        vacancies: 10,
+        applicants: 9,
+        date: '1 March 2022'
+    }
+];
+
 export const Dashboard = props => {
     const [show, setShow] = useState(false);
-    const [chosen, setChosen] = useState({
-        name: '',
-        post: '',
-        permissions: []
-    });
+    // state to store all three data depending upon the modal that is opened
+    const [chosen, setChosen] = useState({});
+    // state to store which modal is opened
+    const [modal, setModal] = useState('');
 
-    const onClickHandler = t => {
-        setChosen({
-            name: t.name,
-            post: t.post
-        });
-        console.log(t);
+    const onManagePermissionHandler = (team) => { // function to open modal to assign permissions to employees
+        setChosen(team);
+        console.log(team);
+        setModal('TEAM');
+        setShow(true);
+    };
+
+    const onOpenPostDetail = (job) => { // function to open modal to edit and delete details of a post
+        setChosen(job);
+        setModal('DETAILS')
+        setShow(true);
+    };
+
+    const onOpenApplication = (application) => { // function to open modal to show all the applications for a particular opening
+        setChosen(application);
+        setModal('APPLICATIONS')
         setShow(true);
     };
 
     return (
         <>
-            <Modal show={show} header={chosen.name} onCancel={() => setShow(false)}>
+            <Modal show={show} header={modal === 'TEAM' ? chosen.name : chosen.post} onCancel={() => setShow(false)}>
 
             </Modal>
             <div className='emp-dashboard-container'>
@@ -65,6 +95,22 @@ export const Dashboard = props => {
                         <h1 className='emp-dashboard-post-h1'>JOBS POSTED</h1>
                         <Button inverse size='medium' className='emp-dashboard-post-button'>+ New Post</Button>
                     </div>
+                    {jobs.map((job, index) => {
+                        return (
+                            <div className='emp-job-div' key={index}>
+                                <div className='emp-job-post'>
+                                    <h3>{job.post}</h3>
+                                    <section><b>Vacancies: </b>{job.vacancies}</section>
+                                    <section><b>Applicants: </b>{job.applicants}</section>
+                                    <p><b>Date Posted: </b>{job.date}</p>
+                                </div>
+                                <div className='emp-job-post-button'>
+                                    <Button danger onClick={() => onOpenApplication(job)}>Applications</Button>
+                                    <Button onClick={() => onOpenPostDetail(job)}>Details</Button>
+                                </div>
+                            </div>
+                        );
+                    })}
                 </Card>
                 <div className='emp-dashboard-right'>
                     <Card elevation='complete' size='medium' bgcolor='white' className="emp-dashboard-card">
@@ -77,7 +123,10 @@ export const Dashboard = props => {
                         </div>
                     </Card>
                     <Card elevation='complete' size='medium' bgcolor='white' className="emp-dashboard-card">
-                        <h1 className='emp-dashboard-right-h1'>TEAM</h1>
+                        <div className='emp-dashboard-right-team-head'>
+                            <h1 className='emp-dashboard-right-h1'>TEAM</h1>
+                            <span><Button danger>ADD</Button></span>
+                        </div>
                         {team.map((t, index) => {
                             return (
                                 <div className='team-div' key={index}>
@@ -86,7 +135,7 @@ export const Dashboard = props => {
                                         <p className='team-detail'>{t.post}</p>
                                     </div>
                                     <div className='team-button'>
-                                        <Button key={index} title="Manage Permissions" size="square" onClick={() => onClickHandler(t)}><BsPencilFill /></Button>
+                                        <Button title="Manage Permissions" size="square" onClick={() => onManagePermissionHandler(t)}><BsPencilFill /></Button>
                                         <Button transform='cross'><AiOutlineClose /></Button>
                                     </div>
                                 </div>
