@@ -38,7 +38,7 @@ function App() {
             <Route path="/" exact element={<Auth />} />
             {/* <Route path="signup" exact element={admin ? <SignupEmp /> : <SignupSeeker />} /> */}
             <Route path='/signup' exact element={<SignupEmp />} />
-            <Route path='/dashboard' exact element={<Dashboard />} />
+            <Route path='/dashboard' exact element={<SeekerDashboard />} />
           </Routes>
         </Router>
       </div>

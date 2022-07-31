@@ -1,0 +1,29 @@
+.applied-button {
+    font-size: 1.5rem;
+    height: fit-content;
+    width: 8rem;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#applied-name {
+    margin: 0.3rem;
+    font-size: 1.5rem;
+}
+
+.applied-detail {
+    margin: 0.3rem;
+    font-size: 0.8rem;
+    margin-bottom: 0.4rem;
+}
+
+.emp-dashboard-right-section {
+    display: flex;
+    flex-direction: row;
+}
+
+.seeker-profile-skill span {
+    width: 1rem;
+}
