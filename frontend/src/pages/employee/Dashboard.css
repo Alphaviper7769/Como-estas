@@ -24,6 +24,68 @@
     flex-direction: row;
 }
 
-.seeker-profile-skill span {
-    width: 1rem;
+.skr-dashboard-right-p {
+    text-align: left !important;
+    margin: 1rem;
+    line-height: 1rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.seeker-profile-skill {
+    margin-top: -0.5rem;
+    background: gray;
+    margin-left: 0.5rem;
+    padding: 0.3rem;
+    border-radius: 2rem;
+}
+
+.post-header-div {
+    width: inherit;
+    display: flex;
+    justify-content: center;
+}
+
+.post-header-div input {
+    padding-left: 1rem;
+    font-size: 1rem;
+    border-radius: 2rem;
+    width: 25rem;
+    height: 2rem;
+    margin: 2rem;
+}
+
+.skr-job-post {
+    color: black;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    
+    margin-right: 2rem;
+    justify-content: space-between;
+}
+
+.skr-job {
+    display: flex;
+    flex-direction: row;
+    border: black solid 1.8px;
+    margin: 1.5rem;
+    border-radius: 2rem;
+}
+
+.skr-job-div {
+    padding-bottom: 1rem;
+    padding-left: 0rem;
+    width: 70%;
+    display: flex;
+    flex-direction: column !important;
+}
+
+.skr-job-div-1 {
+    display: flex;
+    flex-direction: row;
+    height: 1.7rem;
+    margin-bottom: 0rem;
+    padding-bottom: 0rem;
+    
 }
