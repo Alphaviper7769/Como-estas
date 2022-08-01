@@ -150,3 +150,79 @@
 .emp-dashboard-right-team-head span {
     margin-top: 1.5rem;
 }
+
+@media (max-width: 789px) {
+    .emp-dashboard-container {
+        flex-direction: column;
+    }
+
+    .team-div {
+        width: 80%;
+        margin-left: 2rem;
+    }
+
+    .emp-dashboard-right-team-head {
+        margin-left: 5rem;
+    }
+
+    .team-button {
+        width: 10rem;
+    }
+
+    .emp-dashboard-right-team-head span {
+        margin-right: 6rem;
+    }
+
+    .emp-dashboard-right-p {
+        display: flex;
+        flex-direction: row;
+        margin-left: 2.5rem;
+    }
+
+    .emp-dashboard-right-details {
+        display: flex;
+        flex-direction: column;
+        width: 20rem;
+        text-align: left;
+        margin-left: 3.5rem;
+    }
+
+    .emp-dashboard-right-details p {
+        width: 18rem !important;
+        justify-content: left !important;
+    }
+
+    .emp-dashboard-right-section {
+        width: 10rem;
+        padding: 0.3rem;
+        margin: 0.5rem;
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .emp-job-post-button span {
+        margin: 0.3rem;
+    }
+
+    .emp-job-post h3 {
+        font-size: 1.7rem;
+        width: 200%;
+    }
+
+    .emp-job-post {
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .emp-job-post section {
+        padding: 0rem;
+        margin: 0.3rem;
+        margin-left: 1rem;
+    }
+
+    .emp-job-post p {
+        width: 150%;
+        margin-bottom: 0.5rem;
+    }
+}

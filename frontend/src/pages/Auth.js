@@ -88,7 +88,7 @@ export const Auth = props => {
                             </form>
                         </div>
                         <hr className='auth-body-hr' />
-                        <p className='auth-body-p center'>or</p>
+                        <p className='auth-body-p'>or</p>
                         <div className='auth-other'>
                             <div className='auth-google'>
                                 <Button onClick={googleHandler}>GOOGLE</Button>

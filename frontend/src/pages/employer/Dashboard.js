@@ -105,8 +105,8 @@ export const Dashboard = props => {
                                     <p><b>Date Posted: </b>{job.date}</p>
                                 </div>
                                 <div className='emp-job-post-button'>
-                                    <Button danger onClick={() => onOpenApplication(job)}>Applications</Button>
-                                    <Button onClick={() => onOpenPostDetail(job)}>Details</Button>
+                                    <span><Button danger onClick={() => onOpenApplication(job)}>Applications</Button></span>
+                                    <span><Button onClick={() => onOpenPostDetail(job)}>Details</Button></span>
                                 </div>
                             </div>
                         );

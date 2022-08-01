@@ -1,0 +1,89 @@
+.nav-container {
+    position: sticky;
+    height: 3rem;
+    top: 0rem;
+    background-color: #260b82;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    opacity: 1;
+    padding: 0.5rem;
+    z-index: 3;
+}
+
+.nav-section-span {
+    display: none;
+}
+
+.nav-body {
+    width: 40%;
+    color: white !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-top: 0.3rem;
+    margin-left: 36rem;
+}
+
+.nav-section {
+    font-size: 20px;
+    display: block;
+    font-weight: 500;
+    padding: 0.3rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+
+.nav-section:hover {
+    border: white solid 1px;
+    font-size: 21px;
+}
+
+.nav-section-logo {
+    font-size: 2rem;
+    display: flex;
+    flex-direction: row;
+    font-weight: 500;
+    margin-left: 1rem;
+}
+
+.nav-side-drawer {
+    display: none;
+}
+
+@media (max-width: 789px) {
+    .nav-body, .nav-section-logo {
+        display: none;
+    }
+
+    .nav-side-drawer {
+        display: flex;
+        flex-direction: column;
+        height: 60%;
+        margin-top: 2rem;
+        text-align: left;
+        margin-top: 10rem;
+        justify-content: space-evenly;
+    }
+
+    .nav-section-span {
+        display: flex;
+        flex-direction: column;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .nav-section-span span {
+        width: 3rem;
+        height: 0.3rem;
+        background: white;
+        margin: 0.3rem;
+    }
+
+    .navbar-link {
+        color: black;
+        font-size: 2rem;
+        margin: 4rem;
+    }
+}

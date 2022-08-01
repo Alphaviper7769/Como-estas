@@ -116,5 +116,10 @@
 
     .auth-body-left-p {
         font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .auth-body-p {
+        left: 18.5rem;
     }
 }

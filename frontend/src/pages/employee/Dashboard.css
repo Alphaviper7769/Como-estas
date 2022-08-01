@@ -84,8 +84,18 @@
 .skr-job-div-1 {
     display: flex;
     flex-direction: row;
-    height: 1.7rem;
+    height: fit-content;
     margin-bottom: 0rem;
     padding-bottom: 0rem;
-    
+}
+
+.skr-job-div-p {
+    padding: 0rem;
+    margin: 0.3rem;
+}
+
+@media (max-width: 789px) {
+    .skr-job-div-p {
+        width: 60% !important;
+    }
 }

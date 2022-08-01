@@ -9,7 +9,7 @@ import {
 import { AuthContext } from './components/context/auth-context';
 import { useAuth } from './components/hooks/auth-hook';
 
-import { Navbar } from './components/utils/Navbar';
+import { Navbar } from './components/navigation/Navbar';
 import { Auth } from './pages/Auth';
 import { SignupEmp } from './pages/employer/SignupEmp';
 import { SignupSeeker } from './pages/employee/SignupSeeker';
@@ -32,13 +32,14 @@ function App() {
     <>
       <div className="App">
         {/* {!!token && <Navbar links={['Dashboard', 'Contact Us', 'Profile', 'LOGOUT']} />} */}
-        <Navbar links={['Dashboard', 'Contact Us', 'Profile', 'LOGOUT']} />
         <Router>
+          <Navbar links={['Dashboard', 'Contact Us', 'Profile', 'LOGOUT']} />
           <Routes>
             <Route path="/" exact element={<Auth />} />
             {/* <Route path="signup" exact element={admin ? <SignupEmp /> : <SignupSeeker />} /> */}
             <Route path='/signup' exact element={<SignupEmp />} />
-            <Route path='/dashboard' exact element={<SeekerDashboard />} />
+            <Route path='/dashboard' exact element={<Dashboard />} />
+            <Route path='/dashboards' exact element={<SeekerDashboard />} />
           </Routes>
         </Router>
       </div>
