@@ -15,6 +15,7 @@ import { SignupEmp } from './pages/employer/SignupEmp';
 import { SignupSeeker } from './pages/employee/SignupSeeker';
 import { Dashboard } from './pages/employer/Dashboard';
 import { SeekerDashboard } from './pages/employee/Dashboard';
+import { Contactus } from './pages/Contactus';
 
 function App() {
   // Context API
@@ -33,7 +34,7 @@ function App() {
       <div className="App">
         {/* {!!token && <Navbar links={['Dashboard', 'Contact Us', 'Profile', 'LOGOUT']} />} */}
         <Router>
-          <Navbar links={['Dashboard', 'Contact Us', 'Profile', 'LOGOUT']} />
+          <Navbar links={['Dashboard', 'Contact-Us', 'Profile', 'LOGOUT']} />
           <Routes>
             <Route path="/" exact element={<Auth />} />
             {/* <Route path="signup" exact element={admin ? <SignupEmp /> : <SignupSeeker />} /> */}
@@ -43,6 +44,7 @@ function App() {
           </Routes>
         </Router>
       </div>
+      <Contactus />
     {/*</AuthContext.Provider>*/}
     </>
   );

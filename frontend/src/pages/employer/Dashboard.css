@@ -152,6 +152,10 @@
 }
 
 @media (max-width: 789px) {
+    .emp-dashboard-card {
+        width: 90% !important;
+    }
+
     .emp-dashboard-container {
         flex-direction: column;
     }
@@ -162,7 +166,10 @@
     }
 
     .emp-dashboard-right-team-head {
-        margin-left: 5rem;
+        margin: 5% auto;
+        display: flex;
+        width: inherit;
+        justify-content: space-between;
     }
 
     .team-button {
@@ -170,13 +177,14 @@
     }
 
     .emp-dashboard-right-team-head span {
-        margin-right: 6rem;
+        margin-top: 0rem;
     }
 
     .emp-dashboard-right-p {
         display: flex;
         flex-direction: row;
-        margin-left: 2.5rem;
+        width: fit-content;
+        margin: 0 auto;
     }
 
     .emp-dashboard-right-details {
@@ -193,11 +201,17 @@
     }
 
     .emp-dashboard-right-section {
-        width: 10rem;
+        width: fit-content;
         padding: 0.3rem;
         margin: 0.5rem;
         display: flex;
         justify-content: space-evenly;
+    }
+
+    .emp-job-post-button {
+        display: flex;
+        flex-direction: column;
+        margin-left: 10%;
     }
 
     .emp-job-post-button span {
@@ -225,4 +239,21 @@
         width: 150%;
         margin-bottom: 0.5rem;
     }
+
+    .emp-dashboard-right-h1 {
+        font-size: 130%;
+        margin: 0 auto;
+    }
+
+    .emp-dashboard-post-h1 {
+        font-size: 250%;
+        margin-top: 20;
+    }
+
+    .emp-job-div {
+        margin: 0 auto;
+        margin-bottom: 7%;
+    }
+
+    
 }

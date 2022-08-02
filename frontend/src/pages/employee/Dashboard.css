@@ -94,8 +94,49 @@
     margin: 0.3rem;
 }
 
+.team-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.team-div > div {
+    display: flex;
+    flex-direction: row;
+}
+
 @media (max-width: 789px) {
     .skr-job-div-p {
         width: 60% !important;
+    }
+
+    .post-header-div {
+        width: 100%;
+    }
+
+    .post-header-div form {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .post-header-div form Button {
+        height: 35%;
+        margin-top: 10%;
+    }
+
+    .post-header-div input {
+        width: 100%;
+    }
+
+    .skr-job {
+        flex-direction: column;
+        padding-left: 10%;
+    }
+
+    #applied-name {
+        font-size: 120%;
+    }
+
+    .skr-job-post span {
+        margin: 20%;
     }
 }

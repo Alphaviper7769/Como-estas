@@ -93,7 +93,7 @@ export const Dashboard = props => {
                 <Card elevation='complete' size='large' bgcolor='white' className="emp-dashboard-card">
                     <div className='post-header-div'>
                         <h1 className='emp-dashboard-post-h1'>JOBS POSTED</h1>
-                        <Button inverse size='medium' className='emp-dashboard-post-button'>+ New Post</Button>
+                        <Button inverse size={`${window.innerWidth > 789 ? 'medium' : 'small'}`} className='emp-dashboard-post-button'>+ New Post</Button>
                     </div>
                     {jobs.map((job, index) => {
                         return (
@@ -105,8 +105,8 @@ export const Dashboard = props => {
                                     <p><b>Date Posted: </b>{job.date}</p>
                                 </div>
                                 <div className='emp-job-post-button'>
-                                    <span><Button danger onClick={() => onOpenApplication(job)}>Applications</Button></span>
-                                    <span><Button onClick={() => onOpenPostDetail(job)}>Details</Button></span>
+                                    <span><Button danger size={`${window.innerWidth > 789 ? 'medium' : 'small'}`} onClick={() => onOpenApplication(job)}>Applications</Button></span>
+                                    <span><Button size={`${window.innerWidth > 789 ? 'medium' : 'small'}`} onClick={() => onOpenPostDetail(job)}>Details</Button></span>
                                 </div>
                             </div>
                         );
@@ -125,7 +125,7 @@ export const Dashboard = props => {
                     <Card elevation='complete' size='medium' bgcolor='white' className="emp-dashboard-card">
                         <div className='emp-dashboard-right-team-head'>
                             <h1 className='emp-dashboard-right-h1'>TEAM</h1>
-                            <span><Button danger>ADD</Button></span>
+                            <span><Button danger size={`${window.innerWidth > 789 ? 'medium' : 'small'}`}>ADD</Button></span>
                         </div>
                         {team.map((t, index) => {
                             return (

@@ -10,15 +10,11 @@
 }
 
 .right {
-    position: absolute !important;
-    right: 4rem !important;
-    top: 3rem;
+    margin-right: 4rem;
 }
 
 .left {
-    position: absolute !important;
-    left: 4rem !important;
-    top: 7rem;
+    margin-left: 4rem;
 }
 
 .elevation--partial {
@@ -55,13 +51,26 @@
 }
 
 @media(max-width: 789px) {
-    .right, .left {
+    .card {
+        position: relative;
+        margin: 0 auto;
+        width: auto;
+        margin-top: 40%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 auto;
+    }
+
+    /* .right, .left {
         top: 10rem;
         right: 1.7rem;
         left: 1.7rem;
-    }
+    } */
 
-    .large, .small, .medium {
-        width: 37rem;
-    }
+    /* .large, .small, .medium {
+        width: 80%;
+        margin: 0 auto;
+        margin-top: 5rem;
+    } */
 }

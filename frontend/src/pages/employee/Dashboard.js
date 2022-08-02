@@ -111,19 +111,19 @@ export const SeekerDashboard = props => {
                     <div className='post-header-div'>
                         <form onSubmit={onSubmitHandler}>
                             <input type="text" required onChange={onChangeHandler} value={search} name="search" placeholder='Search...' />
-                            <Button type='submit' inverse>Search</Button>
+                            <Button type='submit' size={`${window.innerWidth > 789 ? 'medium' : 'small'}`} inverse>Search</Button>
                         </form>
                     </div>
                     {jobs.map((job, index) => {
                         return (
                             <div className='skr-job'>
                                 <div className='img' style={{ margin: '1rem', width: '5rem', height: 'inherit', 'border': '1px black solid' }}>
-                                    { /* INSERT IMAGE HERE */ }
+                                    { /* INSERT IMAGE HERE */ } 
                                 </div>
                                 <div className='skr-job-div' key={index}>
                                     <div className='skr-job-post'>
                                         <h3 style={{ 'font-size': '1.5rem', 'text-decoration': 'underline', 'margin-bottom': '0.3rem' }}>{job.post}</h3>
-                                        <span style={{ 'margin-top': '1.3rem' }}><Button danger onClick={() => onOpenApply(job)}>Appy</Button></span>
+                                        <span style={{ 'margin-top': '1.3rem' }}><Button danger onClick={() => onOpenApply(job)} size={`${window.innerWidth > 789 ? 'medium' : 'small'}`}>Appy</Button></span>
                                     </div>
                                     <div className='skr-job-div-1'>
                                         <p className='skr-job-div-p' style={{ width: '70%', 'textAlign': 'left' }}><b style={{ color: 'black', 'margin-right': '0.3rem', width: '6rem' }}>Company: </b>{job.company}</p>
@@ -146,6 +146,12 @@ export const SeekerDashboard = props => {
                         <p className='skr-dashboard-right-p'><b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Date of Birth: </b> {details.dob}</p>
                         <p className='skr-dashboard-right-p'><b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Gender: </b> {details.gender}</p>
                         <p className='skr-dashboard-right-p'>
+                            <b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Resume: </b>
+                            <a href={details.resume} target='_blank' style={{ color: 'blue', 'text-decoration': 'underline' }}>Resume Link</a>
+                            <span style={{ width: '10%' }}></span>
+                            <button className='resume-change-button' style={{ 'background': 'red', color: 'white' }}>Upload</button>
+                        </p>
+                        <p className='skr-dashboard-right-p'>
                             <b style={{ color: 'black', 'margin-right': '0.3rem', width: '6rem' }}>Skills: </b> {details.skills.map((skill) => { return <section className="seeker-profile-skill">{skill}</section>; })}
                         </p>
                     </Card>
@@ -156,14 +162,16 @@ export const SeekerDashboard = props => {
                         {applied.map((t, index) => {
                             return (
                                 <div className='team-div' key={index}>
-                                    <div className='team-info'>
-                                        <p className='team-name' id='applied-name'>{t.post}</p>
-                                        <p className='applied-detail'>{t.company}</p>
-                                        <p className='applied-detail'>Applied on {t.date}</p>
-                                    </div>
-                                    <div className='applied-button'>
-                                        <Button title="Manage Permissions" size="square" onClick={() => onManageApplicationHandler(t)}><BsPencilFill /></Button>
-                                        <Button transform='cross'><AiOutlineClose /></Button>
+                                    <p className='team-name' id='applied-name'>{t.post}</p>
+                                    <div>
+                                        <div className='team-info'>
+                                            <p className='applied-detail'>{t.company}</p>
+                                            <p className='applied-detail'>Applied on {t.date}</p>
+                                        </div>
+                                        <div className='applied-button'>
+                                            <Button title="Manage Permissions" size="square" onClick={() => onManageApplicationHandler(t)}><BsPencilFill /></Button>
+                                            <Button transform='cross'><AiOutlineClose /></Button>
+                                        </div>
                                     </div>
                                 </div>
                             );

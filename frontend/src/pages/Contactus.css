@@ -1,0 +1,42 @@
+.contactus-container {
+    padding: 3%;
+    margin: 0px;
+    background: black;
+    color: white;
+    width: inherit;
+    margin-top: 5%;
+}
+
+.contactus-container h1 {
+    font-size: 250%;
+    padding-left: 5%;
+    text-decoration: underline;
+}
+
+.contactus-container h3 {
+    font-size: 175%;
+    padding-left: 7%;
+}
+
+.member-details {
+    display: flex;
+    flex-direction: row;
+    padding-left: 10%;
+    margin-bottom: 2%;
+}
+
+.member-details h3 {
+    width: 35%;
+}
+
+.member-details a {
+    margin-top: 1%;
+    font-size: 350%;
+    padding-right: 5%;
+}
+
+@media (max-width: 789px) {
+    .contactus-container {
+        margin-top: 120% !important;    
+    }
+}

@@ -29,3 +29,9 @@ hr {
   color: black;
   margin: 0.5rem;
 }
+
+.App {
+  margin: 0px;
+  padding: 0px;
+  height: max-content;
+}

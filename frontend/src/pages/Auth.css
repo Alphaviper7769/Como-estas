@@ -1,3 +1,7 @@
+.auth-container {
+    height: fit-content;
+}
+
 .auth-body {
     display: flex;
     flex-direction: column;
@@ -54,9 +58,10 @@
 }
 
 .auth-body-p {
-    position: absolute;
-    top: 15rem;
-    left: 13.8rem;
+    position: relative;
+    width: fit-content;
+    margin-top: -7%;
+    left: 45%;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     background-color: white;
@@ -106,20 +111,36 @@
 
 @media(max-width: 789px) {
     .auth-body-left {
-        top: 0rem;
-        left: 10rem;
+       position: relative;
+       top: 0rem;
+       margin: 0px;
+       margin-top: 5%;
+       margin-left: -7%;
+       width: fit-content;
+       padding: 0px;
     }
 
     .auth-body-left-h1 {
-        font-size: 5rem;
+        font-size: 300%;
+        text-align: center;
+        padding: 0px;
+        margin: 0px;
     }
 
     .auth-body-left-p {
-        font-size: 1.5rem;
+        font-size: 150%;
         text-align: center;
+        padding: 0px;
+        margin: 0px;
     }
 
     .auth-body-p {
-        left: 18.5rem;
+        margin-top: -10%;
+    }
+
+    .card-body-form {
+        text-align: center;
+        display: flex;
+        justify-content: center;
     }
 }
