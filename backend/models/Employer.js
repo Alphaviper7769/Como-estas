@@ -23,6 +23,7 @@ const { Mongoose } = require("mongoose");
         companyID: '',
         date: '',
         skills: '',
+        eligibility: ['', '', ''],
         questions: ['', '', ''],
         dueDate: '',
         salary: '',
