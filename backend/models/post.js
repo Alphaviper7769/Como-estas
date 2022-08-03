@@ -1,3 +1,5 @@
+// Mongoose Schema for Posts
+
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;

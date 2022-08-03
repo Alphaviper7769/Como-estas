@@ -6,25 +6,25 @@ const router = express.Router();
 
 // Add all the routes here
 // GET
-router.get("/dashboard", loadDashboard);
-router.get("/dashboard/post", getPostByID);
-router.get("/dashboard/apply", getApplicationByID);
-router.get("/dashboard/profile", getProfile);
+// router.get("/dashboard", controller.loadDashboard);
+// router.get("/dashboard/post", controllergetPostByID);
+// router.get("/dashboard/apply", controller.getApplicationByID);
+// router.get("/dashboard/profile", controller.getProfile);
 
 // POST
-router.post("/", controller.auth);
-router.post("/signup", signup);
-router.post("/dashboard/post", postNewJob);
-router.post("/dashboard/apply", applyForJob);
+router.post('/', controller.auth);
+router.post('/signup', controller.signup);
+router.post('/dashboard/post', controller.postNewJob);
+router.post("/dashboard/apply", controller.applyForJob);
+router.post("/dashboard/team", controller.addEmployee);
 
-// PATCH
-router.patch("/dashboard/post", updatePost);
-router.patch("/dashboard/apply", upateApplication);
-router.patch("/dashboard/addteam", updateEmployeeList);
-router.patch("/dashboard/permission", updatePermission);
+// // PATCH
+// router.patch("/dashboard/post", controller.updatePost);
+// router.patch("/dashboard/apply", controller.upateApplication);
+// router.patch("/dashboard/permission", controller.updatePermission);
 
-// DELETE
-router.delete("/dashboard/post", deletePost);
-router.delete("/dashboard/apply", deleteApplication);
+// // DELETE
+// router.delete("/dashboard/post", controller.deletePost);
+// router.delete("/dashboard/apply", controller.deleteApplication);
 
 module.exports = router;

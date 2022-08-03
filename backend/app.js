@@ -1,15 +1,23 @@
 const express = require('express');
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
-const routes = require('./router.js');
+const routes = require('./routes.js');
+const HttpError = require('./utils/http-error.js');
 require('dotenv').config();
 
 const app = express();
 
 app.use(bodyParser.json());
 
-app.use('/', routes);
+app.use('', routes);
 
+app.use((req, res, next) => {
+    return next(
+        new HttpError('No routes', 404)
+    );
+});
+
+// connect to MongoDB using Mongoose and listening to PORT 5000
 mongoose
     .connect(`mongodb+srv://Dumb_Programmer:${process.env.MongoDB}@como-estas.frudp.mongodb.net/?retryWrites=true&w=majority`)
     .then(() => {
