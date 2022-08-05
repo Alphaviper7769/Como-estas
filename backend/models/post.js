@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 const postSchema = new Schema({
     name: { type: String, required: true },
     vacancy: { type: Number, required: false, default: 0 },
-    applicantions: { type: mongoose.Types.ObjectId, ref: 'Application', unique: true },
+    applications: [{ type: mongoose.Types.ObjectId, ref: 'Application' }],
     date: { type: Date, required: false },
     companyID: { type: mongoose.Types.ObjectId, ref: 'Company' },
     skills: [{ type: String, required: false }],

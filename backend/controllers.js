@@ -14,18 +14,21 @@ const Employee = require('./models/employee');
 const auth = async (req, res, next) => {
     // extract email and password from body
     const { email, password } = req.body;
-
+    let admin;
     let existingUser;
     try {
         // check in User database
         existingUser = await User.findOne({ email: email });
+        admin = 0;
         if(!existingUser) {
             // if not found in User, find in Company
             existingUser = await Company.findOne({ email: email });
+            admin = 1;
         }
         if(!existingUser) {
             // check in Employees
             existingUser = await Employee.findOne({ email: email });
+            admin = 2;
         }
     } catch (err) {
         const error = new HttpError('Could not Log in', 500);
@@ -55,7 +58,7 @@ const auth = async (req, res, next) => {
     }
 
     // respond with userID (MongoDB _id)
-    res.status(200).json({ userId: existingUser._id.toString() });
+    res.status(200).json({ userId: existingUser._id.toString(), admin: admin });
 };
 
 const signup = async (req, res, next) => {
@@ -162,7 +165,7 @@ const signup = async (req, res, next) => {
     }
 
     // responding with MongoDb _id
-    res.status(200).json({ userID: created._id });
+    res.status(200).json({ userID: created._id, admin: req.body.employer });
 };
 
 const postNewJob = async (req, res, next) => {
@@ -196,7 +199,7 @@ const postNewJob = async (req, res, next) => {
     const created = new Post({
         name,
         vacancy,
-        applicantions: [],
+        applications: [],
         date,
         companyID,
         skills: skills || [],
@@ -210,6 +213,7 @@ const postNewJob = async (req, res, next) => {
     try {
         await created.save();
     } catch (err) {
+        console.log(err);
         return next(
             new HttpError('Server side error', 500)
         );
@@ -247,6 +251,8 @@ const postNewJob = async (req, res, next) => {
             new HttpError('Could not find the Company', 404)
         );
     }
+
+    res.status(200).json({ post: created.toObject({ getters: true }) });
 };
 
 const applyForJob = async (req, res, next) => {
@@ -309,6 +315,8 @@ const applyForJob = async (req, res, next) => {
             );
         }
     }
+
+    res.status(200).json({ application: created.toObject({ getters: true }) });
 };
 
 const addEmployee = async (req, res, next) => {
@@ -367,6 +375,8 @@ const addEmployee = async (req, res, next) => {
             new HttpError('Could not connect to database', 500)
         );
     }
+
+    res.status(200).json({ employee: created.toObject({ getters: true }) });
 };
 
 // GET
@@ -489,6 +499,239 @@ const loadDashboard = async (req, res, next) => {
     }
 };
 
+const getPostByID = async (req, res, next) => {
+    const postID = req.params.pid;
+    let post;
+    try {
+        // find post with postID
+        post = await Post.findById(postID);
+    } catch (err) {
+        return next(
+            new HttpError('Connection to server failed', 500)
+        );
+    }
+    // if no uch post exist
+    if(!post) {
+        return next(
+            new HttpError('No post found', 404)
+        );
+    }
+    res.status(201).json({ post: post.toObject({ getters: true }) });
+};
+
+const getApplicationByID = async (req, res, next) => {
+    const applicationID = req.params.aid;
+    // get application
+    let application;
+    try {
+        application = Application.findById(applicationID);
+    } catch (err) {
+        return next(
+            new HttpError('Could not connect to server')
+        );
+    }
+    // if no application found
+    if(!application) {
+        return next(
+            new HttpError('No such application found', 404)
+        );
+    }
+
+    res.status(201).json({ application: application.toObject({ getters: true }) });
+};
+
+const getProfile = async (req, res, next) => {
+    const userID = req.params.uid;
+    const admin = req.params.admin;
+    let user;
+    if(!admin) {
+        try {
+            user = await User.findById(userID);
+        } catch (err) {
+            return next(
+                new HttpError('Could not connect to server', 500)
+            );
+        }
+    } else {
+        try {
+            user = await Company.findById(userID);
+        } catch (err) {
+            return next(
+                new HttpError('Could not connect to server', 500)
+            );
+        }
+    }
+    // if no user found, display error
+    if(!user) {
+        return next(
+            new HttpError('No User/Company found')
+        );
+    }
+
+    res.status(201).json({ user: user.toObject({ getters: true }) });
+};
+
+// DELETE
+const deletePost = async (req, res, next) => {
+    const postID = req.params.pid;
+    const userID = req.params.uid;
+    let post;
+    try {
+        post = await Post.findById(postID);
+    } catch (err) {
+        return next(
+            new HttpError('Could not connect to server')
+        );
+    }
+    if(!post) {
+        return next(
+            new HttpError('Could not find the post')
+        );
+    }
+    // true if permission
+    let allowed = false;
+    // find the user that requested deletion in Company first
+    let user;
+    try {
+        user = await Company.findByID(userID);
+    } catch (err) {
+        return next(
+            new HttpError('Internal Server Error')
+        );
+    }
+
+    if(!user) {
+        // find it in Employee
+        try {
+            user = await Employee.findById(userID);
+        } catch (err) {
+            return next(
+                new HttpError('Could not connect to the server')
+            );
+        }
+        // loop through the permissions array and see if the employee is allowed
+        if(user) {
+            allowed = user.permissions.find((permission) => {
+                return permission.toString() == postID;
+            });
+        }
+    } else {
+        allowed = true;
+    }
+
+    if(!user) {
+        return next(
+            new HttpError('No user with that ID')
+        );
+    }
+    // if the user is not allowed to make changes
+    if(!allowed) {
+        return next(
+            new HttpError('You are not allowed to make changes', 401)
+        );
+    }
+
+    // find the company that posted it
+    let company;
+    try {
+        company = await Company.findById(postID);
+    } catch (err) {
+        return next(
+            new HttpError('Server error', 500)
+        );
+    }
+
+    if(!company) {
+        return next(
+            new HttpError('Could not find the company that posted it', 404)
+        );
+    }
+
+    // deleting from all applicants
+    post.applications.map(async (applicationID) => {
+        let applicantID;
+        let applicant;
+        try {
+            applicantID = await Application.findById(applicationID).userID;
+            applicant = await User.findById(applicantID);
+            applicant.applications.pull({ _id: applicationID });
+            applicant.save();
+        } catch (err) {}
+    });
+
+    // deleting from the database
+    try {
+        const sess = await mongoose.startSession();
+        sess.startTransaction();
+        await post.remove({ session: sess });
+        company.posts.pull({ _id: postID });
+        await company.save({ session: sess });
+        await sess.commitTransaction();
+    } catch(err) {
+        return next(
+            new HttpError('Could not delete from database', 500)
+        );
+    }
+
+    res.status(201).json({ message: "Deleted Successfully" });
+};
+
+const deleteApplication = async (req, res, next) => {
+    const applicationID = req.params.aid;
+    const userID = req.params.uid;
+    let application;
+    try {
+        application = await Application.findById(applicationID);
+    } catch (err) {
+        return next(
+            new HttpError('Could not connect to server', 500)
+        );
+    }
+
+    if(!application) {
+        return next(
+            new HttpError('Could not find the Application', 404)
+        );
+    }
+    let post;
+    // find the post that has that particular application
+    try {
+        post = await Post.findById(application.postID);
+    } catch (err) {
+        return next(
+            new HttpError('Internal Server error', 500)
+        );
+    }
+
+    if(!post) {
+        return next(
+            new HttpError('Could not find the post', 404)
+        );
+    }
+
+    if(userID != application.userID && userID != post.companyID) {
+        return next(
+            new HttpError('Not Authorized', 401)
+        );
+    }
+
+    // delete from  database
+    try {
+        const sess = await mongoose.startSession();
+        sess.startTransaction();
+        post.applications.pull({ _id: applicationID });
+        await post.save({ session: sess });
+        await application.remove({ session: sess });
+        await sess.commitTransaction();
+    } catch (err) {
+        return next(
+            new HttpError('Could not delete', 500)
+        );
+    }
+
+    res.statu(201).json({ message: "Deleted Successfully" });
+};
+
 // POST
 exports.auth = auth;
 exports.signup = signup;
@@ -498,3 +741,10 @@ exports.addEmployee = addEmployee;
 
 // GET
 exports.loadDashboard = loadDashboard;
+exports.getPostByID = getPostByID;
+exports.getApplicationByID = getApplicationByID;
+exports.getProfile = getProfile;
+
+// DELETE
+exports.deletePost = deletePost;
+exports.deleteApplication = deleteApplication;
