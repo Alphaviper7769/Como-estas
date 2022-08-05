@@ -202,6 +202,7 @@ const postNewJob = async (req, res, next) => {
         skills: skills || [],
         eligibility: eligibility || [],
         questions: questions || [],
+        dueDate,
         salary,
         location
     });
@@ -211,6 +212,39 @@ const postNewJob = async (req, res, next) => {
     } catch (err) {
         return next(
             new HttpError('Server side error', 500)
+        );
+    }
+
+    // add post to Company
+    let company;
+    let success = true;
+    try {
+        company = await Company.findById(companyID);
+    } catch (err) {
+        success = false;
+    }
+
+    if(success) {
+        try {
+            // adding post to Company
+            company.posts.push(created);
+            await company.save();
+        } catch (err) {
+            success = false;
+        }
+    }
+
+    if(!success) {
+        // delete created from the database due to the error
+        try {
+            await created.remove();
+        } catch (err) {
+            return next(
+                new HttpError('Could not remove post, manual required', 500)
+            );
+        }
+        return next(
+            new HttpError('Could not find the Company', 404)
         );
     }
 };
@@ -260,8 +294,8 @@ const applyForJob = async (req, res, next) => {
     } else {
         try {
             // pushing applications to User and Post databases
-            user.applications.push(created._id.toString());
-            post.applicantions.push(created._id.toString());
+            user.applications.push(created);
+            post.applicantions.push(created);
             // starting a mongoose session to puh multiple changes to database
             const sess = await mongoose.startSession();
             sess.startTransaction();
@@ -335,8 +369,132 @@ const addEmployee = async (req, res, next) => {
     }
 };
 
+// GET
+const loadDashboard = async (req, res, next) => {
+    // getting userID from URL
+    const isEmployer = req.params.admin;
+    const userID = req.params.uid;
+    if(isEmployer) {
+        // check whether it's an employee or the main company account
+        let existingUser;
+        let isMain = true;
+        try {
+            // Main company account
+            existingUser = await Company.findById(userID);
+            if(!existingUser) {
+                // Employee Account... Restrict permissions
+                existingUser = await Employee.findById(userID);
+                isMain = false;
+            }
+        } catch (err) {
+            return next(
+                new HttpError('Could not connect to the server', 500)
+            );
+        }
+        if(!existingUser) {
+            return next(
+                new HttpError('Invalid credentials', 422)
+            );
+        }
+        // load company details, posted jobs and employees
+        let posts;
+        let permissions;
+        let team;
+        if(isMain) {
+            // for Main Account -> All permissions
+            try {
+                posts = await existingUser.populate('posts');
+                team = await existingUser.populate('employees');
+            } catch (err) {
+                return next(
+                    new HttpError('Could not fetch details', 500)
+                );
+            }
+            // permissions set to all posts
+            permissions = existingUser.posts;
+        } else {
+            let company;
+            // for Employees -> specific permissions
+            try {
+                company = await Company.findById(existingUser.companyID);
+            } catch (err) {
+                return next(
+                    new HttpError('Could not fetch details', 500)
+                );
+            }
+            
+            if(!company) {
+                return next(
+                    new HttpError('No such company found', 422)
+                );
+            }
+
+            // getting all posts and employees
+            try {
+                posts = await company.populate('posts');
+                team = await company.populate('employees');
+            } catch (err) {
+                return next(
+                    new HttpError('Could not fetch details', 500)
+                );
+            }
+            // limited permissions
+            permissions = existingUser.permissions;
+        }
+        res
+            .status(200)
+            .json({ 
+                isMain: isMain,
+                posts: posts.toObject({ getters: true }), 
+                team: team.toObject({ getters: true }), 
+                permissions: permissions.toObject({ getters: true }),
+                user: existingUser.toObject({ getters: true })
+            });
+    } else {
+        // get profile, jobs, applied for the user
+        let existingUser;
+        try {
+            existingUser = await User.findById(userID);
+        } catch (err) {
+            return next(
+                new HttpError('Could not connect to database', 500)
+            );
+        }
+        // if userID was not found
+        if(!existingUser) {
+            return next(
+                new HttpError('No user found', 422)
+            );
+        }
+        // all applications submitted by the user
+        let applications;
+        // all jobs posted by all companies
+        let jobs;
+        try {
+            applications = await existingUser.populate('applications');
+            jobs = await Post.find();
+        } catch(err) {
+            return next(
+                new HttpError('Database connection error', 500)
+            );
+        }
+
+        res
+            .status(200)
+            .json({ 
+                user: existingUser.toObject({ getters: true }), 
+                applications: applications.toObject({ getters: true }), 
+                jobs: jobs.toObject({ getters: true }) 
+            });
+    }
+};
+
+// POST
 exports.auth = auth;
 exports.signup = signup;
 exports.postNewJob = postNewJob;
 exports.applyForJob = applyForJob;
 exports.addEmployee = addEmployee;
+
+// GET
+exports.loadDashboard = loadDashboard;
