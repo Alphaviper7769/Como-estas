@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 const applicationSchema = new Schema({
     userID: { type: mongoose.Types.ObjectId, ref: 'User' },
     postID: { type: mongoose.Types.ObjectId, ref: 'Post' },
-    answers: [{ type: String, required: false }],
+    answers: [{ type: String, required: false, unique: false }],
     date: { type: Date, required: true }
 });
 

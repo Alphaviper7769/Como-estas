@@ -11,8 +11,8 @@ const companySchema = new Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     website: { type: String, required: false },
-    posts: [{ type: mongoose.Types.ObjectId, required: false, ref: 'Post', unique: true }],
-    employees: [{ type: mongoose.Types.ObjectId, ref: 'Employee' }]
+    posts: [{ type: mongoose.Types.ObjectId, required: false, ref: 'Post', unique: false }],
+    employees: [{ type: mongoose.Types.ObjectId, ref: 'Employee', unique: false }]
 });
 
 // every entry must be unique. 

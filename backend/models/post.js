@@ -14,7 +14,7 @@ const postSchema = new Schema({
     eligibility: [{ type: String, required: false }],
     questions: [{ type: String, required: false }],
     dueDate: { type: Date, required: false },
-    salary: { type: String, required: false, default: "---" },
+    salary: { type: Number, required: false, default: 0 },
     location: { type: String, required: false }
 });
 

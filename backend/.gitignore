@@ -1,4 +1,5 @@
 .env
 ./package-lock.json
+./todo.md
 
 /node_modules

@@ -1,0 +1,3 @@
+-> Signup only has Name, email and password
+-> Add edit profile page (patch /dashboard/profile)
+-> Add filters in get /dashboard
