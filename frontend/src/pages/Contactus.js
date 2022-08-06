@@ -12,21 +12,20 @@ const members = [
     },
     {
         name: 'Brateek Krishna',
-        github: 'https://github.com/rajaryan18',
-        linkedin: 'https://www.linkedin.com/in/thatrajaryan',
-        gmail: 'btech10078.21@bitmesra.ac.in'
-    },
+        github: 'https://github.com/PrateekKrishna',
+        linkedin: 'https://www.linkedin.com/in/prateekkrishna',
+        gmail: 'btech10105.21@bitmesra.ac.in'
+    }, 
     {
         name: 'Ritika Prasad',
-        github: 'https://github.com/rajaryan18',
-        linkedin: 'https://www.linkedin.com/in/thatrajaryan',
-        gmail: 'btech10078.21@bitmesra.ac.in'
+        github: 'https://github.com/Ritika-007',
+        linkedin: 'https://www.linkedin.com/in/ritika-prasad-a0435a227',
+        gmail: 'btech10063.21@bitmesra.ac.in'
     },
     {
         name: 'Aayush Raturi',
-        github: 'https://github.com/rajaryan18',
-        linkedin: 'https://www.linkedin.com/in/thatrajaryan',
-        gmail: 'btech10078.21@bitmesra.ac.in'
+        github: 'https://github.com/Alphaviper7769',
+        linkedin: 'https://www.linkedin.com'
     }
 ];
 
