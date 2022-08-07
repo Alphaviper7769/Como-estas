@@ -8,7 +8,10 @@
     flex-direction: row;
     opacity: 1;
     padding: 0.5rem;
+    padding-right: 1rem !important;
     z-index: 3;
+    width: inherit;
+    justify-content: space-between;
 }
 
 .nav-section-span {
@@ -16,13 +19,12 @@
 }
 
 .nav-body {
-    width: 40%;
+    width: fit-content;
     color: white !important;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     padding-top: 0.3rem;
-    margin-left: 36rem;
 }
 
 .nav-section {
@@ -41,10 +43,9 @@
 
 .nav-section-logo {
     font-size: 2rem;
-    display: flex;
-    flex-direction: row;
     font-weight: 500;
     margin-left: 1rem;
+    width: fit-content;
 }
 
 .nav-side-drawer {
@@ -63,6 +64,7 @@
         text-align: left;
         margin-top: 10rem;
         justify-content: space-evenly;
+        margin-left: 20%;
     }
 
     .nav-section-span {

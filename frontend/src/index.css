@@ -6,7 +6,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: #eff2f5; 
+  scrollbar-width: thin !important;
+  overflow-x: hidden;
 }
+
+body::-webkit-scrollbar { width: 0rem; }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -34,4 +38,5 @@ hr {
   margin: 0px;
   padding: 0px;
   height: max-content;
+  scrollbar-width: thin;
 }

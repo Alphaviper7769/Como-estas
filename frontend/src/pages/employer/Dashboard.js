@@ -105,8 +105,8 @@ export const Dashboard = props => {
                                     <p><b>Date Posted: </b>{job.date}</p>
                                 </div>
                                 <div className='emp-job-post-button'>
-                                    <span><Button danger size={`${window.innerWidth > 789 ? 'medium' : 'small'}`} onClick={() => onOpenApplication(job)}>Applications</Button></span>
-                                    <span><Button size={`${window.innerWidth > 789 ? 'medium' : 'small'}`} onClick={() => onOpenPostDetail(job)}>Details</Button></span>
+                                    <span><Button danger size={`${window.innerWidth > 950 ? 'medium' : 'small'}`} onClick={() => onOpenApplication(job)}>Applications</Button></span>
+                                    <span><Button size={`${window.innerWidth > 950 ? 'medium' : 'small'}`} onClick={() => onOpenPostDetail(job)}>Details</Button></span>
                                 </div>
                             </div>
                         );
@@ -115,7 +115,7 @@ export const Dashboard = props => {
                 <div className='emp-dashboard-right'>
                     <Card elevation='complete' size='medium' bgcolor='white' className="emp-dashboard-card">
                         <h1 className='emp-dashboard-right-h1'>{details.name}</h1>
-                        <p className='emp-dashboard-right-p'><section className='emp-dashboard-right-section'><b style={{ color: 'black' }}>Jobs Posted:</b> {details.no}</section><section className='emp-dashboard-right-section'><b style={{ color: 'black' }}>Candidates Hired:</b> {details.hired}</section></p>
+                        <p className='emp-dashboard-right-p'><section className='emp-dashboard-right-section'><b style={{ color: 'black' }}>Jobs Posted:</b><span style={{ width: '0.5rem' }} /> {details.no}</section><section className='emp-dashboard-right-section'><b style={{ color: 'black' }}>Candidates Hired:</b><span style={{ width: '0.5rem' }} /> {details.hired}</section></p>
                         <div className='emp-dashboard-right-details'>
                             <p className='emp-dashboard-right-p'><BsGlobe /> <a href={details.website} className='emp-dashboard-right-a'>{details.website}</a></p>
                             <p className='emp-dashboard-right-p'><AiOutlineMail /> {details.email}</p>

@@ -16,6 +16,7 @@ import { SignupSeeker } from './pages/employee/SignupSeeker';
 import { Dashboard } from './pages/employer/Dashboard';
 import { SeekerDashboard } from './pages/employee/Dashboard';
 import { Contactus } from './pages/Contactus';
+import { Inbox } from './pages/Inbox';
 
 function App() {
   // Context API
@@ -34,13 +35,14 @@ function App() {
       <div className="App">
         {/* {!!token && <Navbar links={['Dashboard', 'Contact Us', 'Profile', 'LOGOUT']} />} */}
         <Router>
-          <Navbar links={['Dashboard', 'Contact-Us', 'Profile', 'LOGOUT']} />
+          <Navbar links={[['Dashboard', '/dashboard'], ['Inbox', '/dashboard/inbox'], ['Profile', 'dashboard/profile'], ['LOGOUT', '/logout']]} />
           <Routes>
             <Route path="/" exact element={<Auth />} />
             {/* <Route path="signup" exact element={admin ? <SignupEmp /> : <SignupSeeker />} /> */}
             <Route path='/signup' exact element={<SignupEmp />} />
             <Route path='/dashboard' exact element={<Dashboard />} />
             <Route path='/dashboards' exact element={<SeekerDashboard />} />
+            <Route path='/dashboard/inbox' exact element={<Inbox />} />
           </Routes>
         </Router>
       </div>

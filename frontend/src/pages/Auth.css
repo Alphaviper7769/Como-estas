@@ -1,14 +1,7 @@
 .auth-container {
     height: fit-content;
-}
-
-.auth-body {
     display: flex;
-    flex-direction: column;
-}
-
-.auth-body-form {
-    width: inherit;
+    flex-direction: row;
 }
 
 .auth-form-div {
@@ -93,54 +86,54 @@
 }
 
 .auth-body-left {
-    position: absolute;
-    left: 4rem;
-    top: 15rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 10%;
+    margin-left: 2rem;
 }
 
 .auth-body-left-h1 {
-    font-size: 6rem;
+    font-size: 7vw;
     color: #260b85;
+    margin: 0rem;
 }
 
 .auth-body-left-p {
-    margin-top: -2rem;
-    margin-left: 1rem;
-    font-size: 2rem;
+    font-size: 2.8vw;
 }
 
-@media(max-width: 789px) {
+@media(max-width: 950px) {
+    .auth-container {
+        flex-direction: column;
+    }
+
     .auth-body-left {
-       position: relative;
-       top: 0rem;
-       margin: 0px;
-       margin-top: 5%;
-       margin-left: -7%;
-       width: fit-content;
-       padding: 0px;
+        margin: 0 auto;
+        margin-top: 2rem;
     }
 
     .auth-body-left-h1 {
-        font-size: 300%;
-        text-align: center;
-        padding: 0px;
-        margin: 0px;
+        font-size: 10vw;
     }
 
     .auth-body-left-p {
-        font-size: 150%;
-        text-align: center;
-        padding: 0px;
-        margin: 0px;
+        font-size: 3vw;
     }
 
-    .auth-body-p {
-        margin-top: -10%;
-    }
-
-    .card-body-form {
+    /* .card-body-form {
         text-align: center;
         display: flex;
         justify-content: center;
-    }
+    } */
 }
+
+@media (max-width: 500px) {
+    .auth-body-left-h1 {
+        font-size: 14vw;
+    }
+
+    .auth-body-left-p {
+        font-size: 5vw;
+    }
+} 

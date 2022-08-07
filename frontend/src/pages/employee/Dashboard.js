@@ -1,12 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Dashboard.css';
 
 import Card from '../../components/utils/Card';
 import Button from '../../components/utils/Button';
 import Modal from '../../components/utils/Modal';
 
-import { AiOutlineClose } from 'react-icons/ai';
-import { BsPencilFill } from 'react-icons/bs';
+import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai';
 
 const jobs = [
     {
@@ -79,13 +78,6 @@ export const SeekerDashboard = props => {
 
     }, [search]);
 
-    const onManageApplicationHandler = (team) => { // function to open modal to assign permissions to employees
-        setChosen(team);
-        console.log(team);
-        setModal('APPLICATION');
-        setShow(true);
-    };
-
     const onOpenApply = (application) => { // function to open modal to show all the applications for a particular opening
         setChosen(application);
         setModal('APPLY')
@@ -111,8 +103,9 @@ export const SeekerDashboard = props => {
                     <div className='post-header-div'>
                         <form onSubmit={onSubmitHandler}>
                             <input type="text" required onChange={onChangeHandler} value={search} name="search" placeholder='Search...' />
-                            <Button type='submit' size={`${window.innerWidth > 789 ? 'medium' : 'small'}`} inverse>Search</Button>
+                            <button className='post-header-div-button'><AiOutlineSearch /></button>
                         </form>
+                        <section style={{ 'margin-top': '1.7rem' }}><Button size={`${window.innerWidth > 789 ? 'medium' : 'small'}`} inverse>Filter</Button></section>
                     </div>
                     {jobs.map((job, index) => {
                         return (
@@ -127,11 +120,11 @@ export const SeekerDashboard = props => {
                                     </div>
                                     <div className='skr-job-div-1'>
                                         <p className='skr-job-div-p' style={{ width: '70%', 'textAlign': 'left' }}><b style={{ color: 'black', 'margin-right': '0.3rem', width: '6rem' }}>Company: </b>{job.company}</p>
-                                        <p className='skr-job-div-p' style={{ width: '40%', 'textAlign': 'left' }}><b style={{ color: 'black', 'margin-right': '0.3rem', width: '6rem' }}>Vacancies: </b>{job.vacancies}</p>
+                                        <p className='skr-job-div-p' style={{ width: '70%', 'textAlign': 'left' }}><b style={{ color: 'black', 'margin-right': '0.3rem', width: '6rem' }}>Vacancies: </b>{job.vacancies}</p>
                                     </div>
                                     <div className='skr-job-div-1'>
                                         <p className='skr-job-div-p' style={{ width: '70%', 'textAlign': 'left' }}><b style={{ color: 'black', 'margin-right': '0.3rem', width: '6rem' }}>Location: </b>{job.location}</p>
-                                        <p className='skr-job-div-p' style={{ width: '40%', 'textAlign': 'left' }}><b style={{ color: 'black', 'margin-right': '0.3rem', width: '6rem' }}>Salary: </b>{job.salary}</p>
+                                        <p className='skr-job-div-p' style={{ width: '70%', 'textAlign': 'left' }}><b style={{ color: 'black', 'margin-right': '0.3rem', width: '6rem' }}>Salary: </b>{job.salary}</p>
                                     </div>
                                 </div>
                             </div>
@@ -169,7 +162,6 @@ export const SeekerDashboard = props => {
                                             <p className='applied-detail'>Applied on {t.date}</p>
                                         </div>
                                         <div className='applied-button'>
-                                            <Button title="Manage Permissions" size="square" onClick={() => onManageApplicationHandler(t)}><BsPencilFill /></Button>
                                             <Button transform='cross'><AiOutlineClose /></Button>
                                         </div>
                                     </div>

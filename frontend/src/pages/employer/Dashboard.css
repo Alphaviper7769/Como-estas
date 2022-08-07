@@ -43,6 +43,12 @@
     color: black;
 }
 
+.team-info {
+    display: flex;
+    flex-direction: column !important;
+    width: 50%;
+}
+
 .team-div {
     width: 25rem;
     text-align: left;
@@ -50,8 +56,9 @@
     border-radius: 1rem;
     padding-left: 1.7rem;
     display: flex;
-    flex-direction: row;
+    flex-direction: row !important;
     margin: 0.3rem;
+    justify-content: space-between;
 }
 
 .team-name {
@@ -71,13 +78,11 @@
 }
 
 .team-button {
-    width: 6rem;
-    margin: 1rem auto;
+    width: 40%;
     display: flex;
-    align-self: flex-end;
     flex-direction: row;
     justify-content: space-around;
-    margin-right: 1rem;
+    padding: 5%;
 }
 
 .post-header-div {
@@ -143,7 +148,8 @@
     flex-direction: row;
     margin-left: 2rem;
     margin-right: 1rem;
-    justify-content: space-between;
+    justify-content: space-around;
+    width: inherit;
     height: fit-content;
 }
 
@@ -151,7 +157,13 @@
     margin-top: 1.5rem;
 }
 
-@media (max-width: 789px) {
+@media (max-width: 1100px) {
+    .emp-dashboard-container {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 950px) {
     .emp-dashboard-card {
         width: 90% !important;
     }
@@ -161,19 +173,14 @@
     }
 
     .team-div {
-        width: 80%;
-        margin-left: 2rem;
+        margin: 1rem  auto;
     }
 
     .emp-dashboard-right-team-head {
-        margin: 5% auto;
-        display: flex;
-        width: inherit;
+        width: 50%;
+        margin: 2rem auto;
+        font-size: 3vw;
         justify-content: space-between;
-    }
-
-    .team-button {
-        width: 10rem;
     }
 
     .emp-dashboard-right-team-head span {
@@ -190,9 +197,7 @@
     .emp-dashboard-right-details {
         display: flex;
         flex-direction: column;
-        width: 20rem;
-        text-align: left;
-        margin-left: 3.5rem;
+        margin: 0 auto; 
     }
 
     .emp-dashboard-right-details p {
@@ -211,7 +216,7 @@
     .emp-job-post-button {
         display: flex;
         flex-direction: column;
-        margin-left: 10%;
+        margin-right: 0rem;
     }
 
     .emp-job-post-button span {
@@ -241,7 +246,7 @@
     }
 
     .emp-dashboard-right-h1 {
-        font-size: 130%;
+        font-size: 4vw;
         margin: 0 auto;
     }
 
@@ -253,7 +258,20 @@
     .emp-job-div {
         margin: 0 auto;
         margin-bottom: 7%;
+    }   
+}
+
+@media (max-width: 600px) {
+    .emp-dashboard-container {
+        overflow-x: hidden;
     }
 
-    
+    .emp-dashboard-right-team-head {
+        font-size: 5vw;
+    }
+
+    .emp-dashboard-post-h1 {
+        font-size: 6vw;
+        margin-top: 3rem;
+    }
 }

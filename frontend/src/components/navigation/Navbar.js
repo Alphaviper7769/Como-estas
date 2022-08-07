@@ -15,7 +15,7 @@ export const Navbar = props => {
                 <div className='nav-side-drawer'>
                     {props.links.map((link) => {
                         return (
-                            <section className='nav-section'><NavLink to={`/${link.toLowerCase()}`} exact className='navbar-link'>{link}</NavLink></section>
+                            <section className='nav-section'><NavLink to={link[1]} exact className='navbar-link'>{link[0]}</NavLink></section>
                         );
                     })}
                 </div>
@@ -26,7 +26,7 @@ export const Navbar = props => {
                 <div className='nav-body'>
                     {props.links.map((link) => {
                         return (
-                            <section className='nav-section'><NavLink to={`/${link.toLowerCase()}`} exact className='navbar-link'>{link}</NavLink></section>
+                            <section className='nav-section'><NavLink to={link[1]} exact className='navbar-link'>{link[0]}</NavLink></section>
                         );
                     })}
                 </div>

@@ -34,9 +34,3 @@
     font-size: 350%;
     padding-right: 5%;
 }
-
-@media (max-width: 789px) {
-    .contactus-container {
-        margin-top: 120% !important;    
-    }
-}

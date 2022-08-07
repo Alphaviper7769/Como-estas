@@ -76,7 +76,7 @@
 .skr-job-div {
     padding-bottom: 1rem;
     padding-left: 0rem;
-    width: 70%;
+    width: 80%;
     display: flex;
     flex-direction: column !important;
 }
@@ -91,7 +91,7 @@
 
 .skr-job-div-p {
     padding: 0rem;
-    margin: 0.3rem;
+    margin: 0rem;
 }
 
 .team-div {
@@ -104,7 +104,23 @@
     flex-direction: row;
 }
 
-@media (max-width: 789px) {
+.post-header-div-button {
+    position: relative;
+    cursor: pointer;
+    right: 5rem;
+    top: 0.4rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+}
+
+@media (max-width: 750px) {
+    .post-header-div input {
+        width: 40vw;
+    }
+}
+
+@media (max-width: 550px) {
     .skr-job-div-p {
         width: 60% !important;
     }
@@ -119,8 +135,8 @@
     }
 
     .post-header-div form Button {
-        height: 35%;
-        margin-top: 10%;
+        height: 50%;
+        margin-top: 5%;
     }
 
     .post-header-div input {
@@ -138,5 +154,9 @@
 
     .skr-job-post span {
         margin: 20%;
+    }
+
+    .post-header-div-button {
+        top: 0.6rem;
     }
 }

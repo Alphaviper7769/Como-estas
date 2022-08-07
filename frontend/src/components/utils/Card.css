@@ -1,6 +1,5 @@
 .card {
-    position: relative;
-    margin: 7rem auto;
+    margin: 4rem auto;
     margin-bottom: 1rem !important;
     padding: 1rem;
     height: fit-content;
@@ -9,24 +8,12 @@
     border: 1px solid;
 }
 
-.right {
-    margin-right: 4rem;
-}
-
-.left {
-    margin-left: 4rem;
-}
-
 .elevation--partial {
     box-shadow: 5px 10px #b6b4b4;
 }
 
 .elevation--complete {
     box-shadow: 5px 5px 5px 5px #b6b4b4;
-}
-
-.black {
-    background: black;
 }
 
 .white {
@@ -42,35 +29,10 @@
 }
 
 .large {
-    width: 50rem;
+    width: 48rem;
 }
 
 .card-div {
     display: flex;
     flex-direction: column;
-}
-
-@media(max-width: 789px) {
-    .card {
-        position: relative;
-        margin: 0 auto;
-        width: auto;
-        margin-top: 40%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 0 auto;
-    }
-
-    /* .right, .left {
-        top: 10rem;
-        right: 1.7rem;
-        left: 1.7rem;
-    } */
-
-    /* .large, .small, .medium {
-        width: 80%;
-        margin: 0 auto;
-        margin-top: 5rem;
-    } */
 }

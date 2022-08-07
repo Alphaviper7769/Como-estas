@@ -69,7 +69,7 @@ export const Auth = props => {
                     <h1 className='auth-body-left-h1'>Como Estas</h1>
                     <p className='auth-body-left-p'>Perfection lies in Opportunities</p>
                 </div>
-                <Card elevation="complete" size="medium" bgcolor='white' position='right'>
+                <Card elevation="complete" size="medium" bgcolor='white'>
                     <h1 className='auth-card-h1'>LOGIN</h1>
                     <div className='card-body'>
                         <div className='card-body-form center'>
