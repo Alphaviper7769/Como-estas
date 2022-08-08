@@ -21,7 +21,7 @@ const updatePost = async (req, res, next) => {
         );
     }
 
-    const { postID, name, vacancy, skills, eligibility, questions, dueDate, salary, location, userID } = req.body;
+    const { postID, name, vacancy, skills, eligibility, questions, dueDate, salary, location, experience, userID } = req.body;
     // check if post exists
     let post;
     try {
@@ -70,6 +70,7 @@ const updatePost = async (req, res, next) => {
     post.dueDate = dueDate;
     post.salary = salary;
     post.location = location;
+    post.experience = experience;
 
     // update database
     try {

@@ -70,6 +70,20 @@ export const SeekerDashboard = props => {
     const [modal, setModal] = useState('');
     // state to hold search value
     const [search, setSearch] = useState('');
+    // state to toggle filter box
+    const [filter, setFilter] = useState(false);
+    // state to hold filter values
+    const [filterData, setFilterData] = useState({
+        minSalary: null,
+        maxSalary: null,
+        experience: null,
+        location: '',
+        skills: []
+    });
+    // to push skills
+    const [skill, setSkill] = useState('');
+
+    const { minSalary, maxSalary, experience, location, skills } = filterData;
 
     // to get jobs based on search using useEffect
     // const jobs = useRef([]);
@@ -86,12 +100,44 @@ export const SeekerDashboard = props => {
 
     const onChangeHandler = e => {
         setSearch(e.target.value);
-    }
+    };
 
     const onSubmitHandler = e => {
         e.preventDefault();
         setSearch('');
-    }
+    };
+
+    const changeSkill = e => {
+        setSkill(e.target.value);
+    };
+
+    const submitSkill = e => {
+        e.preventDefault();
+        skills.push(skill);
+        setSkill('');
+    };
+
+    const clearSkill = s => {
+        let index = skills.indexOf(s); 
+        index > -1 && skills.splice(index, 1);
+        setFilter({ ...filterData, skills: skills });
+    };
+
+    const filterChange = e => {
+        setFilterData({ ...filterData, [e.target.name]: e.target.value });
+    };
+
+    const filterSubmit = e => {
+        e.preventDefault();
+        // set it back to initial state
+        setFilterData({
+            minSalary: null,
+            maxSalary: null,
+            experience: null,
+            location: '',
+            skills: []
+        });
+    };
 
     return (
         <>
@@ -105,7 +151,45 @@ export const SeekerDashboard = props => {
                             <input type="text" required onChange={onChangeHandler} value={search} name="search" placeholder='Search...' />
                             <button className='post-header-div-button'><AiOutlineSearch /></button>
                         </form>
-                        <section style={{ 'margin-top': '1.7rem' }}><Button size={`${window.innerWidth > 789 ? 'medium' : 'small'}`} inverse>Filter</Button></section>
+                        <section style={{ 'margin-top': '1.7rem' }}><Button size={`${window.innerWidth > 789 ? 'medium' : 'small'}`} inverse onClick={() => setFilter(!filter)}>Filter</Button></section>
+                    </div>
+                    <div className='skr-filter-div' style={{ display: filter ? 'block' : 'none' }}>
+                        {/* Filters on Salary -> min and max, experience, location, skills, company */}
+                        <form onSubmit={submitSkill} className='filter-skills-form'>
+                            <div className='filter-skills'>
+                                <section>Skills: </section>
+                                <input type='text' value={skill} name='skill' onChange={changeSkill} />
+                                <span><Button type='submit' size='small'>Add</Button></span>
+                            </div>
+                            {skills.length > 0 && <div className='filter-list-skills' style={{ display: 'flex', 'flex-direction': 'row' }}>
+                                {skills.map((s) => {
+                                    return <section className='skill-section'>{s}<span /><section style={{ cursor: 'pointer', color: 'black' }} onClick={() => clearSkill(s)}><AiOutlineClose /></section></section>
+                                })}
+                            </div>}
+                        </form>
+                        <form onSubmit={filterSubmit}>
+                            <div style={{ display: 'flex', 'flex-dorection': 'row', justifyContent: 'space-between', margin: '1.5rem 0rem' }}>
+                                <div className='filter-input-div' style={{ display: 'flex', 'flex-direction': 'row' }}>
+                                    <section>Salary: </section>
+                                    <input type='number' onChange={filterChange} name='minSalary' value={minSalary} />
+                                    <section> - </section>
+                                    <input type='number' onChange={filterChange} name='maxSalary' value={maxSalary} />
+                                    <section>LPA</section>
+                                </div>
+                                <div className='filter-input-div' style={{ display: 'flex', 'flex-direction': 'row' }}>
+                                    <section>Experience: </section>
+                                    <input type='number' onChange={filterChange} name='experience' value={experience} />
+                                    <section>Years</section>
+                                </div>
+                            </div>
+                            <div style={{ display: 'flex', 'flex-dorection': 'row', justifyContent: 'space-between', margin: '1.5rem 0rem' }}>
+                                <div className='filter-input-div' style={{ display: 'flex', 'flex-direction': 'row' }}>
+                                    <section>Location : </section>
+                                    <input type='text' onChange={filterChange} name='location' value={location} placeholder='City' />
+                                </div>
+                                <Button type='submit'>Save</Button>
+                            </div>
+                        </form>
                     </div>
                     {jobs.map((job, index) => {
                         return (

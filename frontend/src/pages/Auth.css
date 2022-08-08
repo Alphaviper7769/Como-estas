@@ -2,6 +2,7 @@
     height: fit-content;
     display: flex;
     flex-direction: row;
+    min-height: 80vh;
 }
 
 .auth-form-div {

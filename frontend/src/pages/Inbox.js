@@ -65,7 +65,7 @@ export const Inbox = props => {
                     );
                 })}
             </ul>
-            <button className='inbox-compose-button' onClick={openCompose}><BsPencilFill /></button>
+            <button className='inbox-compose-button' onClick={openCompose} title="Compose"><BsPencilFill /></button>
         </div>
     );
 };

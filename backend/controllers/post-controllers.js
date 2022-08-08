@@ -197,7 +197,7 @@ const postNewJob = async (req, res, next) => {
             new HttpError('Invalid inputs', 422)
         );
     }
-    const { name, vacancy, date, companyID, skills, eligibility, questions, dueDate, salary, location, userID } = req.body;
+    const { name, vacancy, date, companyID, skills, eligibility, questions, dueDate, salary, location, experience, userID } = req.body;
     
     // check whether user is allowed to post a job
     let permit = (userID == companyID); // if the company account s requesting, allow it
@@ -230,7 +230,8 @@ const postNewJob = async (req, res, next) => {
         questions: questions || [],
         dueDate,
         salary,
-        location
+        location,
+        experience: experience || 0
     });
     // push to database
     try {

@@ -113,6 +113,91 @@
     border: none;
     font-size: 1.5rem;
 }
+ /*  FILTERS CSS  */
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.skr-filter-div {
+    padding: 0rem 4rem;
+    border: 1px solid gray;
+    box-shadow: 3px 5px gray;
+    animation: fade 0.5s 1 backwards;
+}
+
+.filter-input-div {
+    width: fit-content;
+}
+
+.filter-input-div input {
+    width: 5vw;
+    margin-right: 0.5vw;
+    height: 1.3rem;
+    border-radius: 10%;
+    border: 1px black solid;
+}
+
+.filter-input-div section {
+    margin-right: 0.5vw;
+}
+
+.filter-skills {
+    margin: 1rem 0rem;
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+}
+
+.filter-skills input {
+    width: 10rem;
+    height: 1.3rem;
+    margin: 0.5rem 1rem;
+}
+
+.filter-skills section {
+    margin: 0.5rem 0rem;
+}
+
+.filter-skills span {
+    padding: 0.2rem;
+}
+
+.filter-skills-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.skill-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: rgb(233, 220, 220);
+    border: 1px black solid;
+    border-radius: 3rem;
+    height: fit-content;
+    margin: 0.2rem 0.5rem;
+    padding: 0.5rem 0.5rem;
+}
+
+.skill-section span {
+    width: 1rem;
+}
+
+.filter-list-skills {
+    font-size: 0.8rem;
+    margin: 0rem 1rem;
+    width: inherit;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+    height: 3rem;
+}
 
 @media (max-width: 750px) {
     .post-header-div input {
@@ -121,6 +206,10 @@
 }
 
 @media (max-width: 550px) {
+    .filter-list-skills {
+        margin: 0rem -2rem;
+    }
+
     .skr-job-div-p {
         width: 60% !important;
     }

@@ -15,7 +15,8 @@ const postSchema = new Schema({
     questions: [{ type: String, required: false }],
     dueDate: { type: Date, required: false },
     salary: { type: Number, required: false, default: 0 },
-    location: { type: String, required: false }
+    location: { type: String, required: false },
+    experience: { type: Number, required: false }
 });
 
 module.exports = mongoose.model('Post', postSchema);

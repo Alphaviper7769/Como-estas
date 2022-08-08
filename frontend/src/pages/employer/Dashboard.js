@@ -115,7 +115,7 @@ export const Dashboard = props => {
                 <div className='emp-dashboard-right'>
                     <Card elevation='complete' size='medium' bgcolor='white' className="emp-dashboard-card">
                         <h1 className='emp-dashboard-right-h1'>{details.name}</h1>
-                        <p className='emp-dashboard-right-p'><section className='emp-dashboard-right-section'><b style={{ color: 'black' }}>Jobs Posted:</b><span style={{ width: '0.5rem' }} /> {details.no}</section><section className='emp-dashboard-right-section'><b style={{ color: 'black' }}>Candidates Hired:</b><span style={{ width: '0.5rem' }} /> {details.hired}</section></p>
+                        <p className='emp-dashboard-right-p' style={{ width: 'fit-content' }}><section className='emp-dashboard-right-section' style={{ display: 'inline' }}><b style={{ color: 'black' }}>Jobs Posted:</b><span style={{ width: '0.5rem' }} /> {details.no}</section><section className='emp-dashboard-right-section' style={{ display: 'inline' }}><b style={{ color: 'black' }}>Candidates Hired:</b><span style={{ width: '0.5rem' }} /> {details.hired}</section></p>
                         <div className='emp-dashboard-right-details'>
                             <p className='emp-dashboard-right-p'><BsGlobe /> <a href={details.website} className='emp-dashboard-right-a'>{details.website}</a></p>
                             <p className='emp-dashboard-right-p'><AiOutlineMail /> {details.email}</p>
