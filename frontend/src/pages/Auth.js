@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import './Auth.css';
 import { useNavigate } from 'react-router-dom';
+import { GoogleAuthProvider, FacebookAuthProvider, signInWithPopup } from 'firebase/auth';
 
+import auth from '../components/config/firebase-config';
 import Card from '../components/utils/Card';
 import Button from '../components/utils/Button';
 import Modal from '../components/utils/Modal';
@@ -29,13 +31,8 @@ export const Auth = props => {
         </div>
     );
 
-    const onChangeHandler = e => {
-        setData({ ...data, [e.target.name]: e.target.value });
-    };
-    
-    const onSubmitHandler = e => {
-        e.preventDefault();
-        console.log(data);
+    // save details in auth-context after http request
+    const submitButton = () => {
         setData({
             email: '',
             password: ''
@@ -44,9 +41,65 @@ export const Auth = props => {
         navigate('/signup');
     };
 
-    const googleHandler = () => {};
+    const onChangeHandler = e => {
+        setData({ ...data, [e.target.name]: e.target.value });
+    };
+    
+    const onSubmitHandler = e => {
+        e.preventDefault();
+        console.log(data);
+        submitButton();
+    };
 
-    const facebookHandler = () => {};
+    const googleHandler = () => {
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(auth, provider)
+            .then((res) => {
+                const user = res.user;
+                setData({
+                    email: user.email,
+                    password: user.uid
+                });
+                submitButton();
+            })
+            .catch((err) => {
+                const code = err.code;
+                const message = err.message;
+                console.log(code, message);
+                if (code === 'auth/account-exists-with-different-credential' && code.customData._tokenResponse.verifiedProvider.length > 0) {
+                    setData({
+                        email: err.customData.email,
+                        password: err.customData._tokenResponse.localId
+                    });
+                    submitButton();
+                }
+            });
+    };
+
+    const facebookHandler = () => {
+        const provider = new FacebookAuthProvider();
+        signInWithPopup(auth, provider)
+            .then((res) => {
+                const user = res.user;
+                setData({
+                    email: user.email,
+                    password: user.uid
+                });
+                submitButton();
+            })
+            .catch((err) => {
+                const code = err.code;
+                const message = err.message;
+                console.log(code, message);
+                if (code === 'auth/account-exists-with-different-credential' && code.customData._tokenResponse.verifiedProvider.length > 0) {
+                    setData({
+                        email: err.customData.email,
+                        password: err.customData._tokenResponse.localId
+                    });
+                    submitButton();
+                }
+            });
+    };
 
     const onClickHandler = () => {
         setShow(true);
