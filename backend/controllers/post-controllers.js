@@ -422,8 +422,16 @@ const addEmployee = async (req, res, next) => {
     res.status(200).json({ employee: created.toObject({ getters: true }) });
 };
 
+
+const filter=async(req, res, next) => {
+    //check if right format
+    
+}
+
 exports.auth = auth;
 exports.signup = signup;
 exports.postNewJob = postNewJob;
 exports.applyForJob = applyForJob;
 exports.addEmployee = addEmployee;
+
+

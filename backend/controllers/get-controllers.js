@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const express=require('express');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const { hash, compare } = require('bcryptjs');
@@ -142,7 +143,7 @@ const getPostByID = async (req, res, next) => {
             new HttpError('Connection to server failed', 500)
         );
     }
-    // if no uch post exist
+    // if no such post exist
     if(!post) {
         return next(
             new HttpError('No post found', 404)
@@ -216,6 +217,40 @@ const getInbox = async (req, res, next) => {
 
     res.status(201).json({ inbox: inbox.toObject({ getters: true }) });
 };
+
+const fetchParameters=async(req,res,next) => {
+    // getting user parameters from the body
+    const minSalary= req.body.;
+    const maxSalary= req.body.;
+    const location=  req.body.;
+    const talent=    req.body.;
+    const expirence= req.body.;
+    //errors while inputting user parameters
+
+
+    //getting backend data from MONGODB
+    let dataArray;
+    let rank;
+    Application.find({},{projection: {id=1,}}).toArray(function(err,result){
+        if (err) throw err;
+        dataArray=result;
+    });
+
+    for(i=0,i<dataArray.length,i++)
+    {
+        rank[0][i]=dataArray[i].id; 
+        rank[1][i]=dataArray[i].Salary*1.5+dataArray[i].location*1.1 + dataArray[i].talent*1.3 +dataArray[i].expirence*1.2
+        //sort the rank           //     look into this ^
+    }
+
+    //rank
+    //salary*  +location*   +talent*     +exp* =array
+    rank[1].sort();
+    //sort array
+
+    //print jobs accordingly
+
+}
 
 exports.loadDashboard = loadDashboard;
 exports.getPostByID = getPostByID;
