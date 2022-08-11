@@ -422,16 +422,51 @@ const addEmployee = async (req, res, next) => {
     res.status(200).json({ employee: created.toObject({ getters: true }) });
 };
 
-
-const filter=async(req, res, next) => {
+// filter end point
+const filter = async (req, res, next) => {
     //check if right format
-    
-}
+    const error = validationResult(req);
+    if(!error.isEmpty()) {
+        return next(
+            new HttpError('Invalid inputs', 422)
+        );
+    }
+
+    const { minSalary, experience, location, skills } = req.body;
+    // get all posts form MongoDB
+    let posts;
+    try {
+        posts = await Post.find();
+    } catch (err) {
+        return next(
+            new HttpError('Could not connect to server', 500)
+        );
+    }
+
+    let filteredPosts = [];
+    // Map over all the posts and push only those that satisfy the conditions
+    posts.map((post) => {
+        let push = true;
+        // if push remains true, push it to filteredPosts
+        if(minSalary && post.salary < minSalary) push = false;
+        if(experience && post.experience > experience) push = false;
+        if(location && post.location != location) push = false;
+        // number of skills that matched
+        let skillPost = 0;
+        skills.map((skill) => {
+            if(post.skills.indexOf(skill) > -1) skillPost++;
+        });
+        if(!skillPost) push = false;
+
+        if(push) filteredPosts.push([post, skillPost]);
+    });
+
+    res.status(201).json({ posts: filteredPosts });
+};
 
 exports.auth = auth;
 exports.signup = signup;
 exports.postNewJob = postNewJob;
 exports.applyForJob = applyForJob;
 exports.addEmployee = addEmployee;
-
-
+exports.filter = filter;
