@@ -3,10 +3,28 @@ import './Dashboard.css';
 
 import Card from '../../components/utils/Card';
 import Button from '../../components/utils/Button';
-import Modal from '../../components/utils/Modal';
+import { TeamModal, DeleteModal } from './EmployerModal';
 
 import { BsTelephone, BsGlobe, BsPencilFill } from 'react-icons/bs';
 import { AiOutlineMail, AiOutlineClose } from 'react-icons/ai';
+
+const post = [
+    {
+        _id: "scvjfj",
+        name: "Web Developer",
+        date: "12-08-22"
+    },
+    {
+        _id: "fcvjfj",
+        name: "Web Developer",
+        date: "12-08-22"
+    },
+    {
+        _id: "dcvjfj",
+        name: "Web Developer",
+        date: "12-08-22"
+    }
+];
 
 const details = {
     name: 'Credence Engineering Services',
@@ -21,19 +39,23 @@ const details = {
 const team = [
     {
         name: 'Raj Aryan',
-        post: 'Senior HR Manager'
+        post: 'Senior HR Manager',
+        permission: []
     },
     {
         name: 'Brateek Krishna',
-        post: 'Business Analytic'
+        post: 'Business Analytic',
+        permission: []
     },
     {
         name: 'Ritika Prasad',
-        post:'Software Developer'
+        post:'Software Developer',
+        permission: []
     },
     {
         name: 'Aayush Raturi',
-        post: 'Senior Data Analytic'
+        post: 'Senior Data Analytic',
+        permission: []
     }
 ];
 
@@ -67,13 +89,12 @@ export const Dashboard = props => {
 
     const onManagePermissionHandler = (team) => { // function to open modal to assign permissions to employees
         setChosen(team);
-        console.log(team);
         setModal('TEAM');
         setShow(true);
     };
 
     const onOpenPostDetail = (job) => { // function to open modal to edit and delete details of a post
-        setChosen(job);
+        setChosen(null);
         setModal('DETAILS')
         setShow(true);
     };
@@ -84,18 +105,30 @@ export const Dashboard = props => {
         setShow(true);
     };
 
+    // call the modal for add employee
+    const addEmployee = () => {
+        setModal('TEAM');
+        setShow(true);
+    };
+
+    // deleteEmployee Modal
+    const deleteEmployee = (team) => {
+        setChosen(team);
+        setModal('DELETE');
+        setShow(true);
+    };
+
     return (
         <>
-            <Modal show={show} header={modal === 'TEAM' ? chosen.name : chosen.post} onCancel={() => setShow(false)}>
-
-            </Modal>
+            {show && modal === 'TEAM' && <TeamModal show={show} name={chosen.name} position={chosen.post} onCancel={() => setShow(false)} disabled={!!chosen.name ? true : false} posts={post} />}
+            {show && modal === 'DELETE' && <DeleteModal show={show} name={chosen.name} position={chosen.post} onCancel={() => setShow(false)} />}
             <div className='emp-dashboard-container'>
                 <Card elevation='complete' size='large' bgcolor='white' className="emp-dashboard-card">
                     <div className='post-header-div'>
                         <h1 className='emp-dashboard-post-h1'>JOBS POSTED</h1>
                         <Button inverse size={`${window.innerWidth > 789 ? 'medium' : 'small'}`} className='emp-dashboard-post-button'>+ New Post</Button>
                     </div>
-                    {jobs.map((job, index) => {
+                    {jobs.length > 0 ? jobs.map((job, index) => {
                         return (
                             <div className='emp-job-div' key={index}>
                                 <div className='emp-job-post'>
@@ -110,24 +143,24 @@ export const Dashboard = props => {
                                 </div>
                             </div>
                         );
-                    })}
+                    }) : <p style={{ color: 'red' }}>No jobs posted</p>}
                 </Card>
                 <div className='emp-dashboard-right'>
                     <Card elevation='complete' size='medium' bgcolor='white' className="emp-dashboard-card">
                         <h1 className='emp-dashboard-right-h1'>{details.name}</h1>
                         <p className='emp-dashboard-right-p' style={{ width: 'fit-content' }}><section className='emp-dashboard-right-section' style={{ display: 'inline' }}><b style={{ color: 'black' }}>Jobs Posted:</b><span style={{ width: '0.5rem' }} /> {details.no}</section><section className='emp-dashboard-right-section' style={{ display: 'inline' }}><b style={{ color: 'black' }}>Candidates Hired:</b><span style={{ width: '0.5rem' }} /> {details.hired}</section></p>
                         <div className='emp-dashboard-right-details'>
-                            <p className='emp-dashboard-right-p'><BsGlobe /> <a href={details.website} className='emp-dashboard-right-a'>{details.website}</a></p>
-                            <p className='emp-dashboard-right-p'><AiOutlineMail /> {details.email}</p>
-                            <p className='emp-dashboard-right-p'><BsTelephone /> {details.ph}</p>
+                            <p className='emp-dashboard-right-p'><BsGlobe /> <a href={details.website} className='emp-dashboard-right-a'>{details.website ? details.website : "---"}</a></p>
+                            <p className='emp-dashboard-right-p'><AiOutlineMail /> {details.email ? details.email : "---"}</p>
+                            <p className='emp-dashboard-right-p'><BsTelephone /> {details.ph ? details.ph : "---"}</p>
                         </div>
                     </Card>
                     <Card elevation='complete' size='medium' bgcolor='white' className="emp-dashboard-card">
                         <div className='emp-dashboard-right-team-head'>
                             <h1 className='emp-dashboard-right-h1'>TEAM</h1>
-                            <span><Button danger size={`${window.innerWidth > 789 ? 'medium' : 'small'}`}>ADD</Button></span>
+                            <span><Button danger size={`${window.innerWidth > 789 ? 'medium' : 'small'}`} onClick={addEmployee} >ADD</Button></span>
                         </div>
-                        {team.map((t, index) => {
+                        {team.length > 0 ? team.map((t, index) => {
                             return (
                                 <div className='team-div' key={index}>
                                     <div className='team-info'>
@@ -136,11 +169,11 @@ export const Dashboard = props => {
                                     </div>
                                     <div className='team-button'>
                                         <Button title="Manage Permissions" size="square" onClick={() => onManagePermissionHandler(t)}><BsPencilFill /></Button>
-                                        <Button transform='cross'><AiOutlineClose /></Button>
+                                        <Button transform='cross' onClick={() => deleteEmployee(t)}><AiOutlineClose /></Button>
                                     </div>
                                 </div>
                             );
-                        })}
+                        }) : <p style={{ color: 'red' }}>No Employees Registered</p>}
                     </Card>
                 </div>
             </div>

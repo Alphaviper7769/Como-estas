@@ -4,6 +4,7 @@ import './Dashboard.css';
 import Card from '../../components/utils/Card';
 import Button from '../../components/utils/Button';
 import Modal from '../../components/utils/Modal';
+import { DeleteModal } from '../employer/EmployerModal';
 
 import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai';
 
@@ -75,7 +76,6 @@ export const SeekerDashboard = props => {
     // state to hold filter values
     const [filterData, setFilterData] = useState({
         minSalary: null,
-        maxSalary: null,
         experience: null,
         location: '',
         skills: []
@@ -83,7 +83,7 @@ export const SeekerDashboard = props => {
     // to push skills
     const [skill, setSkill] = useState('');
 
-    const { minSalary, maxSalary, experience, location, skills } = filterData;
+    const { minSalary, experience, location, skills } = filterData;
 
     // to get jobs based on search using useEffect
     // const jobs = useRef([]);
@@ -132,18 +132,28 @@ export const SeekerDashboard = props => {
         // set it back to initial state
         setFilterData({
             minSalary: null,
-            maxSalary: null,
             experience: null,
             location: '',
             skills: []
         });
     };
 
+    // to delete application
+    const deleteModal = team => {
+        setShow(true);
+        setChosen(team);
+        setModal('DELETE');
+    };
+
     return (
         <>
-            <Modal show={show} header={modal === 'TEAM' ? chosen.name : chosen.post} onCancel={() => setShow(false)}>
+            <Modal show={show && modal === 'TEAM'} header={modal === 'TEAM' ? chosen.name : chosen.post} onCancel={() => setShow(false)}>
 
             </Modal>
+            <Modal show={show && modal === 'DELETE'} header="DELETE" onCancel={() => setShow(false)} footer={<Button danger onClick={() => setShow(false)}>DELETE</Button>} >
+
+            </Modal>
+            <DeleteModal show={show && modal === 'DELETE'} onCancel={() => setShow(false)} position={chosen.post} company={chosen.company} date={chosen.date} />
             <div className='emp-dashboard-container'>
                 <Card elevation='complete' size='large' bgcolor='white' className="emp-dashboard-card">
                     <div className='post-header-div'>
@@ -154,7 +164,7 @@ export const SeekerDashboard = props => {
                         <section style={{ 'margin-top': '1.7rem' }}><Button size={`${window.innerWidth > 789 ? 'medium' : 'small'}`} inverse onClick={() => setFilter(!filter)}>Filter</Button></section>
                     </div>
                     <div className='skr-filter-div' style={{ display: filter ? 'block' : 'none' }}>
-                        {/* Filters on Salary -> min and max, experience, location, skills, company */}
+                        {/* Filters on Salary -> min, experience, location, skills, company */}
                         <form onSubmit={submitSkill} className='filter-skills-form'>
                             <div className='filter-skills'>
                                 <section>Skills: </section>
@@ -172,8 +182,6 @@ export const SeekerDashboard = props => {
                                 <div className='filter-input-div' style={{ display: 'flex', 'flex-direction': 'row' }}>
                                     <section>Salary: </section>
                                     <input type='number' onChange={filterChange} name='minSalary' value={minSalary} />
-                                    <section> - </section>
-                                    <input type='number' onChange={filterChange} name='maxSalary' value={maxSalary} />
                                     <section>LPA</section>
                                 </div>
                                 <div className='filter-input-div' style={{ display: 'flex', 'flex-direction': 'row' }}>
@@ -218,25 +226,25 @@ export const SeekerDashboard = props => {
                 <div className='emp-dashboard-right'>
                     <Card elevation='complete' size='medium' bgcolor='white' className="emp-dashboard-card">
                         <h1 className='emp-dashboard-right-h1'>{details.name}</h1>
-                        <p className='skr-dashboard-right-p'><b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Email ID: </b> {details.email}</p>
-                        <p className='skr-dashboard-right-p'><b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Phone: </b> {details.phone}</p>
-                        <p className='skr-dashboard-right-p'><b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Date of Birth: </b> {details.dob}</p>
-                        <p className='skr-dashboard-right-p'><b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Gender: </b> {details.gender}</p>
+                        <p className='skr-dashboard-right-p'><b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Email ID: </b> {details.email ? details.email : "---"}</p>
+                        <p className='skr-dashboard-right-p'><b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Phone: </b> {details.phone ? details.phone : "---"}</p>
+                        <p className='skr-dashboard-right-p'><b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Date of Birth: </b> {details.dob ? details.dob : "---"}</p>
+                        <p className='skr-dashboard-right-p'><b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Gender: </b> {details.gender ? details.gender : "---"}</p>
                         <p className='skr-dashboard-right-p'>
                             <b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Resume: </b>
-                            <a href={details.resume} target='_blank' style={{ color: 'blue', 'text-decoration': 'underline' }}>Resume Link</a>
-                            <span style={{ width: '10%' }}></span>
+                            {details.resume && <a href={details.resume} target='_blank' style={{ color: 'blue', 'text-decoration': 'underline' }}>Resume Link</a>}
+                            {details.resume && <span style={{ width: '10%' }}></span>}
                             <button className='resume-change-button' style={{ 'background': 'red', color: 'white' }}>Upload</button>
                         </p>
                         <p className='skr-dashboard-right-p'>
-                            <b style={{ color: 'black', 'margin-right': '0.3rem', width: '6rem' }}>Skills: </b> {details.skills.map((skill) => { return <section className="seeker-profile-skill">{skill}</section>; })}
+                            <b style={{ color: 'black', 'margin-right': '0.3rem', width: '6rem' }}>Skills: </b> {details.skills.length > 0 ? details.skills.map((skill) => { return <section className="seeker-profile-skill">{skill}</section>; }) : "---"}
                         </p>
                     </Card>
                     <Card elevation='complete' size='medium' bgcolor='white' className="emp-dashboard-card">
                         <div className='emp-dashboard-right-team-head'>
                             <h1 className='emp-dashboard-right-h1'>Applied</h1>
                         </div>
-                        {applied.map((t, index) => {
+                        {applied.length > 0 ? applied.map((t, index) => {
                             return (
                                 <div className='team-div' key={index}>
                                     <p className='team-name' id='applied-name'>{t.post}</p>
@@ -246,12 +254,12 @@ export const SeekerDashboard = props => {
                                             <p className='applied-detail'>Applied on {t.date}</p>
                                         </div>
                                         <div className='applied-button'>
-                                            <Button transform='cross'><AiOutlineClose /></Button>
+                                            <Button transform='cross' onClick={() => deleteModal(t)}><AiOutlineClose /></Button>
                                         </div>
                                     </div>
                                 </div>
                             );
-                        })}
+                        }) : <p style={{ color: 'red' }}>No Applications</p>}
                     </Card>
                 </div>
             </div>

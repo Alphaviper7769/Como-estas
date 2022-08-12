@@ -40,3 +40,7 @@ hr {
   height: max-content;
   scrollbar-width: thin;
 }
+
+button {
+  cursor: pointer;
+}

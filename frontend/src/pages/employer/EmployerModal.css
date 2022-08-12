@@ -1,0 +1,66 @@
+.team-modal-div {
+    font-size: 1.3rem;
+    margin: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.team-modal-div label {
+    width: 8rem;
+}
+
+.team-modal-div input {
+    height: 1.3rem;
+    width: 10rem;
+}
+
+.team-modal-div select {
+    width: 10.5rem;
+}
+
+#permission-div section {
+    background: gray;
+    margin: 0.5rem;
+    padding: 0.3rem;
+    font-size: 1rem;
+    cursor: pointer;
+    width: "fit-content";
+}
+
+#permission-div {
+    margin: 1rem auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.team-modal-div section button {
+    background: none;
+    padding: 0rem;
+    border: 0px;
+    margin: 0.3rem;
+}
+
+.delete-modal-div {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+    margin-left: 5vw;
+    width: max-content;
+    font-size: 1.3rem;
+}
+
+.delete-modal-p {
+    display: flex;
+    flex-direction: row;
+    margin: 0.5rem;
+}
+
+.delete-p {
+    font-size: 1.5rem;
+    color: red;
+    font-weight: 600;
+    margin-left: 5vw;
+}

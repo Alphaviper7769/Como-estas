@@ -2,14 +2,15 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from 'firebase/auth';
 
+//  configuration received from firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyCnzYyXtuq0yB13-vnU15dgAJfLVOFDYLg",
-  authDomain: "como-estas-4655a.firebaseapp.com",
-  projectId: "como-estas-4655a",
-  storageBucket: "como-estas-4655a.appspot.com",
-  messagingSenderId: "62590770243",
-  appId: "1:62590770243:web:32fa93615b262cd551c8f6",
-  measurementId: "G-WJ3KSDP65L"
+  apiKey: process.env.REACT_APP_APIKEY,
+  authDomain: process.env.REACT_APP_AUTHDOMAIN,
+  projectId: process.env.REACT_APP_PROJECTID,
+  storageBucket: process.env.REACT_APP_STORAGEBUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
+  appId: process.env.REACT_APP_APPID,
+  measurementId: process.env.REACT_APP_MEASUREMENTID
 };
 
 // Initialize Firebase
