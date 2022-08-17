@@ -3,7 +3,8 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
-  NavLink
+  NavLink,
+  Navigate
 } from 'react-router-dom';
 
 import { AuthContext } from './components/context/auth-context';
@@ -20,35 +21,33 @@ import { Inbox } from './pages/Inbox';
 
 function App() {
   // Context API
-  // const { id, admin, token, login, logout } = useAuth();
-  // const auth = useContext(AuthContext);
+  const { userId, admin, token, login, logout } = useAuth();
 
   return (
-    // <AuthContext.Provider value={{
-    //   admin: admin,
-    //   userId: id,
-    //   token: token,
-    //   login: login,
-    //   logout: logout
-    // }}>
-    <>
+    <AuthContext.Provider value={{
+      admin: admin,
+      userId: userId,
+      token: token,
+      login: login,
+      logout: logout
+    }}>
       <div className="App">
-        {/* {!!token && <Navbar links={['Dashboard', 'Contact Us', 'Profile', 'LOGOUT']} />} */}
         <Router>
-          <Navbar links={[['Dashboard', '/dashboard'], ['Inbox', '/dashboard/inbox'], ['Profile', 'dashboard/profile'], ['LOGOUT', '/logout']]} />
+          {!!token && <Navbar />}
           <Routes>
-            <Route path="/" exact element={<Auth />} />
-            {/* <Route path="signup" exact element={admin ? <SignupEmp /> : <SignupSeeker />} /> */}
-            <Route path='/signup' exact element={<SignupEmp />} />
-            <Route path='/dashboard' exact element={<Dashboard />} />
-            <Route path='/dashboards' exact element={<SeekerDashboard />} />
-            <Route path='/dashboard/inbox' exact element={<Inbox />} />
+            {!token && <Route path="/" exact element={<Auth />} />}
+            {token && <Route path="/" exact element={<Navigate to="/dashboard" />} />}
+            {!token && <Route path='/signup' exact element={<SignupEmp />} />}
+            {!!token && admin && <Route path='/dashboard' exact element={<Dashboard />} />}
+            {!!token && !admin && <Route path='/dashboard' exact element={<SeekerDashboard />} />}
+            {!!token && <Route path='/dashboard/inbox' exact element={<Inbox />} />}
+            <Route path="/logout" exact element={<Navigate to="/" />} />
+            {!token && <Route path="/dashboard" element={<Navigate to="/" />} />}
           </Routes>
         </Router>
       </div>
       <Contactus />
-    {/*</AuthContext.Provider>*/}
-    </>
+    </AuthContext.Provider>
   );
 }
 

@@ -58,8 +58,22 @@ const auth = async (req, res, next) => {
         );
     }
 
+    // create jwt token
+    let token;
+    try {
+        token = await jwt.sign(
+            { userID: existingUser._id.toString(), email: existingUser.email },
+            process.env.JWT_SECRET,
+            { expiresIn: '4h' }
+        );
+    } catch (err) {
+        return next(
+            new HttpError('Could not connect to server', 500)
+        );
+    }
+
     // respond with userID (MongoDB _id)
-    res.status(200).json({ userId: existingUser._id.toString(), admin: admin });
+    res.status(200).json({ userId: existingUser._id.toString(), admin: admin, token: token });
 };
 
 const signup = async (req, res, next) => {
@@ -155,6 +169,7 @@ const signup = async (req, res, next) => {
             email,
             password: hashed,
             resume: '',
+            skills: [],
             applications: []
         });
         try {

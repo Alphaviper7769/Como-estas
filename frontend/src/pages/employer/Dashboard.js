@@ -3,7 +3,9 @@ import './Dashboard.css';
 
 import Card from '../../components/utils/Card';
 import Button from '../../components/utils/Button';
-import { TeamModal, DeleteModal } from './EmployerModal';
+import { TeamModal, DeleteModal, ApplicationModal } from './EmployerModal';
+import { useAuth } from '../../components/hooks/auth-hook';
+import { useHttp } from '../../components/hooks/http-hook';
 
 import { BsTelephone, BsGlobe, BsPencilFill } from 'react-icons/bs';
 import { AiOutlineMail, AiOutlineClose } from 'react-icons/ai';
@@ -63,21 +65,21 @@ const jobs = [
     {
         post: 'Web Developer',
         vacancies: 10,
-        applicants: 9,
+        applications: ["xtx", "yt", "jk"],
         date: '26 June 2022'
     },
     {
-        post: 'App Developer',
+        post: "App Developer",
         vacancies: 10,
-        applicants: 9,
-        date: '29 September 2021'
+        applications: ["xtx", "yt", "jk"],
+        date: '26 June 2022'
     },
     {
         post: 'Blockchain Developer',
         vacancies: 10,
-        applicants: 9,
-        date: '1 March 2022'
-    }
+        applications: ["xtx", "yt", "jk"],
+        date: '26 June 2022'
+    },
 ];
 
 export const Dashboard = props => {
@@ -86,6 +88,9 @@ export const Dashboard = props => {
     const [chosen, setChosen] = useState({});
     // state to store which modal is opened
     const [modal, setModal] = useState('');
+    // initialize auth and http hooks
+    const auth = useAuth();
+    const { loading, error, clearError, httpRequest } = useHttp();
 
     const onManagePermissionHandler = (team) => { // function to open modal to assign permissions to employees
         setChosen(team);
@@ -99,14 +104,19 @@ export const Dashboard = props => {
         setShow(true);
     };
 
-    const onOpenApplication = (application) => { // function to open modal to show all the applications for a particular opening
-        setChosen(application);
+    const onOpenApplication = (job) => { // function to open modal to show all the applications for a particular opening
+        setChosen(job);
         setModal('APPLICATIONS')
         setShow(true);
     };
 
     // call the modal for add employee
     const addEmployee = () => {
+        setChosen({
+            name: '',
+            post: '',
+            permission: []
+        });
         setModal('TEAM');
         setShow(true);
     };
@@ -120,8 +130,9 @@ export const Dashboard = props => {
 
     return (
         <>
-            {show && modal === 'TEAM' && <TeamModal show={show} name={chosen.name} position={chosen.post} onCancel={() => setShow(false)} disabled={!!chosen.name ? true : false} posts={post} />}
+            {show && modal === 'TEAM' && <TeamModal show={show} name={chosen.name} position={chosen.post} permission={chosen.permission} onCancel={() => setShow(false)} disabled={chosen.name.length > 0 ? true : false} posts={post} />}
             {show && modal === 'DELETE' && <DeleteModal show={show} name={chosen.name} position={chosen.post} onCancel={() => setShow(false)} />}
+            {show && modal === 'APPLICATIONS' && <ApplicationModal show={show} name={chosen.post} job={chosen} onCancel={() => setShow(false)} />}
             <div className='emp-dashboard-container'>
                 <Card elevation='complete' size='large' bgcolor='white' className="emp-dashboard-card">
                     <div className='post-header-div'>
@@ -134,7 +145,7 @@ export const Dashboard = props => {
                                 <div className='emp-job-post'>
                                     <h3>{job.post}</h3>
                                     <section><b>Vacancies: </b>{job.vacancies}</section>
-                                    <section><b>Applicants: </b>{job.applicants}</section>
+                                    <section><b>Applicants: </b>{job.applications.length}</section>
                                     <p><b>Date Posted: </b>{job.date}</p>
                                 </div>
                                 <div className='emp-job-post-button'>

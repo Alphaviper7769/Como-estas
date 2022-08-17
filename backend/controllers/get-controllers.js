@@ -11,6 +11,7 @@ const Company = require('../models/company');
 const Application = require('../models/application');
 const Employee = require('../models/employee');
 const Inbox = require('../models/inbox');
+const { json } = require('body-parser');
 
 // GET
 const loadDashboard = async (req, res, next) => {
@@ -98,6 +99,7 @@ const loadDashboard = async (req, res, next) => {
         let existingUser;
         try {
             existingUser = await User.findById(userID);
+            console.log(existingUser);
         } catch (err) {
             return next(
                 new HttpError('Could not connect to database', 500)
@@ -110,9 +112,9 @@ const loadDashboard = async (req, res, next) => {
             );
         }
         // all applications submitted by the user
-        let applications;
+        let applications = [];
         // all jobs posted by all companies
-        let jobs;
+        let jobs = [];
         try {
             applications = await existingUser.populate('applications');
             jobs = await Post.find();
@@ -121,13 +123,49 @@ const loadDashboard = async (req, res, next) => {
                 new HttpError('Database connection error', 500)
             );
         }
-
+        // console.log(applications, jobs);
+        // get corresponding company names
+        for(let i=0;i<jobs.length;i++) {
+            try {
+                const cname = await Company.findById(jobs[i].companyID);
+                jobs[i]._doc = { ...jobs[i]._doc, company: cname.name };
+            } catch (err) {
+                return next(
+                    new HttpError('Could not connect to server', 500)
+                );
+            }
+        }
+        applications = applications.applications;
+        let applied = [];
+        for(let i=0;i<applications.length;i++) {
+            let postname, companyname;
+            try {
+                postname = await Post.findById(applications[i].postID);    
+            } catch (err) {
+                return next(
+                    new HttpError('Could not connect to server', 500)
+                );
+            }
+            try {
+                companyname = await Company.findById(postname.companyID);
+            } catch (err) {
+                return next(
+                    new HttpError('Could not connect to server', 500)
+                );
+            }
+            const dateApplied = applications[i].date.toString().split(' ');
+            applied.push({
+                post: postname.name,
+                company: companyname.name,  
+                date: dateApplied[1] + " " + dateApplied[2] + " " + dateApplied[3]
+            });
+        }
         res
-            .status(200)
+            .status(201)
             .json({ 
                 user: existingUser.toObject({ getters: true }), 
-                applications: applications.applications.map(application => application.toObject({ getters: true })), 
-                jobs: jobs.map(job => job.toObject({ getters: true })) 
+                applications: applied.map(application => application), 
+                jobs: jobs.map(job => job.toObject({ getters: true }))
             });
     }
 };
@@ -170,7 +208,22 @@ const getApplicationByID = async (req, res, next) => {
         );
     }
 
-    res.status(201).json({ application: application.toObject({ getters: true }) });
+    let user;
+    try {
+        user = await User.findById(applicaton.userID);
+    } catch (err) {
+        return next(
+            new HttpError('Could not connect to server', 500)
+        );
+    }
+
+    if(!user) {
+        return next(
+            new HttpError('No such user', 404)
+        );
+    }
+
+    res.status(201).json({ application: application.toObject({ getters: true }), user: user.toObject({ getters: true }) });
 };
 
 const getProfile = async (req, res, next) => {
@@ -208,13 +261,13 @@ const getInbox = async (req, res, next) => {
     const userID = req.params.uid;
     let inbox;
     try {
-        inbox = await Inbox.findOne({ id: userID });
+        inbox = await Inbox.findById(userID);
     } catch (err) {
         return next(
             new HttpError('Could not connect to server', 500)
         );
     }
-
+    console.log("Inbox", inbox);
     res.status(201).json({ inbox: inbox.toObject({ getters: true }) });
 };
 

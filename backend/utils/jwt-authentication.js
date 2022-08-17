@@ -3,6 +3,7 @@ const HttpError = require('./http-error');
 require('dotenv').config();
 
 module.exports = (req, res, next) => {
+    console.log(req);
     // OPTIONS method is sent to the server from the browser for certain information and hence does not require authenticating user
     if(req.method === 'OPTIONS') {
         return next();

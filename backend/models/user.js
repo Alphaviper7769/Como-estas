@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     resume: { type: String, required: false, default: '' },
+    skills: [{ type: String, required: false, default: [] }],
     applications: [{ type: mongoose.Types.ObjectId, ref: 'Application', default: [] }]
 });
 

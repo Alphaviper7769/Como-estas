@@ -6,12 +6,12 @@ let logoutTimer;
 export const useAuth = () => {
     const [token, setToken] = useState(false);
     const [tokenExpiration, setTokenExpiration] = useState();
-    const [id, setId] = useState();
+    const [userId, setId] = useState();
     const [admin, setAdmin] = useState(false);
 
-    const login = useCallback((userId, admin, token, expirationDate) => {
+    const login = useCallback((id, admin, token, expirationDate) => {
         setToken(token);
-        setId(userId);
+        setId(id);
         // sessions -> lasts 4 hours
         const tokenExpiration = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60 * 4); //4 hours
         setTokenExpiration(tokenExpiration);
@@ -19,7 +19,7 @@ export const useAuth = () => {
         localStorage.setItem(
             'userCV',
             JSON.stringify({
-                userId: userId,
+                userId: id,
                 admin: admin,
                 token: token,
                 expiration: tokenExpiration.toISOString()
@@ -43,15 +43,15 @@ export const useAuth = () => {
           } else {
             clearTimeout(logoutTimer);
           }
-    }, [token, login, tokenExpiration, admin, id]);
+    }, [token, login, tokenExpiration, admin, userId]);
 
     useEffect(() => {
         // log the user in if session is not over
         const storedData = JSON.parse(localStorage.getItem('userCV'));
         if(storedData && storedData.token && (new Date(storedData.expiration) > new Date())) {
-            login(storedData.token, new Date(storedData.expiration));
+            login(storedData.userId, storedData.admin, storedData.token, new Date(storedData.expiration));
         }
     }, [login]);
     
-    return { id, admin, token, login, logout };
+    return { userId, admin, token, login, logout };
 };

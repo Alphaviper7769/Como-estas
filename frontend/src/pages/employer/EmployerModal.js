@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './EmployerModal.css';
 
 import Modal from '../../components/utils/Modal';
 import Button from '../../components/utils/Button';
+import { useHttp } from '../../components/hooks/http-hook';
+import LoadingSpinner from '../../components/utils/LoadingSpinner';
 import { AiOutlineClose } from 'react-icons/ai';
 
 export const TeamModal = props => {
@@ -11,10 +13,13 @@ export const TeamModal = props => {
         position: props.position || '',
         permission: props.permission || []
     });
-    // let tempPost = props.posts;
-    const [tempPosts, setTempPosts] = useState(props.posts);
 
     const { name, position, permission } = data;
+    const [tempPosts, setTempPosts] = useState(props.posts);
+    tempPosts && tempPosts.filter((post) => {
+        let index = permission.indexOf(post._id);
+        return index < 0;
+    });
     const onChangeHandler = e => {
         if(e.target.name === "permissions") {
             // for select tag
@@ -93,4 +98,47 @@ export const DeleteModal = props => {
 
 export const PostDetailModal = props => {};
 
-export const ApplicationModal = props => {};
+export const ApplicationModal = props => {
+    const { loading, error, clearError, httpRequest } = useHttp();
+    const [applicants, setApplicants] = useState([]);
+
+    useEffect(() => {
+        // fetch all applicants
+        async function fetchApplicants() {
+            try {
+                props.job && props.job.applicants.map(async (applicant) => {
+                    const response = await httpRequest(`http://localhost:5000/apply/${applicant}`, 'GET', null, {});
+                    let app = applicants;
+                    app.push(response);
+                    setApplicants(app);
+                });
+            } catch (err) {}
+        }
+        fetchApplicants();
+    }, [httpRequest, props.job]);
+
+    return (
+        <Modal show={props.show} header={props.name} onCancel={props.onCancel} footer={<Button size="medium" onClick={props.onCancel}>CLOSE</Button>}>
+            {loading && <LoadingSpinner />}
+            {!loading && <div className='application-list-modal'>
+                {applicants.map((applicant) => {
+                    <div className='application-list-individual'>
+                        <section>{applicant.name}</section>
+                        <span>
+                            <Button danger>Resume</Button>
+                            <Button inverse>Open</Button>
+                        </span>
+                    </div>
+                })}
+            </div>}
+        </Modal>
+    );
+};
+
+export const ErrorModal = props => {
+    return (
+        <Modal show={props.show} header="Error" footer={<Button danger onClick={props.onCancel}>CLOSE</Button>} onCancel={props.onCancel} >
+            <p className='error-modal-p'>{props.error}</p>
+        </Modal>
+    );
+};

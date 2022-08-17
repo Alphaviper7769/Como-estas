@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './Auth.css';
 import { useNavigate } from 'react-router-dom';
 import { GoogleAuthProvider, FacebookAuthProvider, signInWithPopup } from 'firebase/auth';
@@ -7,6 +7,9 @@ import auth from '../components/config/firebase-config';
 import Card from '../components/utils/Card';
 import Button from '../components/utils/Button';
 import Modal from '../components/utils/Modal';
+import { AuthContext } from '../components/context/auth-context';
+import { useHttp } from '../components/hooks/http-hook';
+import LoadingSpinner from '../components/utils/LoadingSpinner';
 
 export const Auth = props => {
     const navigate = useNavigate();
@@ -17,6 +20,8 @@ export const Auth = props => {
         password: ''
     });
     const { email, password } = data;
+    const authContext = useContext(AuthContext);
+    const { loading, error, clearError, httpRequest } = useHttp();
 
     const employer = (
         <div className='emp-div'>
@@ -32,13 +37,29 @@ export const Auth = props => {
     );
 
     // save details in auth-context after http request
-    const submitButton = () => {
-        setData({
+    const submitButton = async () => {
+        let response;
+        try {
+            response = await httpRequest(
+                `http://localhost:5000/`,
+                'POST',
+                JSON.stringify(data),
+                {
+                    'Content-Type': 'application/json'
+                }
+            );
+        } catch (err) {
+            console.log(err.message);
+        }
+        console.log(response);
+        await authContext.login(response.userId, response.admin, response.token);
+        await setData({
             email: '',
             password: ''
         });
         setShow(false);
-        navigate('/signup');
+        console.log(authContext);
+        navigate('/dashboard');
     };
 
     const onChangeHandler = e => {
@@ -47,7 +68,6 @@ export const Auth = props => {
     
     const onSubmitHandler = e => {
         e.preventDefault();
-        console.log(data);
         submitButton();
     };
 
@@ -117,7 +137,7 @@ export const Auth = props => {
                     <Button to='/signup' transform='no-transform' onClick={onCancelHandler}>{employee}</Button>
                 </div>
             </Modal>
-            <div className='auth-container'>
+            {!loading ? <div className='auth-container'>
                 <div className='auth-body-left'>
                     <h1 className='auth-body-left-h1'>Como Estas</h1>
                     <p className='auth-body-left-p'>Perfection lies in Opportunities</p>
@@ -151,7 +171,7 @@ export const Auth = props => {
                         <p className='auth-signup'>Don't have an Account? <button id='signup-button' onClick={onClickHandler}>Sign Up</button></p>
                     </div>
                 </Card>
-            </div>
+            </div> : <LoadingSpinner />}
         </>
     );
 };

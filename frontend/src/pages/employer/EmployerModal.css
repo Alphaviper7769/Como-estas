@@ -64,3 +64,7 @@
     font-weight: 600;
     margin-left: 5vw;
 }
+
+.application-list-modal {
+    max-height: 80vh;
+}

@@ -1,67 +1,70 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import './Dashboard.css';
 
 import Card from '../../components/utils/Card';
 import Button from '../../components/utils/Button';
 import Modal from '../../components/utils/Modal';
 import { DeleteModal } from '../employer/EmployerModal';
+import { useHttp } from '../../components/hooks/http-hook';
+import { AuthContext } from '../../components/context/auth-context';
 
 import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai';
+import LoadingSpinner from '../../components/utils/LoadingSpinner';
 
-const jobs = [
-    {
-        post: 'Web Developer',
-        company: 'Credence Engineering Services',
-        vacancies: 10,
-        skills: ['Javascript, ReactJS, Nodejs'],
-        location: 'Bangalore',
-        salary: 'Rs 10000/Month'
-    },
-    {
-        post: 'Web Developer',
-        company: 'Credence Engineering Services',
-        vacancies: 10,
-        skills: ['Javascript, ReactJS, Nodejs'],
-        location: 'Bangalore',
-        salary: 'Rs 10000/Month'
-    },
-    {
-        post: 'Web Developer',
-        company: 'Credence Engineering Services',
-        vacancies: 10,
-        skills: ['Javascript, ReactJS, Nodejs'],
-        location: 'Bangalore',
-        salary: 'Rs 10000/Month'
-    }
-];
+// const jobs = [
+//     {
+//         post: 'Web Developer',
+//         company: 'Credence Engineering Services',
+//         vacancies: 10,
+//         skills: ['Javascript, ReactJS, Nodejs'],
+//         location: 'Bangalore',
+//         salary: 'Rs 10000/Month'
+//     },
+//     {
+//         post: 'Web Developer',
+//         company: 'Credence Engineering Services',
+//         vacancies: 10,
+//         skills: ['Javascript, ReactJS, Nodejs'],
+//         location: 'Bangalore',
+//         salary: 'Rs 10000/Month'
+//     },
+//     {
+//         post: 'Web Developer',
+//         company: 'Credence Engineering Services',
+//         vacancies: 10,
+//         skills: ['Javascript, ReactJS, Nodejs'],
+//         location: 'Bangalore',
+//         salary: 'Rs 10000/Month'
+//     }
+// ];
 
-const details = {
-    name: 'Raj Aryan',
-    dob: '18 June 2002',
-    phone: 7259027418,
-    resume: 'www.google.com',
-    email: '18raj06@gmail.com',
-    gender: 'Male',
-    skills: ['Javascript', 'ReactJS', 'CSS', 'AWS']
-};
+// const details = {
+//     name: 'Raj Aryan',
+//     dob: '18 June 2002',
+//     phone: 7259027418,
+//     resume: 'www.google.com',
+//     email: '18raj06@gmail.com',
+//     gender: 'Male',
+//     skills: ['Javascript', 'ReactJS', 'CSS', 'AWS']
+// };
 
-const applied = [
-    {
-        post: 'Web Developer',
-        company: 'Credence Engineering Services',
-        date: '22 July 2002'
-    },
-    {
-        post: 'Web Developer',
-        company: 'Credence Engineering Services',
-        date: '22 July 2002'
-    },
-    {
-        post: 'Web Developer',
-        company: 'Credence Engineering Services',
-        date: '22 July 2002'
-    }
-];
+// const applied = [
+//     {
+//         post: 'Web Developer',
+//         company: 'Credence Engineering Services',
+//         date: '22 July 2002'
+//     },
+//     {
+//         post: 'Web Developer',
+//         company: 'Credence Engineering Services',
+//         date: '22 July 2002'
+//     },
+//     {
+//         post: 'Web Developer',
+//         company: 'Credence Engineering Services',
+//         date: '22 July 2002'
+//     }
+// ];
 
 export const SeekerDashboard = props => {
     const [show, setShow] = useState(false);
@@ -84,6 +87,29 @@ export const SeekerDashboard = props => {
     const [skill, setSkill] = useState('');
 
     const { minSalary, experience, location, skills } = filterData;
+    // http hook to make requests
+    const { loading, error, clearError, httpRequest } = useHttp();
+    // calling auth hook
+    const auth = useContext(AuthContext);
+    // state to store dashboard variables
+    const [details, setDetails] = useState();
+    const [applied, setApplied] = useState([]);
+    const [jobs, setJobs] = useState([]);
+    useEffect(() => {
+        // fetch details for the page
+        async function fetchDetails() {
+            let response;
+            try {
+                console.log(auth);
+                response = await httpRequest(`http://localhost:5000/dashboard/${0}/${auth.userId}`);
+            } catch (err) {}
+            setDetails(response.user);
+            setApplied(response.applications);
+            setJobs(response.jobs);
+            console.log(response);
+        }
+        fetchDetails();
+    }, []);
 
     // to get jobs based on search using useEffect
     // const jobs = useRef([]);
@@ -154,14 +180,15 @@ export const SeekerDashboard = props => {
 
             </Modal>
             <DeleteModal show={show && modal === 'DELETE'} onCancel={() => setShow(false)} position={chosen.post} company={chosen.company} date={chosen.date} />
-            <div className='emp-dashboard-container'>
+            {loading && <LoadingSpinner />}
+            {!loading && <div className='emp-dashboard-container'>
                 <Card elevation='complete' size='large' bgcolor='white' className="emp-dashboard-card">
                     <div className='post-header-div'>
                         <form onSubmit={onSubmitHandler}>
                             <input type="text" required onChange={onChangeHandler} value={search} name="search" placeholder='Search...' />
                             <button className='post-header-div-button'><AiOutlineSearch /></button>
                         </form>
-                        <section style={{ 'margin-top': '1.7rem' }}><Button size={`${window.innerWidth > 789 ? 'medium' : 'small'}`} inverse onClick={() => setFilter(!filter)}>Filter</Button></section>
+                        <section style={{ 'margin-top': '1.7rem' }}><Button size="medium" inverse onClick={() => setFilter(!filter)}>Filter</Button></section>
                     </div>
                     <div className='skr-filter-div' style={{ display: filter ? 'block' : 'none' }}>
                         {/* Filters on Salary -> min, experience, location, skills, company */}
@@ -207,12 +234,12 @@ export const SeekerDashboard = props => {
                                 </div>
                                 <div className='skr-job-div' key={index}>
                                     <div className='skr-job-post'>
-                                        <h3 style={{ 'font-size': '1.5rem', 'text-decoration': 'underline', 'margin-bottom': '0.3rem' }}>{job.post}</h3>
-                                        <span style={{ 'margin-top': '1.3rem' }}><Button danger onClick={() => onOpenApply(job)} size={`${window.innerWidth > 789 ? 'medium' : 'small'}`}>Appy</Button></span>
+                                        <h3 style={{ 'font-size': '1.5rem', 'text-decoration': 'underline', 'margin-bottom': '0.3rem' }}>{job.name}</h3>
+                                        <span style={{ 'margin-top': '1.3rem' }}><Button danger onClick={() => onOpenApply(job)} size={`${window.innerWidth > 789 ? 'medium' : 'small'}`}>Apply</Button></span>
                                     </div>
                                     <div className='skr-job-div-1'>
                                         <p className='skr-job-div-p' style={{ width: '70%', 'textAlign': 'left' }}><b style={{ color: 'black', 'margin-right': '0.3rem', width: '6rem' }}>Company: </b>{job.company}</p>
-                                        <p className='skr-job-div-p' style={{ width: '70%', 'textAlign': 'left' }}><b style={{ color: 'black', 'margin-right': '0.3rem', width: '6rem' }}>Vacancies: </b>{job.vacancies}</p>
+                                        <p className='skr-job-div-p' style={{ width: '70%', 'textAlign': 'left' }}><b style={{ color: 'black', 'margin-right': '0.3rem', width: '6rem' }}>Vacancies: </b>{job.vacancy}</p>
                                     </div>
                                     <div className='skr-job-div-1'>
                                         <p className='skr-job-div-p' style={{ width: '70%', 'textAlign': 'left' }}><b style={{ color: 'black', 'margin-right': '0.3rem', width: '6rem' }}>Location: </b>{job.location}</p>
@@ -224,7 +251,7 @@ export const SeekerDashboard = props => {
                     })}
                 </Card>
                 <div className='emp-dashboard-right'>
-                    <Card elevation='complete' size='medium' bgcolor='white' className="emp-dashboard-card">
+                    {details && <Card elevation='complete' size='medium' bgcolor='white' className="emp-dashboard-card">
                         <h1 className='emp-dashboard-right-h1'>{details.name}</h1>
                         <p className='skr-dashboard-right-p'><b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Email ID: </b> {details.email ? details.email : "---"}</p>
                         <p className='skr-dashboard-right-p'><b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Phone: </b> {details.phone ? details.phone : "---"}</p>
@@ -239,7 +266,7 @@ export const SeekerDashboard = props => {
                         <p className='skr-dashboard-right-p'>
                             <b style={{ color: 'black', 'margin-right': '0.3rem', width: '6rem' }}>Skills: </b> {details.skills.length > 0 ? details.skills.map((skill) => { return <section className="seeker-profile-skill">{skill}</section>; }) : "---"}
                         </p>
-                    </Card>
+                    </Card>}
                     <Card elevation='complete' size='medium' bgcolor='white' className="emp-dashboard-card">
                         <div className='emp-dashboard-right-team-head'>
                             <h1 className='emp-dashboard-right-h1'>Applied</h1>
@@ -262,7 +289,7 @@ export const SeekerDashboard = props => {
                         }) : <p style={{ color: 'red' }}>No Applications</p>}
                     </Card>
                 </div>
-            </div>
+            </div>}
         </>
     );
 };
