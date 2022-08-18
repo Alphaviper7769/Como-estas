@@ -1,0 +1,85 @@
+.splitScreen {
+    height: 100vh;
+    display: flex;
+  }
+  
+  .leftPane {
+    margin-top: 50px;
+    width: 50vw;
+  }
+  .divide {
+    background-color: grey;
+    width: 1px;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+  }
+  
+  .rightPane {
+    margin-top: 50px;
+    width: 50vw;
+    display: flex;
+  }
+  
+  .profile {
+    padding-left: 15px;
+    padding-right: 15px;
+    display: flex;
+    flex-direction: column;
+  }
+  .quesBox {
+    justify-content: center;
+    height: 12vh !important;
+  }
+  
+  .quesNo{
+    text-align: left;
+  }
+  .about{
+    justify-content: center;
+  }
+  
+  .ques {
+    font: italic small-caps bold 16px/2 cursive;
+    font-size: xx-large;
+    margin-top: 1vh;
+    color: green;
+    justify-content: center;
+  }
+  .card {
+    width: 100%;
+  }
+  
+  
+  @media (max-width: 800px) {
+    .splitScreen {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .card {
+      width: 100vw;
+    }
+    .quesbox {
+      justify-content: center;
+    }
+    .leftPane {
+      margin-top: 5vh;
+      width: 50vw;
+    }
+    .rightPane {
+      margin-top: 5vh;
+      width: 100vw;
+      justify-content: center;
+    }
+    .about{
+      justify-content: center;
+    }
+    .profile{
+      width: 90vw;
+    }
+    .leftPane{
+      width: 90vw;
+    }
+    
+  }
+  
