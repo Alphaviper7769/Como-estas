@@ -179,7 +179,7 @@ export const SeekerDashboard = props => {
             <Modal show={show && modal === 'DELETE'} header="DELETE" onCancel={() => setShow(false)} footer={<Button danger onClick={() => setShow(false)}>DELETE</Button>} >
 
             </Modal>
-            <DeleteModal show={show && modal === 'DELETE'} onCancel={() => setShow(false)} position={chosen.post} company={chosen.company} date={chosen.date} />
+            <DeleteModal show={show && modal === 'DELETE'} action='apply' id={chosen._id} onCancel={() => setShow(false)} position={chosen.post} company={chosen.company} date={chosen.date} />
             {loading && <LoadingSpinner />}
             {!loading && <div className='emp-dashboard-container'>
                 <Card elevation='complete' size='large' bgcolor='white' className="emp-dashboard-card">

@@ -41,9 +41,9 @@ const loadDashboard = async (req, res, next) => {
             );
         }
         // load company details, posted jobs and employees
-        let posts;
-        let permissions;
-        let team;
+        let posts = [];
+        let permissions = [];
+        let team = [];
         if(isMain) {
             // for Main Account -> All permissions
             try {
@@ -55,7 +55,11 @@ const loadDashboard = async (req, res, next) => {
                 );
             }
             // permissions set to all posts
+            posts = posts.posts;
+            team = team.employees;
             permissions = existingUser.posts;
+            console.log("Posts", posts);
+            console.log("User", existingUser);
         } else {
             let company;
             // for Employees -> specific permissions
@@ -89,10 +93,10 @@ const loadDashboard = async (req, res, next) => {
             .status(200)
             .json({ 
                 isMain: isMain,
-                posts: posts.posts.map(post => post.toObject({ getters: true })), 
-                team: team.employees.map(employee => employee.toObject({ getters: true })), 
+                posts: posts.map(post => post.toObject({ getters: true })), 
+                team: team.map(employee => employee.toObject({ getters: true })), 
                 permissions: permissions.map(permission => permission.toObject({ getters: true })),
-                user: existingUser.toObject({ getters: true })
+                user: existingUser
             });
     } else {
         // get profile, jobs, applied for the user
@@ -191,39 +195,56 @@ const getPostByID = async (req, res, next) => {
 };
 
 const getApplicationByID = async (req, res, next) => {
-    const applicationID = req.params.aid;
-    // get application
-    let application;
+    const postID = req.params.aid;
+    // get the post
+    let post;
     try {
-        application = await Application.findById(applicationID);
-    } catch (err) {
-        return next(
-            new HttpError('Could not connect to server')
-        );
-    }
-    // if no application found
-    if(!application) {
-        return next(
-            new HttpError('No such application found', 404)
-        );
-    }
-
-    let user;
-    try {
-        user = await User.findById(applicaton.userID);
+        post = await Post.findById(postID);
     } catch (err) {
         return next(
             new HttpError('Could not connect to server', 500)
         );
     }
 
-    if(!user) {
+    if(!post) {
         return next(
-            new HttpError('No such user', 404)
+            new HttpError('No such post', 404)
         );
     }
 
-    res.status(201).json({ application: application.toObject({ getters: true }), user: user.toObject({ getters: true }) });
+    // get all applicants with their details
+    let app = [];
+    for(let i=0;i<post.applications.length;i++) {
+        let appli;
+        try {
+            appli = await Application.findById(post.applications[i]);
+        } catch (err) {
+            return next(
+                new HttpError('Could not connect to server', 500)
+            );
+        }
+        let appliUser;
+        try {
+            appliUser = await User.findById(appli.userID, { password: 0 });
+        } catch (err) {
+            return next(
+                new HttpError('Could not connect to server')
+            );
+        }
+
+        if(!appli || !appliUser) {
+            return next(
+                new HttpError('No data matched', 404)
+            );
+        }
+        await app.push({
+            application: appli,
+            user: appliUser
+        });
+    }
+    console.log("App", app);
+
+    res.status(201).json({ application: app });
 };
 
 const getProfile = async (req, res, next) => {

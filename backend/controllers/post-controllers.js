@@ -367,7 +367,7 @@ const addEmployee = async (req, res, next) => {
         );
     }
 
-    const { name, email, password, permissions, companyID } = req.body;
+    const { name, email, password, post, permissions, companyID } = req.body;
     // check if company exists and save it's instance to add employee id
     let company;
     try {
@@ -399,6 +399,7 @@ const addEmployee = async (req, res, next) => {
         name,
         email,
         password: hashed,
+        post: post || '',
         permission: permissions || [],
         companyID
     });

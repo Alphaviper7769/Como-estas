@@ -10,6 +10,7 @@ export const useAuth = () => {
     const [admin, setAdmin] = useState(false);
 
     const login = useCallback((id, admin, token, expirationDate) => {
+        setAdmin(admin);
         setToken(token);
         setId(id);
         // sessions -> lasts 4 hours

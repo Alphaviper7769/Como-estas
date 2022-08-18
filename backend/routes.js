@@ -25,8 +25,8 @@ router.post("/dashboard/team", postcontrollers.addEmployee);
 router.get("/dashboard/post/:pid", getcontrollers.getPostByID);
 router.get("/dashboard/apply/:aid", getcontrollers.getApplicationByID);
 router.get("/dashboard/inbox/:uid", getcontrollers.getInbox);
-router.get("/dashboard/:admin/:uid", getcontrollers.loadDashboard);
 router.get("/dashboard/profile/:admin/:uid", getcontrollers.getProfile);
+router.get("/dashboard/:admin/:uid", getcontrollers.loadDashboard);
 
 // PATCH
 router.patch("/dashboard/post", patchcontrollers.updatePost);

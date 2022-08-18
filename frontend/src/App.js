@@ -41,6 +41,7 @@ function App() {
             {!!token && admin && <Route path='/dashboard' exact element={<Dashboard />} />}
             {!!token && !admin && <Route path='/dashboard' exact element={<SeekerDashboard />} />}
             {!!token && <Route path='/dashboard/inbox' exact element={<Inbox />} />}
+            {!!token && admin && <Route path='/dashboard/applications/:uid' element={} />}
             <Route path="/logout" exact element={<Navigate to="/" />} />
             {!token && <Route path="/dashboard" element={<Navigate to="/" />} />}
           </Routes>

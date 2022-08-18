@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './EmployerModal.css';
 
 import Modal from '../../components/utils/Modal';
@@ -66,15 +66,16 @@ export const TeamModal = props => {
             <div className='team-modal-div'>
                 <label htmlFor='permissions'>Permissions: </label>
                 <select name="permissions" onChange={onChangeHandler}>
+                    <option>Select Posts</option>
                     {tempPosts.length > 0 && tempPosts.map((post) => {
-                        return <option value={post._id}>{post.name} {"("}{post.date}{")"}</option>;
+                        return <option value={post._id}>{post.name} {"("}{post.date.split('T')[0]}{")"}</option>;
                     })}
                 </select>
             </div>
             {permission.length > 0 && 
                 <div className='team-modal-div' id="permission-div">
                     {permission.map((perm) => {
-                        return <section><span style={{ color: '#2608b2', marginBottom: '1rem' }}>{findData(perm).name}{" ("}{findData(perm).date}{") "}</span><button onClick={(e) => onCancel(e, perm)}><AiOutlineClose /></button></section>;
+                        return <section><span style={{ color: '#2608b2', marginBottom: '1rem' }}>{findData(perm).name}{" ("}{findData(perm).date.split('T')[0]}{") "}</span><button onClick={(e) => onCancel(e, perm)}><AiOutlineClose /></button></section>;
                     })}
                 </div>
             }
@@ -83,6 +84,18 @@ export const TeamModal = props => {
 };
 
 export const DeleteModal = props => {
+    // auth and http hooks
+    const auth = useContext(AuthContext);
+    const { loading, error, clearError, httpRequest } = useHttp();
+
+    const deleteHandler = async () => {
+        let response;
+        try {
+            response = await httpRequest(`http://localhost:5000/dashboard/${props.action}/${props.id}/${auth.userId}`, 'DELETE');
+        } catch (err) {}
+        console.log(response);
+    };
+
     return (
         <Modal show={!!props.show} header="Confirm Delete" onCancel={props.onCancel} footer={<Button size="medium" onClick={props.onCancel} danger>DELETE</Button>}>
             <div className='delete-modal-div'>
@@ -105,31 +118,27 @@ export const ApplicationModal = props => {
     useEffect(() => {
         // fetch all applicants
         async function fetchApplicants() {
+            let response;
             try {
-                props.job && props.job.applicants.map(async (applicant) => {
-                    const response = await httpRequest(`http://localhost:5000/apply/${applicant}`, 'GET', null, {});
-                    let app = applicants;
-                    app.push(response);
-                    setApplicants(app);
-                });
+                response = await httpRequest(`http://localhost:5000/dashboard/apply/${props.job._id.toString()}`);
             } catch (err) {}
+            response && setApplicants(response.application);
         }
         fetchApplicants();
-    }, [httpRequest, props.job]);
-
+    }, []);
     return (
         <Modal show={props.show} header={props.name} onCancel={props.onCancel} footer={<Button size="medium" onClick={props.onCancel}>CLOSE</Button>}>
-            {loading && <LoadingSpinner />}
-            {!loading && <div className='application-list-modal'>
-                {applicants.map((applicant) => {
-                    <div className='application-list-individual'>
-                        <section>{applicant.name}</section>
+            
+            {applicants && <div className='application-list-modal'>
+                {applicants.length > 0 ? applicants.map((applicant) => {
+                    return (<div className='application-list-individual'>
+                        <section>{applicant.user.name ? applicant.user.name : '---' }</section>
                         <span>
-                            <Button danger>Resume</Button>
-                            <Button inverse>Open</Button>
+                            <Button danger to={applicant.user.resume || ''}>Resume</Button>
+                            <Button inverse to={`/dashboard/applications/${applicant.application._id}`}>Open</Button>
                         </span>
-                    </div>
-                })}
+                    </div>);
+                }) : <p style={{ color: 'red', margin: 'auto' }}>No Applications</p>}
             </div>}
         </Modal>
     );

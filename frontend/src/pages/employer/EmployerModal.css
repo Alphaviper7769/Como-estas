@@ -67,4 +67,24 @@
 
 .application-list-modal {
     max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.application-list-individual {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 1rem 1rem;
+}
+
+.application-list-individual section {
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.application-list-individual span {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
 }
