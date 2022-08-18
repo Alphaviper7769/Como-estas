@@ -37,5 +37,6 @@ router.patch("/dashboard/profile/:admin", patchcontrollers.updateProfile);
 // DELETE
 router.delete("/dashboard/post/:pid/:uid", deletecontrollers.deletePost);
 router.delete("/dashboard/apply/:aid/:uid", deletecontrollers.deleteApplication);
+router.delete("/dashboard/employee/:eid/:uid", deletecontrollers.deleteEmployee);
 
 module.exports = router;

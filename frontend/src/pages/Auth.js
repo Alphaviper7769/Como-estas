@@ -45,7 +45,7 @@ export const Auth = props => {
                 'POST',
                 JSON.stringify(data),
                 {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 }
             );
         } catch (err) {

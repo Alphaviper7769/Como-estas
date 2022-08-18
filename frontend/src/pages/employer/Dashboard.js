@@ -152,7 +152,7 @@ export const Dashboard = props => {
     return (
         <>
             {show && modal === 'TEAM' && <TeamModal show={show} name={chosen.name} position={chosen.post} permission={chosen.permission} onCancel={() => setShow(false)} disabled={chosen.name.length > 0 ? true : false} posts={post} />}
-            {show && modal === 'DELETE' && <DeleteModal show={show} name={chosen.name} position={chosen.post} onCancel={() => setShow(false)} />}
+            {show && modal === 'DELETE' && <DeleteModal show={show} name={chosen.name} position={chosen.post} onCancel={() => setShow(false)} action='employee' id={chosen._id} />}
             {show && modal === 'APPLICATIONS' && <ApplicationModal show={show} name={chosen.name} job={chosen} onCancel={() => setShow(false)} />}
             {loading ? <LoadingSpinner /> : 
             <div className='emp-dashboard-container'>

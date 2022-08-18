@@ -15,6 +15,10 @@ export const TeamModal = props => {
         permission: props.permission || []
     });
 
+    // auth and http hooks
+    const auth = useContext(AuthContext);
+    const { loading, error, clearError, httpRequest } = useHttp();
+
     const { name, position, permission } = data;
     const [tempPosts, setTempPosts] = useState(props.posts);
     tempPosts && tempPosts.filter((post) => {
@@ -33,8 +37,13 @@ export const TeamModal = props => {
         }
     };
 
-    const onSubmitHandler = e => {
+    const onSubmitHandler =  async e => {
         e.preventDefault();
+        if(props.disabled) {
+            // update permissions
+        } else {
+            // add employee
+        }
     };
 
     const onCancel = (e, perm) => {
@@ -88,24 +97,32 @@ export const DeleteModal = props => {
     // auth and http hooks
     const auth = useContext(AuthContext);
     const { loading, error, clearError, httpRequest } = useHttp();
+    console.log(props);
+    // deleted?
+    const [deleted, setDeleted] = useState(false);
 
     const deleteHandler = async () => {
         let response;
         try {
-            response = await httpRequest(`http://localhost:5000/dashboard/${props.action}/${props.id}/${auth.userId}`, 'DELETE');
+            response = await httpRequest(`http://localhost:5000/dashboard/${props.action}/${props.id}/${auth.userId}`, 'DELETE', null, {
+                Authorization: 'Bearer ' + auth.token
+            });
         } catch (err) {}
         console.log(response);
+        setDeleted(true);
     };
 
     return (
-        <Modal show={!!props.show} header="Confirm Delete" onCancel={props.onCancel} footer={<Button size="medium" onClick={props.onCancel} danger>DELETE</Button>}>
-            <div className='delete-modal-div'>
-                {props.name && <div className='delete-modal-p'><b>Name: </b><span>{props.name}</span></div>}
-                {props.position && <div className='delete-modal-p'><b>Post: </b><span>{props.position}</span></div>}
-                {props.company && <div className='delete-modal-p'><b>Company: </b><span>{props.company}</span></div>}
-                {props.date && <div className='delete-modal-p'><b>Applied on: </b><span>{props.date}</span></div>}
-            </div>
-            <p className="delete-p">Confirm Delete ?</p>
+        <Modal show={!!props.show} header="Confirm Delete" onCancel={props.onCancel} footer={!deleted && <Button size="medium" onClick={deleteHandler} danger>DELETE</Button>}>
+            {!deleted ? <>
+                <div className='delete-modal-div'>
+                    {props.name && <div className='delete-modal-p'><b>Name: </b><span>{props.name}</span></div>}
+                    {props.position && <div className='delete-modal-p'><b>Post: </b><span>{props.position}</span></div>}
+                    {props.company && <div className='delete-modal-p'><b>Company: </b><span>{props.company}</span></div>}
+                    {props.date && <div className='delete-modal-p'><b>Applied on: </b><span>{props.date}</span></div>}
+                </div>
+                <p className="delete-p">Confirm Delete ?</p>
+            </> : <p className='delete-p'>Deleted!</p>}
         </Modal>
     );
 };

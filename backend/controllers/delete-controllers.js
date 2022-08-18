@@ -247,5 +247,58 @@ const deleteApplication = async (req, res, next) => {
     res.statu(201).json({ message: "Deleted Successfully" });
 };
 
+const deleteEmployee = async (req, res, next) => {
+    const userID = req.params.uid;
+    const employeeID = req.params.eid;
+
+    let employee;
+    // find the employee
+    try {
+        employee = await Employee.findById(employeeID);
+    } catch (err) {
+        return next(
+            new HttpError('Could not connect to server', 500)
+        );
+    }
+
+    if(!employee) {
+        return next(
+            new HttpError('No such employee', 404)
+        );
+    }
+    // check if the user is Authorized
+    if(employee.companyID.toString() != userID) {
+        return next(
+            new HttpError('Not Authorized', 401)
+        );
+    }
+
+    let company;
+    // to remove from company's list
+    try {
+        company = await Company.findById(userID);
+    } catch (err) {
+        return next(
+            new HttpError('Could not connect to the server', 500)
+        );
+    }
+
+    try {
+        const sess = await mongoose.startSession();
+        sess.startTransaction();
+        company.employees.pull({ _id: employeeID });
+        await company.save({ session: sess });
+        await employee.remove({ session: sess });
+        await sess.commitTransaction();
+    } catch (err) {
+        return next(
+            new HttpError('Could not connect to database', 500)
+        );
+    }
+
+    res.status(201).json({ message: 'Deleted Successfully' });
+};
+
 exports.deletePost = deletePost;
 exports.deleteApplication = deleteApplication;
+exports.deleteEmployee = deleteEmployee;

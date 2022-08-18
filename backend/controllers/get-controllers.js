@@ -58,8 +58,6 @@ const loadDashboard = async (req, res, next) => {
             posts = posts.posts;
             team = team.employees;
             permissions = existingUser.posts;
-            console.log("Posts", posts);
-            console.log("User", existingUser);
         } else {
             let company;
             // for Employees -> specific permissions
@@ -103,7 +101,6 @@ const loadDashboard = async (req, res, next) => {
         let existingUser;
         try {
             existingUser = await User.findById(userID);
-            console.log(existingUser);
         } catch (err) {
             return next(
                 new HttpError('Could not connect to database', 500)
@@ -242,7 +239,6 @@ const getApplicationByID = async (req, res, next) => {
             user: appliUser
         });
     }
-    console.log("App", app);
 
     res.status(201).json({ application: app });
 };
@@ -288,7 +284,6 @@ const getInbox = async (req, res, next) => {
             new HttpError('Could not connect to server', 500)
         );
     }
-    console.log("Inbox", inbox);
     res.status(201).json({ inbox: inbox.toObject({ getters: true }) });
 };
 
