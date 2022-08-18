@@ -1,6 +1,7 @@
 .splitScreen {
-    height: 100vh;
+    /* height: 100vh; */
     display: flex;
+    margin-bottom: 4rem;
   }
   
   .leftPane {
@@ -52,7 +53,7 @@
   
   @media (max-width: 800px) {
     .splitScreen {
-      height: 100vh;
+      /* height: 100vh; */
       display: flex;
       flex-direction: column;
     }

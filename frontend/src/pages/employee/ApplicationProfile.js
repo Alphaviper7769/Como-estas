@@ -1,5 +1,5 @@
-import React from 'react'
-import './ApplicationProfile.css'
+import React from 'react';
+import './ApplicationProfile.css';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -50,7 +50,7 @@ function Profile() {
               </Typography>
               <Divider variant="middle" />
               <Typography className='about' variant="h6" mt = {1} > 
-                  Resume: <a href="https://youtu.be/dQw4w9WgXcQ">Click Here!</a>
+                  Resume: <a style={{ color: 'blue' }} href="https://youtu.be/dQw4w9WgXcQ">Click Here!</a>
               </Typography>
               </div>
             
@@ -85,7 +85,7 @@ function Profile() {
             
         </div>
     </div>
-  )
+  );
 }
 
-export default Profile
+export default Profile;

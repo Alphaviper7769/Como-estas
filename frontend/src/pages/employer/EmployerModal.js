@@ -4,6 +4,7 @@ import './EmployerModal.css';
 import Modal from '../../components/utils/Modal';
 import Button from '../../components/utils/Button';
 import { useHttp } from '../../components/hooks/http-hook';
+import { AuthContext } from '../../components/context/auth-context';
 import LoadingSpinner from '../../components/utils/LoadingSpinner';
 import { AiOutlineClose } from 'react-icons/ai';
 
@@ -135,7 +136,7 @@ export const ApplicationModal = props => {
                         <section>{applicant.user.name ? applicant.user.name : '---' }</section>
                         <span>
                             <Button danger to={applicant.user.resume || ''}>Resume</Button>
-                            <Button inverse to={`/dashboard/applications/${applicant.application._id}`}>Open</Button>
+                            <Button inverse to={`/dashboard/applications/`}>Open</Button>
                         </span>
                     </div>);
                 }) : <p style={{ color: 'red', margin: 'auto' }}>No Applications</p>}

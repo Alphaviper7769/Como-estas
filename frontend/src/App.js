@@ -1,9 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
   Routes,
-  NavLink,
   Navigate
 } from 'react-router-dom';
 
@@ -18,6 +17,7 @@ import { Dashboard } from './pages/employer/Dashboard';
 import { SeekerDashboard } from './pages/employee/Dashboard';
 import { Contactus } from './pages/Contactus';
 import { Inbox } from './pages/Inbox';
+import Profile from './pages/employee/ApplicationProfile';
 
 function App() {
   // Context API
@@ -41,7 +41,7 @@ function App() {
             {!!token && admin && <Route path='/dashboard' exact element={<Dashboard />} />}
             {!!token && !admin && <Route path='/dashboard' exact element={<SeekerDashboard />} />}
             {!!token && <Route path='/dashboard/inbox' exact element={<Inbox />} />}
-            {!!token && admin && <Route path='/dashboard/applications/:uid' element={} />}
+            {!!token && admin && <Route path='/dashboard/applications/' element={<Profile />} />}
             <Route path="/logout" exact element={<Navigate to="/" />} />
             {!token && <Route path="/dashboard" element={<Navigate to="/" />} />}
           </Routes>
