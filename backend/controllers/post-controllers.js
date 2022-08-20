@@ -393,6 +393,19 @@ const addEmployee = async (req, res, next) => {
             new HttpError('Could not generate Hash', 500)
         );
     }
+    // foreign key permission
+    let permission = [];
+    permissions.length > 0 && permissions.map(async (perm) => {
+        let postof;
+        try {
+            postof = await Post.findById(perm);
+        } catch (err) {
+            return next(
+                new HttpError('Could not connect to server', 500)
+            );
+        }
+        permission.push(postof);
+    });
 
     // create a Employee instance
     const created = new Employee({
@@ -400,7 +413,7 @@ const addEmployee = async (req, res, next) => {
         email,
         password: hashed,
         post: post || '',
-        permission: permissions || [],
+        permission: permission || [],
         companyID
     });
     // push changes to mongoose by starting session
@@ -408,7 +421,7 @@ const addEmployee = async (req, res, next) => {
         const sess = await mongoose.startSession();
         sess.startTransaction();
         await created.save({ session: sess });
-        company.employees.push(created._id.toString());
+        company.employees.push(created);
         await company.save({ session: sess });
         sess.commitTransaction();
     } catch (err) {

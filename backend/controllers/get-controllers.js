@@ -249,7 +249,7 @@ const getProfile = async (req, res, next) => {
     let user;
     if(admin == 0) {
         try {
-            user = await User.findById(userID);
+            user = await User.findById(userID, { password: 0 });
         } catch (err) {
             return next(
                 new HttpError('Could not connect to server', 500)
@@ -257,11 +257,21 @@ const getProfile = async (req, res, next) => {
         }
     } else {
         try {
-            user = await Company.findById(userID);
+            user = await Company.findById(userID, { password: 0 });
         } catch (err) {
             return next(
                 new HttpError('Could not connect to server', 500)
             );
+        }
+        if(!user) {
+            // check in employee
+            try {
+                user = await Employee.findById(userID, { password: 0 });
+            } catch (err) {
+                return next(
+                    new HttpError('Could not connect to server', 500)
+                );
+            }
         }
     }
     // if no user found, display error

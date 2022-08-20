@@ -34,6 +34,10 @@
     font-size: 1rem;
 }
 
+.button-span {
+    margin: 2.5rem;
+}
+
 .emp-dashboard-right-section {
     display: inline;
     margin: 2rem;

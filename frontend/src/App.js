@@ -17,6 +17,7 @@ import { Dashboard } from './pages/employer/Dashboard';
 import { SeekerDashboard } from './pages/employee/Dashboard';
 import { Contactus } from './pages/Contactus';
 import { Inbox } from './pages/Inbox';
+import { NewPost } from './pages/employer/NewPost';
 import Profile from './pages/employee/ApplicationProfile';
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
             {!!token && !admin && <Route path='/dashboard' exact element={<SeekerDashboard />} />}
             {!!token && <Route path='/dashboard/inbox' exact element={<Inbox />} />}
             {!!token && admin && <Route path='/dashboard/applications/' element={<Profile />} />}
+            {!!token && admin && <Route path='/dashboard/newpost' exact element={<NewPost />} />}
             <Route path="/logout" exact element={<Navigate to="/" />} />
             {!token && <Route path="/dashboard" element={<Navigate to="/" />} />}
           </Routes>

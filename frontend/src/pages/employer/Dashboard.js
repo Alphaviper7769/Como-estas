@@ -3,7 +3,7 @@ import './Dashboard.css';
 
 import Card from '../../components/utils/Card';
 import Button from '../../components/utils/Button';
-import { TeamModal, DeleteModal, ApplicationModal } from './EmployerModal';
+import { TeamModal, DeleteModal, ApplicationModal, PostDetailModal } from './EmployerModal';
 import { AuthContext } from '../../components/context/auth-context';
 import { useHttp } from '../../components/hooks/http-hook';
 
@@ -11,79 +11,7 @@ import { BsTelephone, BsGlobe, BsPencilFill } from 'react-icons/bs';
 import { AiOutlineMail, AiOutlineClose } from 'react-icons/ai';
 import LoadingSpinner from '../../components/utils/LoadingSpinner';
 
-// const post = [
-//     {
-//         _id: "scvjfj",
-//         name: "Web Developer",
-//         date: "12-08-22"
-//     },
-//     {
-//         _id: "fcvjfj",
-//         name: "Web Developer",
-//         date: "12-08-22"
-//     },
-//     {
-//         _id: "dcvjfj",
-//         name: "Web Developer",
-//         date: "12-08-22"
-//     }
-// ];
-
-// const details = {
-//     name: 'Credence Engineering Services',
-//     staff: 200,
-//     website: 'www.google.com',
-//     email: 'ces@cesind.in',
-//     ph: 7259027418,
-//     no: 6,
-//     hired: 9
-// };
-
-// const team = [
-//     {
-//         name: 'Raj Aryan',
-//         post: 'Senior HR Manager',
-//         permission: []
-//     },
-//     {
-//         name: 'Brateek Krishna',
-//         post: 'Business Analytic',
-//         permission: []
-//     },
-//     {
-//         name: 'Ritika Prasad',
-//         post:'Software Developer',
-//         permission: []
-//     },
-//     {
-//         name: 'Aayush Raturi',
-//         post: 'Senior Data Analytic',
-//         permission: []
-//     }
-// ];
-
-// const jobs = [
-//     {
-//         post: 'Web Developer',
-//         vacancies: 10,
-//         applications: ["xtx", "yt", "jk"],
-//         date: '26 June 2022'
-//     },
-//     {
-//         post: "App Developer",
-//         vacancies: 10,
-//         applications: ["xtx", "yt", "jk"],
-//         date: '26 June 2022'
-//     },
-//     {
-//         post: 'Blockchain Developer',
-//         vacancies: 10,
-//         applications: ["xtx", "yt", "jk"],
-//         date: '26 June 2022'
-//     },
-// ];
-
-export const Dashboard = props => {
+export const Dashboard = () => {
     const [show, setShow] = useState(false);
     // state to store all three data depending upon the modal that is opened
     const [chosen, setChosen] = useState({});
@@ -91,7 +19,7 @@ export const Dashboard = props => {
     const [modal, setModal] = useState('');
     // initialize auth and http hooks
     const auth = useContext(AuthContext);
-    const { loading, error, clearError, httpRequest } = useHttp();
+    const { loading, httpRequest } = useHttp();
 
     // data states 
     const [details, setDetails] = useState();
@@ -111,7 +39,7 @@ export const Dashboard = props => {
             setPost(response.permissions);
         }
         getCompany();
-    }, []);
+    }, [show]);
 
     const onManagePermissionHandler = (team) => { // function to open modal to assign permissions to employees
         setChosen(team);
@@ -120,7 +48,7 @@ export const Dashboard = props => {
     };
 
     const onOpenPostDetail = (job) => { // function to open modal to edit and delete details of a post
-        setChosen(null);
+        setChosen(job);
         setModal('DETAILS')
         setShow(true);
     };
@@ -151,15 +79,16 @@ export const Dashboard = props => {
 
     return (
         <>
-            {show && modal === 'TEAM' && <TeamModal show={show} name={chosen.name} position={chosen.post} permission={chosen.permission} onCancel={() => setShow(false)} disabled={chosen.name.length > 0 ? true : false} posts={post} />}
+            {show && modal === 'TEAM' && <TeamModal show={show} name={chosen.name} position={chosen.post} permission={chosen.permission} onCancel={() => setShow(false)} disabled={chosen.name.length > 0 ? true : false} posts={post} id={chosen._id} />}
             {show && modal === 'DELETE' && <DeleteModal show={show} name={chosen.name} position={chosen.post} onCancel={() => setShow(false)} action='employee' id={chosen._id} />}
             {show && modal === 'APPLICATIONS' && <ApplicationModal show={show} name={chosen.name} job={chosen} onCancel={() => setShow(false)} />}
+            {show && modal === 'DETAILS' && <PostDetailModal show={show} name={chosen.name} onCancel={() => setShow(false)} post={chosen} />}
             {loading ? <LoadingSpinner /> : 
             <div className='emp-dashboard-container'>
                 <Card elevation='complete' size='large' bgcolor='white' className="emp-dashboard-card">
                     <div className='post-header-div'>
                         <h1 className='emp-dashboard-post-h1'>JOBS POSTED</h1>
-                        <Button inverse size={`${window.innerWidth > 789 ? 'medium' : 'small'}`} className='emp-dashboard-post-button'>+ New Post</Button>
+                        <span className='button-span'><Button inverse size={`${window.innerWidth > 789 ? 'medium' : 'small'}`} className='emp-dashboard-post-button' to='/dashboard/newpost'>+ New Post</Button></span>
                     </div>
                     {jobs.length > 0 ? jobs.map((job, index) => {
                         return (

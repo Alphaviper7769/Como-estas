@@ -21,7 +21,7 @@ export const Auth = props => {
     });
     const { email, password } = data;
     const authContext = useContext(AuthContext);
-    const { loading, error, clearError, httpRequest } = useHttp();
+    const { loading, httpRequest } = useHttp();
 
     const employer = (
         <div className='emp-div'>

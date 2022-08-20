@@ -33,6 +33,7 @@ router.patch("/dashboard/post", patchcontrollers.updatePost);
 router.patch("/dashboard/apply", patchcontrollers.updateApplication);
 router.patch("/dashboard/permission", patchcontrollers.updatePermission);
 router.patch("/dashboard/profile/:admin", patchcontrollers.updateProfile);
+router.patch("/dashboard/inbox", patchcontrollers.sendMessage);
 
 // DELETE
 router.delete("/dashboard/post/:pid/:uid", deletecontrollers.deletePost);

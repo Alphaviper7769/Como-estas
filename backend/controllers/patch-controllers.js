@@ -144,7 +144,7 @@ const updatePermission = async (req, res, next) => {
         );
     }
 
-    const { employeeID, permission, userID } = req.body;
+    const { employeeID, permissions, userID } = req.body;
     let employee;
     // find employee
     try {
@@ -165,6 +165,19 @@ const updatePermission = async (req, res, next) => {
             new HttpError('Company does not match', 401)
         );
     }
+
+    let permission = [];
+    permissions.length > 0 && permissions.map(async (perm) => {
+        let postof;
+        try {
+            postof = await Post.findById(perm);
+        } catch (err) {
+            return next(
+                new HttpError('Could not connect to server', 500)
+            );
+        }
+        permission.push(postof);
+    });
 
     // set permissions
     employee.permissions = permission;
@@ -314,7 +327,7 @@ const sendMessage = async (req, res, next) => {
             new HttpError('Invalid input format', 422)
         );
     }
-    const { userID, senderID, message } = req.body;
+    const { email, senderID, message } = req.body;
 
     // finding the sender
     let sender;
@@ -342,6 +355,20 @@ const sendMessage = async (req, res, next) => {
         );
     }
 
+    // get userID from email id
+    let user;
+    try {
+        user = await User.findOne({ email: email }, { password: 0 });
+        if(!user) {
+            // could be in employee
+            user = await Employee.findOne({ email: email }, { password: 0 });
+        }
+    } catch (err) {
+        return next(
+            new HttpError('Could not connect to server', 500)
+        );
+    }
+
     const inbox = {
         sender: sender.name,
         senderID: senderID,
@@ -350,7 +377,7 @@ const sendMessage = async (req, res, next) => {
 
     let userInbox, empInbox;
     try {
-        userInbox = await Inbox.findOne({ id: userID });
+        userInbox = await Inbox.findOne({ id: user._id });
         empInbox = await Inbox.findOne({ id: senderID });
     } catch (err) {
         return next(

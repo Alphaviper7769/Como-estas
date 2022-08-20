@@ -11,61 +11,6 @@ import { AuthContext } from '../../components/context/auth-context';
 import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai';
 import LoadingSpinner from '../../components/utils/LoadingSpinner';
 
-// const jobs = [
-//     {
-//         post: 'Web Developer',
-//         company: 'Credence Engineering Services',
-//         vacancies: 10,
-//         skills: ['Javascript, ReactJS, Nodejs'],
-//         location: 'Bangalore',
-//         salary: 'Rs 10000/Month'
-//     },
-//     {
-//         post: 'Web Developer',
-//         company: 'Credence Engineering Services',
-//         vacancies: 10,
-//         skills: ['Javascript, ReactJS, Nodejs'],
-//         location: 'Bangalore',
-//         salary: 'Rs 10000/Month'
-//     },
-//     {
-//         post: 'Web Developer',
-//         company: 'Credence Engineering Services',
-//         vacancies: 10,
-//         skills: ['Javascript, ReactJS, Nodejs'],
-//         location: 'Bangalore',
-//         salary: 'Rs 10000/Month'
-//     }
-// ];
-
-// const details = {
-//     name: 'Raj Aryan',
-//     dob: '18 June 2002',
-//     phone: 7259027418,
-//     resume: 'www.google.com',
-//     email: '18raj06@gmail.com',
-//     gender: 'Male',
-//     skills: ['Javascript', 'ReactJS', 'CSS', 'AWS']
-// };
-
-// const applied = [
-//     {
-//         post: 'Web Developer',
-//         company: 'Credence Engineering Services',
-//         date: '22 July 2002'
-//     },
-//     {
-//         post: 'Web Developer',
-//         company: 'Credence Engineering Services',
-//         date: '22 July 2002'
-//     },
-//     {
-//         post: 'Web Developer',
-//         company: 'Credence Engineering Services',
-//         date: '22 July 2002'
-//     }
-// ];
-
 export const SeekerDashboard = props => {
     const [show, setShow] = useState(false);
     // state to store all three data depending upon the modal that is opened
@@ -88,7 +33,7 @@ export const SeekerDashboard = props => {
 
     const { minSalary, experience, location, skills } = filterData;
     // http hook to make requests
-    const { loading, error, clearError, httpRequest } = useHttp();
+    const { loading, httpRequest } = useHttp();
     // calling auth hook
     const auth = useContext(AuthContext);
     // state to store dashboard variables

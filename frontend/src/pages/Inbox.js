@@ -6,34 +6,14 @@ import { AuthContext } from '../components/context/auth-context';
 import Button from '../components/utils/Button';
 import { BsPencilFill } from 'react-icons/bs';
 import LoadingSpinner from '../components/utils/LoadingSpinner';
+import { ComposeModal } from './employer/EmployerModal';
 
-// const inbox = [
-//     {
-//         sender: 'Credence ENgineering Services',
-//         message: 'This is a test message from Raj because he is testing long messages. He is unable to think of a proper message so he is typing what he is thinking. Maybe you ould do that too'
-//     },
-//     {
-//         sender: 'Credence ENgineering Services',
-//         message: 'This is a test message from Raj because he is testing long messages. He is unable to think of a proper message so he is typing what he is thinking. Maybe you ould do that too'
-//     },
-//     {
-//         sender: 'Credence ENgineering Services',
-//         message: 'This is a test message from Raj because he is testing long messages. He is unable to think of a proper message so he is typing what he is thinking. Maybe you ould do that too'
-//     },
-//     {
-//         sender: 'Credence ENgineering Services',
-//         message: 'This is a test message from Raj because he is testing long messages. He is unable to think of a proper message so he is typing what he is thinking. Maybe you ould do that too'
-//     },
-//     {
-//         sender: 'Credence ENgineering Services',
-//         message: 'This is a test message from Raj because he is testing long messages. He is unable to think of a proper message so he is typing what he is thinking. Maybe you ould do that too'
-//     }
-// ];
-
-export const Inbox = props => {
+export const Inbox = () => {
     // store the state of inbox
     const [inbox, setInbox] = useState([]);
     const [search, setSearch] = useState('');
+    // inbox compose modal
+    const [show, setShow] = useState(false);
     // get userID from auth context
     const auth = useContext(AuthContext);
     // http hook
@@ -52,7 +32,7 @@ export const Inbox = props => {
     }, []);
 
     const openCompose = () => {
-
+        setShow(true);
     };
 
     const onChangeHandler = e => {
@@ -66,6 +46,7 @@ export const Inbox = props => {
 
     return (
         <>
+            {show && <ComposeModal show={show} onCancel={() => setShow(false)} />}
             {loading && <LoadingSpinner />}
             {!loading && <div className='inbox-container'>
                 <div className='inbox-header'>

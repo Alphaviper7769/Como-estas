@@ -1,0 +1,50 @@
+.newpost-container {
+    margin: 1rem 5rem;
+    padding: 1rem 5rem;
+    border: 1px solid black;
+}
+
+.newpost-container h1 {
+    text-align: center;
+    font-size: 2.3rem;
+    color: #2608b2;
+    text-decoration: underline;
+}
+
+.newpost-container form div label {
+    width: 10rem;
+    text-align: left;
+}
+
+.newpost-container form div input {
+    width: 14rem;
+    height: 1.3rem;
+    text-align: left;
+}
+
+.newpost-container form div textarea {
+    width: 16rem;
+    height: 5rem;
+}
+
+.new-post-buttons {
+    margin: 1rem 8vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+@media (max-width: 900px) {
+    .newpost-container {
+        margin: 1rem 2rem;
+        padding: 1rem 1rem;
+    }
+
+    .newpost-container form div label {
+        width: 9rem;
+    }
+
+    .newpost-container form div input {
+        width: 9rem;
+    }
+}
