@@ -10,8 +10,11 @@ import { AuthContext } from '../../components/context/auth-context';
 
 import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai';
 import LoadingSpinner from '../../components/utils/LoadingSpinner';
+import { useNavigate } from 'react-router-dom';
 
 export const SeekerDashboard = props => {
+    // navigate to different pages
+    const navigate = useNavigate();
     const [show, setShow] = useState(false);
     // state to store all three data depending upon the modal that is opened
     const [chosen, setChosen] = useState({});
@@ -65,8 +68,7 @@ export const SeekerDashboard = props => {
 
     const onOpenApply = (application) => { // function to open modal to show all the applications for a particular opening
         setChosen(application);
-        setModal('APPLY')
-        setShow(true);
+        navigate(`/dashboard/applications/${application._id}`);
     };
 
     const onChangeHandler = e => {
@@ -98,8 +100,28 @@ export const SeekerDashboard = props => {
         setFilterData({ ...filterData, [e.target.name]: e.target.value });
     };
 
-    const filterSubmit = e => {
+    const filterSubmit = async e => {
         e.preventDefault();
+        // get posts based on filter
+        let response;
+        try {
+            response = await httpRequest(
+                `http://localhost:5000/dashboard/filter`,
+                'POST',
+                JSON.stringify({
+                    minSalary: minSalary,
+                    experience: experience,
+                    location: location,
+                    skills: skills
+                }),
+                {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + auth.token
+                }
+            );
+        } catch (err) {}
+        setJobs(response.posts);
+        console.log(jobs);
         // set it back to initial state
         setFilterData({
             minSalary: null,
@@ -118,12 +140,6 @@ export const SeekerDashboard = props => {
 
     return (
         <>
-            <Modal show={show && modal === 'TEAM'} header={modal === 'TEAM' ? chosen.name : chosen.post} onCancel={() => setShow(false)}>
-
-            </Modal>
-            <Modal show={show && modal === 'DELETE'} header="DELETE" onCancel={() => setShow(false)} footer={<Button danger onClick={() => setShow(false)}>DELETE</Button>} >
-
-            </Modal>
             <DeleteModal show={show && modal === 'DELETE'} action='apply' id={chosen._id} onCancel={() => setShow(false)} position={chosen.post} company={chosen.company} date={chosen.date} />
             {loading && <LoadingSpinner />}
             {!loading && <div className='emp-dashboard-container'>
@@ -171,7 +187,8 @@ export const SeekerDashboard = props => {
                             </div>
                         </form>
                     </div>
-                    {jobs.map((job, index) => {
+                    {console.log("JOBS", jobs[0])}
+                    {jobs.length > 0 ? jobs.map((job, index) => {
                         return (
                             <div className='skr-job'>
                                 <div className='img' style={{ margin: '1rem', width: '5rem', height: 'inherit', 'border': '1px black solid' }}>
@@ -193,7 +210,7 @@ export const SeekerDashboard = props => {
                                 </div>
                             </div>
                         );
-                    })}
+                    }) : <p style={{ color: 'red' }}>No Post Available</p>}
                 </Card>
                 <div className='emp-dashboard-right'>
                     {details && <Card elevation='complete' size='medium' bgcolor='white' className="emp-dashboard-card">

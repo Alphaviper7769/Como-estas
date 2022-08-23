@@ -188,7 +188,24 @@ const getPostByID = async (req, res, next) => {
             new HttpError('No post found', 404)
         );
     }
-    res.status(201).json({ post: post.toObject({ getters: true }) });
+
+    // also get company details
+    let company;
+    try {
+        company = await Company.findById(post.companyID, { password: 0 });
+    } catch (err) {
+        return next(
+            new HttpError('Could not connect to the server', 500)
+        );
+    }
+
+    if(!company) {
+        return next(
+            new HttpError('Could not find the company', 404)
+        );
+    }
+
+    res.status(201).json({ post: post.toObject({ getters: true }), company: company.toObject({ getters: true }) });
 };
 
 const getApplicationByID = async (req, res, next) => {

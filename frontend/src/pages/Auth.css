@@ -104,6 +104,45 @@
     font-size: 2.8vw;
 }
 
+.signup-modal-div {
+    display: flex;
+    flex-direction: column;
+    width: 37%;
+    margin: auto;
+}
+
+.signup-form-button {
+    padding: 0rem !important;
+    margin: 0 auto !important;  
+}
+
+.signup-container {
+    display: flex;
+    flex-direction: row;
+    width: inherit;
+    padding: 1rem;
+    justify-content: space-between;
+}
+
+.signup-google {
+    width: 40%;
+}
+
+.signup-google p {
+    font-size: 1.2rem;
+    margin: 2rem 1rem;
+}
+
+.signup-google div {
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+}
+
+.signup-container hr {
+    display: none;
+}
+
 @media(max-width: 950px) {
     .auth-container {
         flex-direction: column;
@@ -127,6 +166,30 @@
         display: flex;
         justify-content: center;
     } */
+}
+
+@media (max-width: 700px) {
+    .signup-container {
+        flex-direction: column-reverse;
+    }
+
+    .signup-modal-div {
+        width: 100%;
+    }
+
+    .signup-google {
+        width: 60%;
+        margin: 0 auto;
+    }
+
+    .signup-google p {
+        margin-top: 0rem;
+    }
+
+    .signup-container hr {
+        display: block;
+        margin: 1rem;
+    }
 }
 
 @media (max-width: 500px) {

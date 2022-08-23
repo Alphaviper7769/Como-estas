@@ -153,7 +153,6 @@ export const DeleteModal = props => {
     // auth and http hooks
     const auth = useContext(AuthContext);
     const { httpRequest } = useHttp();
-    console.log(props);
     // deleted?
     const [deleted, setDeleted] = useState(false);
 
@@ -164,7 +163,6 @@ export const DeleteModal = props => {
                 Authorization: 'Bearer ' + auth.token
             });
         } catch (err) {}
-        console.log(response);
         setDeleted(true);
     };
 

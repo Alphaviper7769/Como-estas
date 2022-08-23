@@ -37,7 +37,7 @@ hr {
 .App {
   margin: 0px;
   padding: 0px;
-  height: max-content;
+  height: auto;
   scrollbar-width: thin;
 }
 

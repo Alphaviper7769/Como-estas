@@ -1,0 +1,110 @@
+.application-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 2rem;
+}
+
+.application-vr {
+    width: 0.2rem;
+    background: black;
+}
+
+.application-container hr {
+    display: none;
+}
+
+.application-info {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+}
+
+.application-info-company img {
+    height: 15rem;
+    width: 15rem;
+    border-radius: 100%;
+}
+
+.application-info-company {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.application-info-company div {
+    display: flex;
+    flex-direction: column;
+}
+
+.application-info-company div h1 {
+    color: #2608b2;
+}
+
+.application-answers {
+    margin: 0.5rem;
+    width: 50%;
+}
+
+.application-info-post-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0rem 3rem;
+}
+
+.application-info-eligibility {
+    padding: 0rem 3rem;
+}
+
+.questions-div {
+    width: 100%;
+    padding: 0.5rem;
+}
+
+.questions-div p {
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.questions-div textarea {
+    width: 80%;
+    height: 6rem;
+}
+
+@media (max-width: 900px) {
+    .application-vr {
+        display: none;
+    }
+
+    .application-container {
+        flex-direction: column;
+        padding: 1rem 0rem;
+    }
+
+    .application-info {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .application-info-post-div {
+        padding: 0rem 0rem;
+        justify-content: space-evenly;
+    }
+
+    .application-info-post h2 {
+        padding: 0rem 3rem !important;
+    }
+
+    .application-info-company {
+        justify-content: space-evenly;
+    }
+
+    .application-container hr {
+        display: flex;
+    }
+
+    .questions-div {
+        width: 200%;
+    }
+}

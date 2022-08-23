@@ -84,11 +84,11 @@ const signup = async (req, res, next) => {
             new HttpError('Invalid Inputs passed', 422)
         );
     }
+    const { name, email, password, employer } = req.body;
 
     let created;
     if(req.body.employer) {
         // Register a Company
-        const { name, email, password } = req.body;
         let existingUser;
         try {
             // Look for existing User
@@ -114,9 +114,9 @@ const signup = async (req, res, next) => {
         }
         // Creating an instance of Company
         created = new Company({
-            name,
+            name: name,
             phone: '',
-            email,
+            email: email,
             password: hashed,
             website: '',
             posts: [],
@@ -134,7 +134,6 @@ const signup = async (req, res, next) => {
         }
     } else {
         // Register an User
-        const { name, email, password } = req.body;
         let existingUser;
         try {
             // Look for existing User
@@ -160,13 +159,13 @@ const signup = async (req, res, next) => {
         }
         // Creating an instance of User
         created = new User({
-            name,
+            name: name,
             dob: '',
             sex: '',
             phone: '',
             about: '',
             post: '',
-            email,
+            email: email,
             password: hashed,
             resume: '',
             skills: [],
@@ -201,8 +200,22 @@ const signup = async (req, res, next) => {
         );
     }
 
+    // create jwt token
+    let token;
+    try {
+        token = await jwt.sign(
+            { userID: created._id.toString(), email: created.email },
+            process.env.JWT_SECRET,
+            { expiresIn: '4h' }
+        );
+    } catch (err) {
+        return next(
+            new HttpError('Could not connect to server', 500)
+        );
+    }
+
     // responding with MongoDb _id
-    res.status(200).json({ userID: created._id, admin: req.body.employer });
+    res.status(200).json({ userId: created._id.toString(), admin: employer, token: token });
 };
 
 const postNewJob = async (req, res, next) => {
@@ -463,7 +476,7 @@ const filter = async (req, res, next) => {
 
     const { minSalary, experience, location, skills } = req.body;
     // get all posts form MongoDB
-    let posts;
+    let posts = [];
     try {
         posts = await Post.find();
     } catch (err) {
@@ -478,19 +491,32 @@ const filter = async (req, res, next) => {
         let push = true;
         // if push remains true, push it to filteredPosts
         if(minSalary && post.salary < minSalary) push = false;
-        if(experience && post.experience > experience) push = false;
-        if(location && post.location != location) push = false;
+        if(experience != null && post.experience > experience) push = false;
+        if(location.length > 0 && post.location != location) push = false;
         // number of skills that matched
         let skillPost = 0;
-        skills.map((skill) => {
-            if(post.skills.indexOf(skill) > -1) skillPost++;
-        });
-        if(!skillPost) push = false;
+        if(skills.length > 0) {
+            skills.map((skill) => {
+                if(post.skills.indexOf(skill) > -1) skillPost++;
+            });
+            if(!skillPost) push = false;
+        }
 
-        if(push) filteredPosts.push([post, skillPost]);
+        if(push) filteredPosts.push(post);
     });
 
-    res.status(201).json({ posts: filteredPosts });
+    for(let i=0;i<filteredPosts.length;i++) {
+        try {
+            const cname = await Company.findById(filteredPosts[i].companyID);
+            filteredPosts[i]._doc = { ...filteredPosts[i]._doc, company: cname.name };
+        } catch (err) {
+            return next(
+                new HttpError('Could not connect to server', 500)
+            );
+        }
+    }
+    // console.log(filteredPosts);
+    res.status(201).json({ posts: filteredPosts.map((post) => post.toObject({ getters: true })) });
 };
 
 exports.auth = auth;

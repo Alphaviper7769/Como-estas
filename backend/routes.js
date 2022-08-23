@@ -20,6 +20,7 @@ router.post('/signup', postcontrollers.signup);
 router.post('/dashboard/post', postcontrollers.postNewJob);
 router.post("/dashboard/apply", postcontrollers.applyForJob);
 router.post("/dashboard/team", postcontrollers.addEmployee);
+router.post("/dashboard/filter", postcontrollers.filter);
 
 // GET
 router.get("/dashboard/post/:pid", getcontrollers.getPostByID);

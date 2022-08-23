@@ -13,13 +13,14 @@ import LoadingSpinner from '../components/utils/LoadingSpinner';
 
 export const Auth = props => {
     const navigate = useNavigate();
-
+    const [signup, setSignup] = useState(0);
     const [show, setShow] = useState(false);
     const [data, setData] = useState({
+        name: '',
         email: '',
         password: ''
     });
-    const { email, password } = data;
+    const { name, email, password } = data;
     const authContext = useContext(AuthContext);
     const { loading, httpRequest } = useHttp();
 
@@ -43,7 +44,11 @@ export const Auth = props => {
             response = await httpRequest(
                 `http://localhost:5000/`,
                 'POST',
-                JSON.stringify(data),
+                JSON.stringify({
+                    name: '',
+                    email: data.email,
+                    password: data.password
+                }),
                 {
                     'Content-Type': 'application/json',
                 }
@@ -52,8 +57,9 @@ export const Auth = props => {
             console.log(err.message);
         }
         console.log(response);
-        await authContext.login(response.userId, response.admin, response.token);
-        await setData({
+        authContext.login(response.userId, response.admin, response.token);
+        setData({
+            name: '',
             email: '',
             password: ''
         });
@@ -71,16 +77,48 @@ export const Auth = props => {
         submitButton();
     };
 
+    const onSignIn = async () => {
+        let response;
+        try {
+            response = await httpRequest(
+                `http://localhost:5000/signup`,
+                'POST',
+                JSON.stringify({
+                    name: data.name,
+                    email: data.email,
+                    password: data.password,
+                    employer: signup == 2 ? 1 : 0
+                }),
+                {
+                    'Content-Type': 'application/json'
+                }
+            );
+        } catch (err) {}
+
+        authContext.login(response.userId, response.admin, response.token);
+        setData({
+            name: '',
+            email: '',
+            password: ''
+        });
+
+        setShow(false);
+        setSignup(0);
+        navigate('/dashboard');
+    };
+
     const googleHandler = () => {
         const provider = new GoogleAuthProvider();
         signInWithPopup(auth, provider)
             .then((res) => {
                 const user = res.user;
+                console.log(user);
                 setData({
+                    name: user.displayName,
                     email: user.email,
                     password: user.uid
                 });
-                submitButton();
+                signup == 0 ? submitButton() : onSignIn();
             })
             .catch((err) => {
                 const code = err.code;
@@ -88,10 +126,11 @@ export const Auth = props => {
                 console.log(code, message);
                 if (code === 'auth/account-exists-with-different-credential' && code.customData._tokenResponse.verifiedProvider.length > 0) {
                     setData({
+                        name: err.customData.displayName,
                         email: err.customData.email,
                         password: err.customData._tokenResponse.localId
                     });
-                    submitButton();
+                    signup == 0 ? submitButton() : onSignIn();
                 }
             });
     };
@@ -102,10 +141,11 @@ export const Auth = props => {
             .then((res) => {
                 const user = res.user;
                 setData({
+                    name: user.displayName,
                     email: user.email,
                     password: user.uid
                 });
-                submitButton();
+                signup == 0 ? submitButton() : onSignIn();
             })
             .catch((err) => {
                 const code = err.code;
@@ -113,29 +153,71 @@ export const Auth = props => {
                 console.log(code, message);
                 if (code === 'auth/account-exists-with-different-credential' && code.customData._tokenResponse.verifiedProvider.length > 0) {
                     setData({
+                        name: err.customData.displayName,
                         email: err.customData.email,
                         password: err.customData._tokenResponse.localId
                     });
-                    submitButton();
+                    signup == 0 ? submitButton() : onSignIn();
                 }
             });
     };
 
     const onClickHandler = () => {
+        setSignup(0);
         setShow(true);
     };
 
-    const onCancelHandler = () => {
-        setShow(false);
+    const openSignup = (admin) => {
+        // admin = 2 -> EMPLOYER
+        // admin = 1 -> EMPLOYEE
+        // admin = 0 -> No Signup
+        setSignup(admin);
+    };
+
+    const onSigninHandler = async (e) => {
+        e.preventDefault();
+        onSignIn();
     };
 
     return (
         <>
-            <Modal show={show} onCancel={onCancelHandler} >
-                <div className='auth-modal-div'>
-                    <Button to='/signup' transform='no-transform' onClick={onCancelHandler}>{employer}</Button>
-                    <Button to='/signup' transform='no-transform' onClick={onCancelHandler}>{employee}</Button>
-                </div>
+            <Modal show={show} onCancel={() => setShow(false)} onSubmit={onSigninHandler} header='SIGNUP'>
+                {signup == 0 ?
+                    <div className='auth-modal-div'>
+                        <Button transform='no-transform' onClick={() => openSignup(2)}>{employer}</Button>
+                        <Button transform='no-transform' onClick={() => openSignup(1)}>{employee}</Button>
+                    </div> : 
+                    <div className='signup-container'>
+                        <div className='signup-google'>
+                            <p>Or SignUp with</p>
+                            <div>
+                                <Button onClick={googleHandler}>Google</Button>
+                                <Button onClick={facebookHandler}>Facebook</Button>
+                            </div>
+                        </div>
+                        <div style={{ width: '0.2rem', height: 'inherit', background: 'black', margin: '0.3rem' }}></div>
+                        <hr />
+                        <div className='signup-modal-div center'>
+                            {/* <form onSubmit={onSigninHandler}> */}
+                                <div className='auth-form-div'>
+                                    <input id='auth-email' className='auth-form-input' type='text' placeholder=' ' onChange={onChangeHandler} name='name' value={name} required />
+                                    <label htmlFor='auth-name' className='auth-form-label' id='auth-email-label'>Name</label>
+                                </div>
+                                <div className='auth-form-div'>
+                                    <input id='auth-email' className='auth-form-input' type='email' placeholder=' ' onChange={onChangeHandler} name='email' value={email} required />
+                                    <label htmlFor='auth-email' className='auth-form-label' id='auth-email-label'>Email</label>
+                                </div>
+                                <div className='auth-form-div'>
+                                    <input id='auth-password' className='auth-form-input' type='password' placeholder=' ' onChange={onChangeHandler} name='password' value={password} required />
+                                    <label htmlFor='auth-password' className='auth-form-label' id='auth-password-label'>Password</label>
+                                </div>
+                                <div className='signup-form-button'>
+                                    <Button type="submit">SIGN IN</Button>
+                                </div>
+                            {/* </form> */}
+                        </div>
+                    </div>
+                }
             </Modal>
             {!loading ? <div className='auth-container'>
                 <div className='auth-body-left'>
