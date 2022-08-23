@@ -60,25 +60,32 @@ function Profile() {
             </div>
             <div className="rightPane">
             <div className="profile">
-              <Typography className='ques' variant="h2">
-                Questions for you!
+            <Typography className='ques' variant="h2">
+                Answers
               </Typography>
-              <p className='quesNo' > Question One: </p>
-              <textarea
-                placeholder="Your Answer here"
-                className='quesBox'
-              />
-              <p className='quesNo' > Question Two: </p>
-              <textarea
-                placeholder="Your Answer here"
-                className='quesBox'
-              />
-              <p className='quesNo' > Question Three: </p>
-              <textarea
-                placeholder="Your Answer here"
-                className='quesBox'
-              />
+              <p className='quesNo' > Question One: diam quis enim lobortis scelerisque? </p>
+              <div className='Box'>
+               Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+               Elementum tempus egestas sed sed. Nunc id cursus metus aliquam eleifend mi. 
+               Neque volutpat ac tincidunt vitae semper. Auctor urna nunc id cursus.
+              </div>
 
+              <p className='quesNo' > Question Two: diam quis enim lobortis scelerisque? </p>
+              <div className='Box'>
+               Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+               Elementum tempus egestas sed sed. Nunc id cursus metus aliquam eleifend mi. 
+               Neque volutpat ac tincidunt vitae semper. Auctor urna nunc id cursus.
+              </div>
+
+              <p className='quesNo' > Question Three: diam quis enim lobortis scelerisque? </p>
+              <div className='Box'>
+               Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+               Elementum tempus egestas sed sed. Nunc id cursus metus aliquam eleifend mi. 
+               Neque volutpat ac tincidunt vitae semper. Auctor urna nunc id cursus.
+              </div>
               
             </div>
             </div>

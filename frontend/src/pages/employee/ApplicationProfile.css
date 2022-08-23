@@ -50,6 +50,15 @@
     width: 100%;
   }
   
+.Box{
+    width: 300;
+    height: 300;
+    background-color: lightblue;
+    padding: 2vh;
+    border: 4px;
+    margin: 1vw;
+    
+}
   
   @media (max-width: 800px) {
     .splitScreen {
