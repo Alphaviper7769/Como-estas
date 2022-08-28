@@ -15,7 +15,7 @@ router.post('/', postcontrollers.auth);
 router.post('/signup', postcontrollers.signup);
 // router.get('/', (req, res, next) => {});
 
-// router.use(auth);
+router.use(auth);
 
 router.post('/dashboard/post', postcontrollers.postNewJob);
 router.post("/dashboard/apply", postcontrollers.applyForJob);
@@ -24,6 +24,7 @@ router.post("/dashboard/filter", postcontrollers.filter);
 
 // GET
 router.get("/dashboard/post/:pid", getcontrollers.getPostByID);
+router.get("/dashboard/apply/one/:aid", getcontrollers.getApplication);
 router.get("/dashboard/apply/:aid", getcontrollers.getApplicationByID);
 router.get("/dashboard/inbox/:uid", getcontrollers.getInbox);
 router.get("/dashboard/profile/:admin/:uid", getcontrollers.getProfile);
@@ -33,7 +34,7 @@ router.get("/dashboard/:admin/:uid", getcontrollers.loadDashboard);
 router.patch("/dashboard/post", patchcontrollers.updatePost);
 router.patch("/dashboard/apply", patchcontrollers.updateApplication);
 router.patch("/dashboard/permission", patchcontrollers.updatePermission);
-router.patch("/dashboard/profile/:admin", patchcontrollers.updateProfile);
+router.patch("/dashboard/profile/:admin/:uid", patchcontrollers.updateProfile);
 router.patch("/dashboard/inbox", patchcontrollers.sendMessage);
 
 // DELETE

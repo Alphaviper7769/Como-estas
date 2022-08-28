@@ -223,12 +223,13 @@ const updateProfile = async (req, res, next) => {
         );
     }
     const isEmployer = req.params.admin;
+    const userID = req.params.uid;
     if(isEmployer) {
         // change company profile
-        const { name, phone, email, password, website, posts, employees, companyID } = req.body;
+        const { name, phone, email, website } = req.body;
         let company;
         try {
-            company = await Company.findById(companyID);
+            company = await Company.findById(userID);
         } catch (err) {
             return next(
                 new HttpError('Could not connect to server', 500)
@@ -240,23 +241,23 @@ const updateProfile = async (req, res, next) => {
             );
         }
         // hashing password
-        let hashed;
-        try {
-            hashed = await hash(password, 12);
-        } catch (err) {
-            return next(
-                new HttpError('Could not hash password', 500)
-            );
-        }
+        // let hashed;
+        // try {
+        //     hashed = await hash(password, 12);
+        // } catch (err) {
+        //     return next(
+        //         new HttpError('Could not hash password', 500)
+        //     );
+        // }
 
         // updating values
         company.name = name;
         company.phone = phone;
         company.email = email;
-        company.password = hashed;
+        // company.password = hashed;
         company.website = website;
-        company.posts = posts;
-        company.employees = employees;
+        // company.posts = posts;
+        // company.employees = employees;
 
         // push changes to database
         try {
@@ -270,7 +271,7 @@ const updateProfile = async (req, res, next) => {
         res.status(201).json({ company: company.toObject({ getters: true }) });
     } else {
         // user profile
-        const { name, dob, sex, phone, about, post, email, password, resume, applications, userID } = req.body;
+        const { name, dob, sex, phone, about, post, email, resume } = req.body;
         // get user from database
         let user;
         try {
@@ -287,14 +288,14 @@ const updateProfile = async (req, res, next) => {
             );
         }
         // hash the password
-        let hashed;
-        try {
-            hashed = await hash(password, 12);
-        } catch (err) {
-            return next(
-                new HttpError('Could not hash password', 500)
-            );
-        }
+        // let hashed;
+        // try {
+        //     hashed = await hash(password, 12);
+        // } catch (err) {
+        //     return next(
+        //         new HttpError('Could not hash password', 500)
+        //     );
+        // }
         // change the user
         user.name = name;
         user.dob = dob;
@@ -303,9 +304,9 @@ const updateProfile = async (req, res, next) => {
         user.about = about;
         user.post = post;
         user.email = email;
-        user.password = hashed;
+        // user.password = hashed;
         user.resume = resume;
-        user.applications = applications;
+        // user.applications = applications;
 
         // push changes to database
         try {

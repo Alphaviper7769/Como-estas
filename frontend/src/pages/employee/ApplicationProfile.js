@@ -1,98 +1,119 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './ApplicationProfile.css';
+
+import { useHttp } from '../../components/hooks/http-hook';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import Divider from '@mui/material/Divider';
+import LoadingSpinner from '../../components/utils/LoadingSpinner';
 
-function Profile() {
+function ApplicationProfile() {
+  const { loading, httpRequest } = useHttp();
+  const [user, setUser] = useState({
+    name: '',
+    sex: '',
+    phone: '',
+    email: '',
+    dob: '',
+    about: '',
+    resume: ''
+  });
+  const [application, setApplication] = useState({
+    answers: []
+  });
+  const [post, setPost] = useState({
+    questions: []
+  });
+
+  useEffect(() => {
+    async function getApplication() {
+      const appID = window.location.href.split('/')[5];
+      let response;
+      try {
+        response = await httpRequest(`http://localhost:5000/dashboard/apply/one/${appID}`);
+      } catch (err) {}
+      setApplication(response.application);
+      setUser(response.user);
+      setPost(response.post);
+    }
+
+    getApplication();
+  }, []);
+
   return (
-    <div>
-        <div className= "splitScreen">
-            <div className="leftPane" >
+    <>
+      {!loading && <div>
+          <div className= "splitScreen">
+              <div className="leftPane" >
+                <div className="profile">
+                <Card className='card'>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      height="360"
+                      image="https://www.shareicon.net/data/512x512/2016/07/05/791214_man_512x512.png"
+                      alt="John Doe"
+                      className='img'
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {user.name || '---'}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {user.about || '---'}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+                <Typography className='about' variant="h6" mt = {8} > 
+                    Email: {user.email || ''}
+                </Typography>
+                <Divider variant="middle"/>
+                <Typography className='about' variant="h6" mt = {1} > 
+                    Phone: {user.phone || '---'}
+                </Typography>
+                <Divider variant="middle"/>
+                <Typography className='about' variant="h6" mt = {1} > 
+                    DOB: {user.dob || '---'}
+                </Typography>
+                <Divider variant="middle"/>
+                <Typography className='about' variant="h6" mt = {1} > 
+                    Sex: {user.sex || '---'}
+                </Typography>
+                <Divider variant="middle" />
+                <Typography className='about' variant="h6" mt = {1} > 
+                    Resume: <a style={{ color: 'blue' }} href={user.resume || ''}>Click Here!</a>
+                </Typography>
+                </div>
+              
+              </div>
+              <div className='divide'>
+
+              </div>
+              <div className="rightPane">
               <div className="profile">
-              <Card className='card'>
-                <CardActionArea>
-                  <CardMedia
-                    component="img"
-                    height="360"
-                    image="https://www.shareicon.net/data/512x512/2016/07/05/791214_man_512x512.png"
-                    alt="John Doe"
-                    className='img'
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      John Doe
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis eros arcu,
-                      at bibendum dui tristique consectetur. Vivamus semper enim quis.
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-              <Typography className='about' variant="h6" mt = {8} > 
-                  Email: johndoe69@gmail.com
-              </Typography>
-              <Divider variant="middle"/>
-              <Typography className='about' variant="h6" mt = {1} > 
-                  Phone: 8210371121
-              </Typography>
-              <Divider variant="middle"/>
-              <Typography className='about' variant="h6" mt = {1} > 
-                  DOB: 09-02-2022
-              </Typography>
-              <Divider variant="middle"/>
-              <Typography className='about' variant="h6" mt = {1} > 
-                  Sex: Male
-              </Typography>
-              <Divider variant="middle" />
-              <Typography className='about' variant="h6" mt = {1} > 
-                  Resume: <a style={{ color: 'blue' }} href="https://youtu.be/dQw4w9WgXcQ">Click Here!</a>
-              </Typography>
+              <Typography className='ques' variant="h2">
+                  Answers
+                </Typography>
+                {application.answers.length > 0 && application.answers.map((answer, index) => {
+                  return (<>  
+                    <p className='quesNo' > Question {index+1}: {post.questions[index]} </p>
+                    <div className='Box'>
+                      {answer}
+                    </div>
+                  </>);
+                })}
               </div>
-            
-            </div>
-            <div className='divide'>
-
-            </div>
-            <div className="rightPane">
-            <div className="profile">
-            <Typography className='ques' variant="h2">
-                Answers
-              </Typography>
-              <p className='quesNo' > Question One: diam quis enim lobortis scelerisque? </p>
-              <div className='Box'>
-               Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-               Elementum tempus egestas sed sed. Nunc id cursus metus aliquam eleifend mi. 
-               Neque volutpat ac tincidunt vitae semper. Auctor urna nunc id cursus.
-              </div>
-
-              <p className='quesNo' > Question Two: diam quis enim lobortis scelerisque? </p>
-              <div className='Box'>
-               Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-               Elementum tempus egestas sed sed. Nunc id cursus metus aliquam eleifend mi. 
-               Neque volutpat ac tincidunt vitae semper. Auctor urna nunc id cursus.
-              </div>
-
-              <p className='quesNo' > Question Three: diam quis enim lobortis scelerisque? </p>
-              <div className='Box'>
-               Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-               Elementum tempus egestas sed sed. Nunc id cursus metus aliquam eleifend mi. 
-               Neque volutpat ac tincidunt vitae semper. Auctor urna nunc id cursus.
               </div>
               
-            </div>
-            </div>
-            
-        </div>
-    </div>
+          </div>
+      </div>}
+      {loading && <LoadingSpinner />}
+    </>
   );
 }
 
-export default Profile;
+export default ApplicationProfile;

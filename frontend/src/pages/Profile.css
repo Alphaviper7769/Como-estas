@@ -1,0 +1,83 @@
+.profile-container {
+    min-height: 100vh;
+    width: 50vw;
+    margin: 2rem auto;
+}
+
+.button-profile {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    margin: 1rem 0rem;
+}
+
+.resume-info {
+    display: flex;
+    flex-direction: column !important;
+    width: 16rem !important;
+}
+
+.resume-info p {
+    color: red;
+    font-size: 0.65rem;
+    padding: 0px !important;
+    width: 16rem;
+}
+
+.profile-skills {
+    max-height: 20vh;
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+}
+
+.profile-skill-section {
+    margin: 0rem 1rem;
+    background: rgb(182, 168, 168);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.7rem;
+    border-radius: 2rem;
+    width: fit-content;
+}
+
+.profile-skill-section span {
+    width: 0.5rem;
+}
+
+.profile-form-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 1rem 0rem;
+}
+
+.profile-form-div label {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.profile-form-div input {
+    height: 1.5rem;
+    width: 15rem;
+}
+
+.profile-form-div textarea {
+    width: 15rem;
+    height: 4rem;
+}
+
+.profile-form-div div{
+    width: 55%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+@media (max-width: 700px) {
+    .profile-container {
+        width: 80vw;
+    }
+}

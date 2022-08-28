@@ -223,7 +223,7 @@ export const SeekerDashboard = props => {
                             <b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Resume: </b>
                             {details.resume && <a href={details.resume} target='_blank' style={{ color: 'blue', 'text-decoration': 'underline' }}>Resume Link</a>}
                             {details.resume && <span style={{ width: '10%' }}></span>}
-                            <button className='resume-change-button' style={{ 'background': 'red', color: 'white' }}>Upload</button>
+                            <Button danger size='small' to='/dashboard/profile'>Upload</Button>
                         </p>
                         <p className='skr-dashboard-right-p'>
                             <b style={{ color: 'black', 'margin-right': '0.3rem', width: '6rem' }}>Skills: </b> {details.skills.length > 0 ? details.skills.map((skill) => { return <section className="seeker-profile-skill">{skill}</section>; }) : "---"}

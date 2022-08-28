@@ -260,6 +260,56 @@ const getApplicationByID = async (req, res, next) => {
     res.status(201).json({ application: app });
 };
 
+const getApplication = async (req, res, next) => {
+    const appID = req.params.aid;
+    let application;
+    try {
+        application = await Application.findById(appID);
+    } catch (err) {
+        return next(
+            new HttpError('Could not connect to server', 500)
+        );
+    }
+
+    if(!application) {
+        return next(
+            new HttpError('No application found', 404)
+        );
+    }
+
+    let user;
+    try {
+        user = await User.findById(application.userID);
+    } catch (err) {
+        return next(
+            new HttpError('Could not connect to server', 500)
+        );
+    }
+
+    if(!user) {
+        return next(
+            new HttpError('Could not find the user', 404)
+        );
+    }
+
+    let post;
+    try {
+        post = await Post.findById(application.postID);
+    } catch (err) {
+        return next(
+            new HttpError('Could not connect to server', 500)
+        );
+    }
+
+    if(!post) {
+        return next(
+            new HttpError('Could not find post', 404)
+        );
+    }
+
+    res.status(201).json({ application: application.toObject({ getters: true }), user: user.toObject({ getters: true }), post: post.toObject({ getters: true }) });
+};
+
 const getProfile = async (req, res, next) => {
     const userID = req.params.uid;
     const admin = req.params.admin;
@@ -353,3 +403,4 @@ exports.getPostByID = getPostByID;
 exports.getApplicationByID = getApplicationByID;
 exports.getProfile = getProfile;
 exports.getInbox = getInbox;
+exports.getApplication = getApplication;

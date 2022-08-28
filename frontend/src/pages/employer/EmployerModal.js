@@ -327,7 +327,7 @@ export const ApplicationModal = props => {
                         <section>{applicant.user.name ? applicant.user.name : '---' }</section>
                         <span>
                             <Button danger to={applicant.user.resume || ''}>Resume</Button>
-                            <Button inverse to={`/dashboard/applications/`}>Open</Button>
+                            <Button inverse to={`/dashboard/applications/${applicant.application._id.toString()}`}>Open</Button>
                         </span>
                     </div>);
                 }) : <p style={{ color: 'red', margin: 'auto' }}>No Applications</p>}
