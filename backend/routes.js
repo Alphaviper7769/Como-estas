@@ -10,17 +10,7 @@ const router = express.Router();
 
 // Add all the routes here
 
-// POST
-router.post('/', postcontrollers.auth);
-router.post('/signup', postcontrollers.signup);
 // router.get('/', (req, res, next) => {});
-
-router.use(auth);
-
-router.post('/dashboard/post', postcontrollers.postNewJob);
-router.post("/dashboard/apply", postcontrollers.applyForJob);
-router.post("/dashboard/team", postcontrollers.addEmployee);
-router.post("/dashboard/filter", postcontrollers.filter);
 
 // GET
 router.get("/dashboard/post/:pid", getcontrollers.getPostByID);
@@ -29,6 +19,16 @@ router.get("/dashboard/apply/:aid", getcontrollers.getApplicationByID);
 router.get("/dashboard/inbox/:uid", getcontrollers.getInbox);
 router.get("/dashboard/profile/:admin/:uid", getcontrollers.getProfile);
 router.get("/dashboard/:admin/:uid", getcontrollers.loadDashboard);
+
+// router.use(auth);
+
+// POST
+router.post("/dashboard/post", postcontrollers.postNewJob);
+router.post("/dashboard/apply", postcontrollers.applyForJob);
+router.post("/dashboard/team", postcontrollers.addEmployee);
+router.post("/dashboard/filter", postcontrollers.filter);
+router.post('/signup', postcontrollers.signup);
+router.post('/', postcontrollers.auth);
 
 // PATCH
 router.patch("/dashboard/post", patchcontrollers.updatePost);

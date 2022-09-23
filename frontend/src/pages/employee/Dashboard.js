@@ -3,7 +3,6 @@ import './Dashboard.css';
 
 import Card from '../../components/utils/Card';
 import Button from '../../components/utils/Button';
-import Modal from '../../components/utils/Modal';
 import { DeleteModal } from '../employer/EmployerModal';
 import { useHttp } from '../../components/hooks/http-hook';
 import { AuthContext } from '../../components/context/auth-context';
@@ -57,7 +56,7 @@ export const SeekerDashboard = props => {
             console.log(response);
         }
         fetchDetails();
-    }, []);
+    }, [show]);
 
     // to get jobs based on search using useEffect
     // const jobs = useRef([]);
@@ -133,9 +132,10 @@ export const SeekerDashboard = props => {
 
     // to delete application
     const deleteModal = team => {
-        setShow(true);
         setChosen(team);
+        console.log(chosen);
         setModal('DELETE');
+        setShow(true);
     };
 
     return (
@@ -191,8 +191,8 @@ export const SeekerDashboard = props => {
                     {jobs.length > 0 ? jobs.map((job, index) => {
                         return (
                             <div className='skr-job'>
-                                <div className='img' style={{ margin: '1rem', width: '5rem', height: 'inherit', 'border': '1px black solid' }}>
-                                    { /* INSERT IMAGE HERE */ } 
+                                <div className='img' style={{ margin: '1rem', width: '5rem', height: 'inherit', 'border': '1px black solid', 'padding': '0px' }}>
+                                    <img src="https://blog.hubspot.com/hubfs/image8-2.jpg" className="logo-google" />
                                 </div>
                                 <div className='skr-job-div' key={index}>
                                     <div className='skr-job-post'>
@@ -217,8 +217,8 @@ export const SeekerDashboard = props => {
                         <h1 className='emp-dashboard-right-h1'>{details.name}</h1>
                         <p className='skr-dashboard-right-p'><b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Email ID: </b> {details.email ? details.email : "---"}</p>
                         <p className='skr-dashboard-right-p'><b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Phone: </b> {details.phone ? details.phone : "---"}</p>
-                        <p className='skr-dashboard-right-p'><b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Date of Birth: </b> {details.dob ? details.dob : "---"}</p>
-                        <p className='skr-dashboard-right-p'><b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Gender: </b> {details.gender ? details.gender : "---"}</p>
+                        <p className='skr-dashboard-right-p'><b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Date of Birth: </b> {details.dob ? details.dob.split("T")[0] : "---"}</p>
+                        <p className='skr-dashboard-right-p'><b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Gender: </b> {details.sex ? details.sex : "---"}</p>
                         <p className='skr-dashboard-right-p'>
                             <b style={{ color: 'black', 'margin-right': '0.3rem', width: '7rem' }}>Resume: </b>
                             {details.resume && <a href={details.resume} target='_blank' style={{ color: 'blue', 'text-decoration': 'underline' }}>Resume Link</a>}
@@ -234,6 +234,7 @@ export const SeekerDashboard = props => {
                             <h1 className='emp-dashboard-right-h1'>Applied</h1>
                         </div>
                         {applied.length > 0 ? applied.map((t, index) => {
+                            console.log(t); 
                             return (
                                 <div className='team-div' key={index}>
                                     <p className='team-name' id='applied-name'>{t.post}</p>

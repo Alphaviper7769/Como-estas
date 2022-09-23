@@ -156,6 +156,7 @@ const loadDashboard = async (req, res, next) => {
             }
             const dateApplied = applications[i].date.toString().split(' ');
             applied.push({
+                _id: applications[i]._id.toString(),
                 post: postname.name,
                 company: companyname.name,  
                 date: dateApplied[1] + " " + dateApplied[2] + " " + dateApplied[3]
@@ -353,14 +354,16 @@ const getProfile = async (req, res, next) => {
 
 const getInbox = async (req, res, next) => {
     const userID = req.params.uid;
+    // console.log(userID);
     let inbox;
     try {
-        inbox = await Inbox.findById(userID);
+        inbox = await Inbox.findOne({ _id: userID });
     } catch (err) {
         return next(
             new HttpError('Could not connect to server', 500)
         );
     }
+    console.log(inbox);
     res.status(201).json({ inbox: inbox.toObject({ getters: true }) });
 };
 

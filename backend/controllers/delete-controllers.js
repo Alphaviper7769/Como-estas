@@ -174,6 +174,7 @@ const deletePost = async (req, res, next) => {
 const deleteApplication = async (req, res, next) => {
     const applicationID = req.params.aid;
     const userID = req.params.uid;
+    console.log(applicationID);
     let application;
     try {
         application = await Application.findById(applicationID);
@@ -244,7 +245,7 @@ const deleteApplication = async (req, res, next) => {
         );
     }
 
-    res.statu(201).json({ message: "Deleted Successfully" });
+    res.status(201).json({ message: "Deleted Successfully" });
 };
 
 const deleteEmployee = async (req, res, next) => {

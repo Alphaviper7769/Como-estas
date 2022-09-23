@@ -29,7 +29,7 @@ export const Inbox = () => {
             setInbox(response.inbox.inbox);
         }
         getInbox();
-    }, []);
+    }, [show]);
 
     const openCompose = () => {
         setShow(true);

@@ -166,6 +166,10 @@ export const DeleteModal = props => {
         setDeleted(true);
     };
 
+    useEffect(() => {
+        setDeleted(false);
+    }, [props.show]);
+
     return (
         <Modal show={!!props.show} header="Confirm Delete" onCancel={props.onCancel} footer={!deleted && <Button size="medium" onClick={deleteHandler} danger>DELETE</Button>}>
             {!deleted ? <>

@@ -224,7 +224,7 @@ const updateProfile = async (req, res, next) => {
     }
     const isEmployer = req.params.admin;
     const userID = req.params.uid;
-    if(isEmployer) {
+    if(isEmployer === '1') {
         // change company profile
         const { name, phone, email, website } = req.body;
         let company;
@@ -271,7 +271,7 @@ const updateProfile = async (req, res, next) => {
         res.status(201).json({ company: company.toObject({ getters: true }) });
     } else {
         // user profile
-        const { name, dob, sex, phone, about, post, email, resume } = req.body;
+        const { name, dob, sex, phone, about, post, email, resume, skills } = req.body;
         // get user from database
         let user;
         try {
@@ -306,6 +306,7 @@ const updateProfile = async (req, res, next) => {
         user.email = email;
         // user.password = hashed;
         user.resume = resume;
+        user.skills = skills;
         // user.applications = applications;
 
         // push changes to database
@@ -329,7 +330,7 @@ const sendMessage = async (req, res, next) => {
         );
     }
     const { email, senderID, message } = req.body;
-
+    console.log(senderID);
     // finding the sender
     let sender;
     try {
@@ -378,8 +379,8 @@ const sendMessage = async (req, res, next) => {
 
     let userInbox, empInbox;
     try {
-        userInbox = await Inbox.findOne({ id: user._id });
-        empInbox = await Inbox.findOne({ id: senderID });
+        userInbox = await Inbox.findOne({ _id: user._id.toString() });
+        empInbox = await Inbox.findOne({ _id: senderID });
     } catch (err) {
         return next(
             new HttpError('Could not connect to database', 500)

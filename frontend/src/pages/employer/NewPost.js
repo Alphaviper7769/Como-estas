@@ -21,19 +21,19 @@ export const NewPost = props => {
         questions: ''
     });
     const { name, vacancy, dueDate, salary, location, experience, skills, eligibility, questions } = data;
-    const { loading, error, clearError, httpRequest } = useHttp();
+    const { loading, httpRequest } = useHttp();
     const auth = useContext(AuthContext);
     
     const onChangeHandler = e => {
         setData({ ...data, [e.target.name]: e.target.value });
     };
 
-    const onSubmitHandler = async e => {
+    const onSubmitHandler = async (e) => {
         e.preventDefault();
         let response;
         try {
             response = await httpRequest(
-                'http:localhost:5000/dashboard/post',
+                'http://localhost:5000/dashboard/post',
                 'POST',
                 JSON.stringify({
                     name: name,
@@ -82,7 +82,7 @@ export const NewPost = props => {
                 </div>
                 <div className='team-modal-div'>
                     <label htmlFor='dueDate'>Due Date: </label>
-                    <input type="text" name="dueDate" value={dueDate} onChange={onChangeHandler} required />
+                    <input type="date" name="dueDate" value={dueDate} onChange={onChangeHandler} required />
                 </div>
                 <div className='team-modal-div'>
                     <label htmlFor='salary'>Salary: </label>
@@ -90,7 +90,7 @@ export const NewPost = props => {
                 </div>
                 <div className='team-modal-div'>
                     <label htmlFor='location'>Location: </label>
-                    <input type="text" name="location" value={location} onChange={onChangeHandler} required />
+                    <input type="text" name="location" value={location} onChange={onChangeHandler} />
                 </div>
                 <div className='team-modal-div'>
                     <label htmlFor='experience'>Experience: </label>

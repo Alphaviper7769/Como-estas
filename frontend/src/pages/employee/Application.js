@@ -61,16 +61,17 @@ export const Application = () => {
             temp[i] = answer[i];
             setAnswers(temp);
         }
+        console.log(answer);
         let response;
         try {
             response = await httpRequest(
-                `http://localhost/dashboard/apply`,
+                `http://localhost:5000/dashboard/apply`,
                 'POST',
                 JSON.stringify({
                     userID: auth.userId,
                     postID: window.location.href.split('/')[5],
                     answers: answers,
-                    date: new Date()
+                    date: new Date().toISOString()
                 }), 
                 {
                     'Content-Type': 'application/json',
@@ -78,6 +79,7 @@ export const Application = () => {
                 }
             );
         } catch (err) {}
+        console.log(response);
         navigate('/dashboard');
     };
     return (

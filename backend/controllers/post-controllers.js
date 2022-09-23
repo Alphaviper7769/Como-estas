@@ -219,6 +219,7 @@ const signup = async (req, res, next) => {
 };
 
 const postNewJob = async (req, res, next) => {
+    // console.log("Post");
     const error = validationResult(req);
     if(!error.isEmpty()) {
         return next(
@@ -229,6 +230,7 @@ const postNewJob = async (req, res, next) => {
     
     // check whether user is allowed to post a job
     let permit = (userID == companyID); // if the company account s requesting, allow it
+    // console.log(permit);
     if(!permit) {
         try {
             // find employee with their employee

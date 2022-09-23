@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import './Profile.css';
 
+import { useNavigate } from 'react-router-dom';
 import { AiOutlineClose } from 'react-icons/ai';
 import Button from '../components/utils/Button';
 import LoadingSpinner from '../components/utils/LoadingSpinner';
@@ -8,6 +9,7 @@ import { AuthContext } from '../components/context/auth-context';
 import { useHttp } from '../components/hooks/http-hook';
 
 export const Profile = () => {
+    const navigate = useNavigate();
     const auth = useContext(AuthContext);
     const { loading, httpRequest } = useHttp();
     const [data, setData] = useState({
@@ -65,7 +67,7 @@ export const Profile = () => {
 
         try {
             auth.admin ? await httpRequest(
-                `/dashboard/profile/${auth.admin}/${auth.userId}`,
+                `http://localhost:5000/dashboard/profile/1/${auth.userId}`,
                 'PATCH',
                 JSON.stringify({
                     name: name,
@@ -78,7 +80,7 @@ export const Profile = () => {
                     Authorization: 'Bearer ' + auth.token
                 }
             ) : await httpRequest(
-                `/dashboard/profile/${auth.admin}/${auth.userId}`,
+                `http://localhost:5000/dashboard/profile/0/${auth.userId}`,
                 'PATCH',
                 JSON.stringify({
                     name: name,
@@ -88,7 +90,8 @@ export const Profile = () => {
                     about: about,
                     post: post,
                     email: email,
-                    resume: resume
+                    resume: resume,
+                    skills: skills
                 }),
                 {
                     'Content-Type': 'application/json',
@@ -109,6 +112,7 @@ export const Profile = () => {
             website: '',
             post: ''
         });
+        navigate('/dashboard');
     };
     return (
         <>

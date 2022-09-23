@@ -45,7 +45,6 @@ export const Auth = props => {
                 `http://localhost:5000/`,
                 'POST',
                 JSON.stringify({
-                    name: '',
                     email: data.email,
                     password: data.password
                 }),
@@ -64,7 +63,6 @@ export const Auth = props => {
             password: ''
         });
         setShow(false);
-        console.log(authContext);
         navigate('/dashboard');
     };
 

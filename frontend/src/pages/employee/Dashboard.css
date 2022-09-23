@@ -8,6 +8,11 @@
     justify-content: space-around;
 }
 
+.logo-google {
+    height: 6.5rem;
+    width: inherit;
+}
+
 #applied-name {
     margin: 0.3rem;
     font-size: 1.5rem;
