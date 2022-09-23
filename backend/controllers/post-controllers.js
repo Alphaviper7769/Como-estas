@@ -318,6 +318,7 @@ const applyForJob = async (req, res, next) => {
     }
 
     const { userID, postID, answers, date } = req.body;
+    console.log(userID);
     const created = new Application({
         userID,
         postID,

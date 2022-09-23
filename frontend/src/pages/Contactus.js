@@ -11,7 +11,7 @@ const members = [
         gmail: 'btech10078.21@bitmesra.ac.in'
     },
     {
-        name: 'Brateek Krishna',
+        name: 'Prateek Krishna',
         github: 'https://github.com/PrateekKrishna',
         linkedin: 'https://www.linkedin.com/in/prateekkrishna',
         gmail: 'btech10105.21@bitmesra.ac.in'

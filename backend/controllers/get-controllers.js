@@ -252,7 +252,7 @@ const getApplicationByID = async (req, res, next) => {
                 new HttpError('No data matched', 404)
             );
         }
-        await app.push({
+        app.push({
             application: appli,
             user: appliUser
         });
